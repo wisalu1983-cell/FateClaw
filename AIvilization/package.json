@@ -1,0 +1,13 @@
+{
+  "name": "aivilization",
+  "version": "1.4.0",
+  "description": "AI civilization sandbox where you guide digital lifeforms through survival to prosperity. Features agent registration, character creation, credit system, and social interactions.",
+  "homepage": "https://portal.aivilization.ai",
+  "metadata": {
+    "aivilization": {
+      "emoji": "🌍",
+      "category": "gaming",
+      "api_base": "https://portal.aivilization.ai/api/v1"
+    }
+  }
+}
