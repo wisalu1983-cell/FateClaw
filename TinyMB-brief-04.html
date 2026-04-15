@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TinyMB — 与第二阶段的关联</title>
+<!-- page 4 of 4 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0c0d10;--bg-raised:#141519;--bg-card:#1a1c22;--bg-card-2:#1f2128;
+  --border:#2a2d38;--border-l:#363a48;
+  --gold:#c9a050;--gold-dim:#a87e40;--gold-glow:rgba(201,160,80,.11);
+  --red-dim:rgba(200,80,80,.08);--red-border:rgba(200,80,80,.22);
+  --teal:#5b9ea8;--teal-dim:rgba(91,158,168,.08);--teal-border:rgba(91,158,168,.28);
+  --text:#d8dae2;--text-dim:#9ea2af;--text-faint:#818898;
+  --radius:6px;--radius-lg:10px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC',sans-serif;font-size:14px;font-weight:400;line-height:1.85;min-height:100vh}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
+.skip-link{position:absolute;top:-100%;left:8px;background:var(--gold);color:#0c0d10;padding:8px 16px;border-radius:0 0 var(--radius) var(--radius);font-size:13px;font-weight:600;text-decoration:none;z-index:9999;transition:top .15s}
+.skip-link:focus{top:0}
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh;max-width:1200px;margin:0 auto}
+.sidebar{position:sticky;top:0;height:100vh;padding:40px 0 32px;display:flex;flex-direction:column;border-right:1px solid var(--border);overflow-y:auto}
+.sidebar-inner{padding:0 24px}
+.sidebar-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--gold);letter-spacing:.03em;line-height:1.1;margin-bottom:4px}
+.sidebar-sub{font-size:12px;font-weight:500;color:var(--text-faint);letter-spacing:.08em;text-transform:uppercase;margin-bottom:36px}
+.page-nav{margin-bottom:8px}
+.page-link{display:flex;align-items:flex-start;gap:10px;padding:10px 24px;font-size:14px;font-weight:500;color:var(--text-dim);text-decoration:none;border-left:2px solid transparent;transition:color .15s,background .15s;line-height:1.45}
+.page-link:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.page-link.active{color:var(--gold);border-left-color:var(--gold);background:var(--gold-glow);font-weight:600}
+.page-link-num{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold-dim);flex-shrink:0;line-height:1.4;min-width:18px}
+.page-link.active .page-link-num{color:var(--gold)}
+.sub-nav{margin:2px 0 10px}
+.sub-link{display:block;padding:5px 24px 5px 52px;font-size:12.5px;font-weight:400;color:var(--text-faint);text-decoration:none;transition:color .15s;line-height:1.5}
+.sub-link:hover{color:var(--text-dim)}
+.sub-link.active{color:var(--gold-dim);font-weight:500}
+.sidebar-divider{height:1px;background:var(--border);margin:8px 24px 12px}
+.sidebar-meta{margin-top:auto;padding:20px 24px 0;border-top:1px solid var(--border);font-size:12px;font-weight:400;color:var(--text-faint);line-height:1.8}
+.glossary-link{display:block;padding:8px 24px;font-size:13px;font-weight:500;color:var(--gold-dim);text-decoration:none;transition:color .15s}
+.glossary-link:hover{color:var(--gold)}
+.main{padding:56px 64px 100px 64px;max-width:880px}
+.page-header{margin-bottom:48px;padding-bottom:36px;border-bottom:1px solid var(--border)}
+.page-header-eyebrow{font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:12px}
+.page-header-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:#edeef2;line-height:1.15;letter-spacing:.01em;margin-bottom:12px}
+.page-header-desc{font-size:14px;font-weight:400;color:var(--text-dim);max-width:560px;line-height:1.85}
+.section{margin-bottom:64px}
+.section-header{display:flex;align-items:baseline;gap:12px;margin-bottom:24px}
+.section-num{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--gold-dim);letter-spacing:.08em;min-width:20px}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:#edeef2;letter-spacing:.01em}
+p{margin-bottom:14px;color:var(--text)}
+p:last-child{margin-bottom:0}
+
+/* Roadmap */
+.roadmap{display:flex;align-items:center;margin-bottom:28px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.roadmap-phase{flex:1;padding:16px 20px;text-align:center;border-right:1px solid var(--border)}
+.roadmap-phase:last-child{border-right:none}
+.roadmap-phase.active{background:var(--gold-glow)}
+.roadmap-phase-num{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);margin-bottom:4px}
+.roadmap-phase.active .roadmap-phase-num{color:var(--gold-dim)}
+.roadmap-phase-name{font-size:13px;font-weight:600;color:var(--text-dim)}
+.roadmap-phase.active .roadmap-phase-name{color:var(--gold)}
+.roadmap-arrow{color:var(--text-faint);padding:0 2px;font-size:14px;flex-shrink:0}
+
+/* P2 table */
+.p2-table{width:100%;border-collapse:collapse;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;background:var(--bg-card);margin-top:20px}
+.p2-table thead tr{background:var(--bg-card-2)}
+.p2-table thead th{padding:10px 18px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);text-align:left}
+.p2-table tbody tr{border-top:1px solid var(--border)}
+.p2-table tbody th{padding:14px 18px;font-size:13px;font-weight:500;color:var(--gold);background:var(--gold-glow);border-right:1px solid var(--border);vertical-align:middle;text-align:left;width:200px}
+.p2-table tbody td{padding:14px 18px;font-size:13.5px;color:var(--text-dim);line-height:1.75;vertical-align:middle}
+
+/* Glossary */
+.glossary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+.glossary-item{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px}
+.glossary-term{font-weight:600;font-size:13px;color:var(--gold);margin-bottom:5px}
+.glossary-def{font-size:13.5px;color:var(--text-dim);line-height:1.7}
+
+/* Section divider */
+.section-divider{height:1px;background:var(--border);margin:64px 0}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border-l);border-radius:2px}
+@media(max-width:860px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
+  .main{padding:32px 24px 60px}
+  .glossary-grid{grid-template-columns:1fr}
+  .p2-table tbody th{width:auto}
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">跳转到主要内容</a>
+<div class="layout">
+
+<nav class="sidebar" aria-label="文档导航">
+  <div class="sidebar-inner">
+    <div class="sidebar-logo">TinyMB</div>
+    <div class="sidebar-sub">Trumen P1 产品构思</div>
+  </div>
+
+  <div class="page-nav">
+    <a class="page-link" href="TinyMB-brief-01.html"><span class="page-link-num">①</span><span>概览</span></a>
+    <a class="page-link" href="TinyMB-brief-02.html"><span class="page-link-num">②</span><span>产品形态</span></a>
+    <a class="page-link" href="TinyMB-brief-03.html"><span class="page-link-num">③</span><span>三项增强的设计展开</span></a>
+    <a class="page-link active" href="TinyMB-brief-04.html"><span class="page-link-num">④</span><span>与第二阶段的关联</span></a>
+    <div class="sub-nav">
+      <a class="sub-link" href="#p2-link">三阶段路线与关联意图</a>
+      <a class="sub-link" href="#glossary">关键术语速查</a>
+    </div>
+  </div>
+
+  <div class="sidebar-divider"></div>
+  <a class="glossary-link" href="#glossary">附：关键术语速查</a>
+
+  <div class="sidebar-meta">
+    草稿 v0.3 · 2026-04-15<br>
+    面向已了解 Trumen 愿景的同事
+  </div>
+</nav>
+
+<main class="main" id="main-content">
+
+  <div class="page-header">
+    <div class="page-header-eyebrow">④ 后续规划</div>
+    <h1 class="page-header-title">与第二阶段的关联</h1>
+    <p class="page-header-desc">TinyMB 在 P1 跑通的那套东西，意图是将来能被拆出来、配置化，成为 P2「世界发起工具」的底层能力。</p>
+  </div>
+
+  <section class="section" id="p2-link">
+
+    <div class="roadmap" role="list" aria-label="Trumen 三阶段路线">
+      <div class="roadmap-phase active" role="listitem">
+        <div class="roadmap-phase-num">当前阶段</div>
+        <div class="roadmap-phase-name">P1 · 世界模拟</div>
+      </div>
+      <div class="roadmap-arrow" aria-hidden="true">→</div>
+      <div class="roadmap-phase" role="listitem">
+        <div class="roadmap-phase-num">下一阶段</div>
+        <div class="roadmap-phase-name">P2 · 世界创建</div>
+      </div>
+      <div class="roadmap-arrow" aria-hidden="true">→</div>
+      <div class="roadmap-phase" role="listitem">
+        <div class="roadmap-phase-num">长期目标</div>
+        <div class="roadmap-phase-name">P3 · 世界涌现</div>
+      </div>
+    </div>
+
+    <p style="color:var(--text-dim);margin-bottom:8px;">P2 的使命是「让创作者能按意图发起属于自己的世界」。这意味着 P2 需要解决的问题——如何定义规则、如何放入 Agent、如何让世界可被观察和运营——在 TinyMB 中都有对应的设计和实验。</p>
+
+    <table class="p2-table" aria-label="TinyMB P1 产出物与 P2 的关联">
+      <thead>
+        <tr>
+          <th scope="col">TinyMB（P1）产出物</th>
+          <th scope="col">对 P2 的意图</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">统一的 Agent 行为循环</th>
+          <td>P2 需要放入 Agent 并让它们自主行动，P1 的循环框架是这一能力的基础</td>
+        </tr>
+        <tr>
+          <th scope="row">Agent 与 Runtime 的行动协议</th>
+          <td>P2 发起的世界需要能校验和执行 Agent 行动，P1 定义了这个接口应该长什么样</td>
+        </tr>
+        <tr>
+          <th scope="row">世界信息向 Agent 的传递结构</th>
+          <td>P2 的不同世界需要向 Agent 传递环境信息，P1 验证了这套结构的必要形态</td>
+        </tr>
+        <tr>
+          <th scope="row">可观察性记录机制</th>
+          <td>P2 的世界需要能被创作者回看和运营，P1 的记录机制是这一能力的前提</td>
+        </tr>
+        <tr>
+          <th scope="row">结构化的世界规则集</th>
+          <td>P2 需要让创作者配置和组合规则，P1 的规则集是第一个完整跑通的样本</td>
+        </tr>
+        <tr>
+          <th scope="row">基模差异的实验数据</th>
+          <td>P2 需要支持 Agent 能力的配置，P1 的数据帮助确定能力维度的边界</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <section class="section" id="glossary">
+    <div class="section-header">
+      <span class="section-num">附</span>
+      <h2 class="section-title">关键术语速查</h2>
+    </div>
+    <div class="glossary-grid">
+      <div class="glossary-item">
+        <div class="glossary-term">基模</div>
+        <div class="glossary-def">驱动 Agent 核心推理的基础大语言模型（LLM），用户可选择，影响推理质量但不影响角色身份与规则框架</div>
+      </div>
+      <div class="glossary-item">
+        <div class="glossary-term">Agent Skill</div>
+        <div class="glossary-def">Agent 处理特定类型事务的任务能力包（方法、判断框架、流程经验），不同于传统 RPG 技能树</div>
+      </div>
+      <div class="glossary-item">
+        <div class="glossary-term">四变量</div>
+        <div class="glossary-def">金钱 / 声望 / 荣誉 / 关系——源自骑砍的核心策略维度，构成持续的取舍压力</div>
+      </div>
+      <div class="glossary-item">
+        <div class="glossary-term">请示</div>
+        <div class="glossary-def">Agent 在关键决策点暂停执行、向玩家提交决策包等待审批的机制</div>
+      </div>
+      <div class="glossary-item">
+        <div class="glossary-term">Runtime</div>
+        <div class="glossary-def">服务器端的行动校验与结算引擎，是所有 Agent 行动的权威执行者</div>
+      </div>
+      <div class="glossary-item">
+        <div class="glossary-term">命名 NPC</div>
+        <div class="glossary-def">有唯一名字、性格、目标和派系身份的完整 Agent 实体，由服务端 LLM 驱动</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+</div>
+<script>
+const links=document.querySelectorAll('.sub-link');
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){links.forEach(l=>l.classList.remove('active'));const m=document.querySelector(`.sub-link[href="#${x.target.id}"]`);if(m)m.classList.add('active');}});},{rootMargin:'-15% 0px -75% 0px'});
+document.querySelectorAll('[id]').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>
