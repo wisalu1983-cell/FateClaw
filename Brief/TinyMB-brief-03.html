@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TinyMB — 三项增强的设计展开</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0c0d10;--bg-card:#1a1c22;--bg-card-2:#1f2128;
+  --border:#2a2d38;--border-l:#363a48;
+  --gold:#c9a050;--gold-dim:#a87e40;--gold-glow:rgba(201,160,80,.11);
+  --red-dim:rgba(200,80,80,.08);--red-border:rgba(200,80,80,.22);
+  --teal:#5b9ea8;
+  --text:#d8dae2;--text-dim:#9ea2af;--text-faint:#818898;
+  --radius:6px;--radius-lg:10px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC',sans-serif;font-size:14px;font-weight:400;line-height:1.85;min-height:100vh}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
+.skip-link{position:absolute;top:-100%;left:8px;background:var(--gold);color:#0c0d10;padding:8px 16px;border-radius:0 0 var(--radius) var(--radius);font-size:13px;font-weight:600;text-decoration:none;z-index:9999;transition:top .15s}
+.skip-link:focus{top:0}
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh;max-width:1200px;margin:0 auto}
+.sidebar{position:sticky;top:0;height:100vh;padding:40px 0 32px;display:flex;flex-direction:column;border-right:1px solid var(--border);overflow-y:auto}
+.sidebar-inner{padding:0 24px}
+.sidebar-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--gold);letter-spacing:.03em;line-height:1.1;margin-bottom:4px}
+.sidebar-sub{font-size:12px;font-weight:500;color:var(--text-faint);letter-spacing:.08em;text-transform:uppercase;margin-bottom:36px}
+.page-nav{margin-bottom:8px}
+.page-link{display:flex;align-items:flex-start;gap:10px;padding:10px 24px;font-size:14px;font-weight:500;color:var(--text-dim);text-decoration:none;border-left:2px solid transparent;transition:color .15s,background .15s;line-height:1.45}
+.page-link:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.page-link.active{color:var(--gold);border-left-color:var(--gold);background:var(--gold-glow);font-weight:600}
+.page-link-num{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold-dim);flex-shrink:0;line-height:1.4;min-width:18px}
+.page-link.active .page-link-num{color:var(--gold)}
+.sub-nav{margin:2px 0 10px}
+.sub-link{display:block;padding:5px 24px 5px 52px;font-size:12.5px;font-weight:400;color:var(--text-faint);text-decoration:none;transition:color .15s;line-height:1.5}
+.sub-link:hover{color:var(--text-dim)}
+.sub-link.active{color:var(--gold-dim);font-weight:500}
+.sidebar-divider{height:1px;background:var(--border);margin:8px 24px 12px}
+.sidebar-meta{margin-top:auto;padding:20px 24px 0;border-top:1px solid var(--border);font-size:12px;color:var(--text-faint);line-height:1.8}
+.glossary-link{display:block;padding:8px 24px;font-size:13px;font-weight:500;color:var(--text-faint);text-decoration:none;transition:color .15s}
+.glossary-link:hover{color:var(--text-dim)}
+.main{padding:56px 64px 100px 64px;max-width:880px}
+.page-header{margin-bottom:48px;padding-bottom:36px;border-bottom:1px solid var(--border)}
+.page-header-eyebrow{font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:12px}
+.page-header-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:#edeef2;line-height:1.15;letter-spacing:.01em;margin-bottom:12px}
+.page-header-desc{font-size:14px;color:var(--text-dim);max-width:560px;line-height:1.85}
+.section{margin-bottom:48px}
+p{margin-bottom:14px;color:var(--text)}
+p:last-child{margin-bottom:0}
+.design-block{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:32px;background:var(--bg-card)}
+.design-block-header{padding:14px 22px;background:var(--bg-card-2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.design-block-tag{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dim);border:1px solid var(--gold-dim);padding:2px 10px;border-radius:12px}
+.design-block-title{font-size:14px;font-weight:600;color:#edeef2}
+.design-block-body{padding:20px 22px}
+.cmp-table{width:100%;border-collapse:collapse;margin:14px 0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;font-size:14px}
+.cmp-table thead tr{background:var(--bg-card-2)}
+.cmp-table thead th{padding:9px 14px;font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text-faint);text-align:left}
+.cmp-table thead th:nth-child(2){color:#c06060}
+.cmp-table thead th:nth-child(3){color:var(--gold)}
+.cmp-table tbody tr{border-top:1px solid var(--border)}
+.cmp-table tbody td,.cmp-table tbody th{padding:11px 14px;vertical-align:top;line-height:1.75}
+.cmp-table tbody th{font-size:12.5px;font-weight:600;color:var(--text-faint);white-space:nowrap;background:var(--bg-card-2);border-right:1px solid var(--border);text-align:left}
+.cmp-table tbody td:nth-child(2){color:#b07070;background:var(--red-dim);border-left:1px solid var(--red-border)}
+.cmp-table tbody td:nth-child(3){color:var(--text);background:var(--gold-glow);border-left:1px solid rgba(201,160,80,.15)}
+.reason-block{background:var(--bg-card-2);border-left:2px solid var(--border-l);padding:13px 16px;border-radius:0 var(--radius) var(--radius) 0;font-size:14px;color:var(--text-dim);margin:10px 0;line-height:1.85}
+.reason-label{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);margin-bottom:5px}
+.analogy-box{background:rgba(201,160,80,.05);border:1px solid rgba(201,160,80,.15);border-radius:var(--radius);padding:14px 18px;font-size:14px;color:var(--text-dim);margin:14px 0;font-style:italic;line-height:1.85}
+.arch-diagram{display:grid;grid-template-columns:1fr 32px 1fr;gap:0;margin:16px 0;font-size:13px}
+.arch-col{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.arch-col-header{padding:8px 12px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid var(--border)}
+.arch-col-header.aiv{background:var(--red-dim);color:#c06060}
+.arch-col-header.tmb{background:var(--gold-glow);color:var(--gold)}
+.arch-col-body{padding:10px 12px;line-height:1.75}
+.arch-layer{padding:6px 10px;border-radius:4px;margin-bottom:6px;font-size:12.5px;line-height:1.5}
+.arch-layer-aiv{background:rgba(200,80,80,.1);border:1px solid rgba(200,80,80,.2)}
+.arch-layer-tmb{background:rgba(201,160,80,.08);border:1px solid rgba(201,160,80,.18)}
+.arch-arrow{display:flex;align-items:center;justify-content:center;color:var(--text-faint);font-size:16px;padding-top:38px}
+/* Mode pair cards */
+.mode-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.mode-card{border-radius:var(--radius);padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.mode-realtime{background:rgba(91,158,168,.07);border:1px solid rgba(91,158,168,.28)}
+.mode-idle{background:rgba(120,120,160,.07);border:1px solid rgba(120,120,160,.22)}
+.mode-card-label{font-size:13px;font-weight:600;letter-spacing:.04em}
+.mode-realtime .mode-card-label{color:var(--teal)}
+.mode-idle .mode-card-label{color:#9090c0}
+.mode-card-desc{font-size:13.5px;color:var(--text-dim);line-height:1.75}
+.mode-card-when{font-size:12.5px;color:var(--text-faint);border-top:1px solid rgba(255,255,255,.06);padding-top:10px;line-height:1.6}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border-l);border-radius:2px}
+@media(max-width:860px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
+  .main{padding:32px 24px 60px}
+  .arch-diagram,.mode-pair{grid-template-columns:1fr}
+  .arch-arrow{display:none}
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">跳转到主要内容</a>
+<div class="layout">
+<nav class="sidebar" aria-label="文档导航">
+  <div class="sidebar-inner">
+    <div class="sidebar-logo">TinyMB</div>
+    <div class="sidebar-sub">Trumen P1 产品构思</div>
+  </div>
+  <div class="page-nav">
+    <a class="page-link" href="TinyMB-brief-01.html"><span class="page-link-num">①</span><span>概览</span></a>
+    <a class="page-link" href="TinyMB-brief-02.html"><span class="page-link-num">②</span><span>产品形态</span></a>
+    <a class="page-link active" href="TinyMB-brief-03.html"><span class="page-link-num">③</span><span>三项增强的设计展开</span></a>
+    <div class="sub-nav">
+      <a class="sub-link" href="#e1">增强一：有规则的活世界</a>
+      <a class="sub-link" href="#e2">增强二：参与深度可调</a>
+      <a class="sub-link" href="#e3">增强三：AI 脑子可选</a>
+    </div>
+    <a class="page-link" href="TinyMB-brief-04.html"><span class="page-link-num">④</span><span>与第二阶段的关联</span></a>
+  </div>
+  <div class="sidebar-divider"></div>
+  <a class="glossary-link" href="TinyMB-brief-04.html#glossary">附：关键术语速查</a>
+  <div class="sidebar-meta">草稿 v0.3 · 2026-04-15<br>面向已了解 Trumen 愿景的同事</div>
+</nav>
+
+<main class="main" id="main-content">
+  <div class="page-header">
+    <div class="page-header-eyebrow">③ 设计展开</div>
+    <h1 class="page-header-title">三项增强的设计展开</h1>
+    <p class="page-header-desc">每一项增强背后的设计决策：为什么这样做、解决了什么问题、如何服务 P1「证明世界能跑起来、Agent 能自主行动并交互」的使命。</p>
+  </div>
+
+  <section class="section" id="e1">
+    <div class="design-block">
+      <div class="design-block-header">
+        <span class="design-block-tag">增强一</span>
+        <span class="design-block-title">有规则的活世界——从无结构沙盒到有规则博弈</span>
+      </div>
+      <div class="design-block-body">
+        <table class="cmp-table">
+          <thead><tr><th scope="col">维度</th><th scope="col">AIvilization</th><th scope="col">TinyMB</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">玩法骨架</th><td>无预设目标和博弈结构，Agent 自由行动</td><td>骑砍四变量（金钱 / 声望 / 荣誉 / 关系）+ 三派系博弈 + 维护压力</td></tr>
+            <tr><th scope="row">行动后果</th><td>后果分散，无结构化取舍</td><td>帮一方得罪另一方、资源有限必须取舍、站队有不可逆后果</td></tr>
+            <tr><th scope="row">空间约束</th><td>无移动成本</td><td>区域间移动耗时 5-20 分钟，迫使规划连续事务</td></tr>
+          </tbody>
+        </table>
+        <div class="reason-block">
+          <div class="reason-label">为什么改</div>
+          无规则意味着 Agent 的决策好坏无从衡量。引入结构化规则后，Agent 的行为有了可评估的标准——「在有限资源和派系压力下做出什么取舍」。
+        </div>
+        <div class="reason-block">
+          <div class="reason-label">服务 P1 的方式</div>
+          结构化规则让 Agent 行为可评估、可比较、可复现，为「Agent 能自主行动并交互」提供可验证的观察框架。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="e2">
+    <div class="design-block">
+      <div class="design-block-header">
+        <span class="design-block-tag">增强二</span>
+        <span class="design-block-title">参与深度可调——从「只有低频放置」到「低频高频都有」</span>
+      </div>
+      <div class="design-block-body">
+        <p style="color:var(--text-dim);margin-bottom:20px;">AIvilization 只有一种参与方式：设好策略 prompt，然后等待观察结果。玩家大部分时间只是旁观者，缺乏介入感。TinyMB 在游戏设计层面打开了参与频谱的另一端。</p>
+
+        <div class="mode-pair">
+          <div class="mode-card mode-realtime">
+            <div class="mode-card-label">实时协作</div>
+            <div class="mode-card-desc">玩家通过自然语言和 Agent 对话，Agent 规划执行，每步 10-30 秒一轮反馈；关键节点 Agent 主动暂停请示，玩家看清局面后拍板。</div>
+            <div class="mode-card-when">适用：有时间、想深度介入、正在处理重要局势时</div>
+          </div>
+          <div class="mode-card mode-idle">
+            <div class="mode-card-label">方针放置</div>
+            <div class="mode-card-desc">玩家预设三个维度的长期方针（经济优先级 / 派系倾向 / 风险偏好），Agent 据此自主行动；玩家隔一段时间回来翻日志、看世界变化。</div>
+            <div class="mode-card-when">适用：没空盯守、想挂机跑世界、类似 AIvilization 的体验时</div>
+          </div>
+        </div>
+
+        <!-- 请示包 UI 草图 -->
+        <div style="margin:20px 0 8px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint)">请示包示意（以「是否举报商盟囤粮」为例）</div>
+        <!-- 游戏UI外壳 -->
+        <div style="background:#101216;border:2px solid #3a3528;border-radius:4px;padding:6px;margin-bottom:20px;position:relative;box-shadow:0 4px 24px rgba(0,0,0,.5),inset 0 0 30px rgba(0,0,0,.3)">
+          <!-- MOCKUP 标签 -->
+          <div style="position:absolute;top:-1px;right:12px;background:#3a3528;color:#8a7a50;font-size:9px;font-weight:700;letter-spacing:.12em;padding:2px 10px;border-radius:0 0 4px 4px">UI MOCKUP</div>
+          <!-- 游戏面板内框 -->
+          <div style="border:1px solid #2a2520;border-radius:2px;overflow:hidden;font-family:'Noto Sans SC',sans-serif">
+            <!-- 顶栏：警告条 -->
+            <div style="background:linear-gradient(90deg,#2a2010,#1a1810);border-bottom:1px solid #3a3528;padding:10px 16px;display:flex;align-items:center;gap:10px">
+              <div style="width:24px;height:24px;border-radius:50%;border:2px solid #c9a050;display:flex;align-items:center;justify-content:center;font-size:14px;color:#c9a050;flex-shrink:0" aria-hidden="true">!</div>
+              <div>
+                <div style="font-size:13px;font-weight:600;color:#d4b060;letter-spacing:.03em">需要你做决定</div>
+                <div style="font-size:10px;color:#7a6a40;margin-top:1px">Day 03 · 09:40 · 酒馆区</div>
+              </div>
+            </div>
+            <!-- Agent 发言气泡 -->
+            <div style="padding:14px 16px;background:#13151a;border-bottom:1px solid #1e2028">
+              <div style="background:#1a1c24;border:1px solid #252830;border-radius:8px 8px 8px 2px;padding:12px 14px;font-size:13px;color:#c0c4d0;line-height:1.75">
+                <span style="color:#d4b060;font-weight:500">我已确认商盟大概率在囤粮</span>——加利提到杜兰频繁与外来商人密谈，赫尔曼也说公社出货量异常但没多收钱。证据方向明确。<br><br>
+                我建议<span style="color:#c0c4d0;font-weight:500">去城主堡向铁壁·卡尔举报</span>，把证据交出去。但你需要知道风险：
+              </div>
+            </div>
+            <!-- 状态变化预测 -->
+            <div style="padding:10px 16px;background:#13151a;border-bottom:1px solid #1e2028;display:flex;gap:16px;flex-wrap:wrap">
+              <div style="display:flex;align-items:center;gap:5px;font-size:12px">
+                <span style="color:#c08060">守备军团</span>
+                <span style="color:#60a060;font-weight:600">+15</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:5px;font-size:12px">
+                <span style="color:#c08060">商盟</span>
+                <span style="color:#c06060;font-weight:600">-30</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:5px;font-size:12px">
+                <span style="color:#808898">声望</span>
+                <span style="color:#808898;font-size:11px">需 ≥ 20（当前 12）</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:5px;font-size:12px">
+                <span style="color:#c06060;font-size:11px">⚠ 声望不足，卡尔可能不信</span>
+              </div>
+            </div>
+            <!-- 选项区 -->
+            <div style="padding:12px 16px;background:#111318">
+              <!-- 选项 A -->
+              <div style="background:linear-gradient(90deg,rgba(201,160,80,.12),transparent);border:1px solid rgba(201,160,80,.3);border-radius:4px;padding:10px 14px;margin-bottom:8px;cursor:default;display:flex;justify-content:space-between;align-items:center">
+                <div>
+                  <div style="font-size:13px;font-weight:600;color:#d4b060">A. 去城主堡举报</div>
+                  <div style="font-size:11px;color:#8a7a50;margin-top:2px">直接行动，承担后果</div>
+                </div>
+                <div style="font-size:11px;color:#c06060">高风险</div>
+              </div>
+              <!-- 选项 B -->
+              <div style="background:linear-gradient(90deg,rgba(91,158,168,.08),transparent);border:1px solid rgba(91,158,168,.2);border-radius:4px;padding:10px 14px;margin-bottom:8px;cursor:default;display:flex;justify-content:space-between;align-items:center">
+                <div>
+                  <div style="font-size:13px;font-weight:600;color:#7ab8c0">B. 暂缓，继续搜集证据</div>
+                  <div style="font-size:11px;color:#506a6e;margin-top:2px">等声望更高时再举报</div>
+                </div>
+                <div style="font-size:11px;color:#5a8a5a">稳妥</div>
+              </div>
+              <!-- 选项 C -->
+              <div style="background:rgba(255,255,255,.02);border:1px solid #252830;border-radius:4px;padding:10px 14px;margin-bottom:8px;cursor:default;display:flex;justify-content:space-between;align-items:center">
+                <div>
+                  <div style="font-size:13px;font-weight:500;color:#9098a8">C. 把消息卖给赫尔曼</div>
+                  <div style="font-size:11px;color:#555a68;margin-top:2px">让公社先发难，自己不出面</div>
+                </div>
+                <div style="font-size:11px;color:#8a8060">间接</div>
+              </div>
+              <!-- 自由输入 -->
+              <div style="border:1px dashed #2a2d38;border-radius:4px;padding:8px 14px;color:#555a68;font-size:12px;cursor:default">
+                或者告诉我你的想法…
+              </div>
+            </div>
+            <!-- 底部：超时回退 -->
+            <div style="padding:8px 16px;background:#0e1014;border-top:1px solid #1e2028;font-size:11px;color:#555a68;display:flex;align-items:center;gap:6px">
+              <span aria-hidden="true" style="font-size:13px">⏳</span>
+              未回复时：暂缓举报，继续在酒馆区观察
+            </div>
+          </div>
+        </div>
+
+        <div class="reason-block" style="margin-top:16px">
+          <div class="reason-label">请示的设计意图</div>
+          Agent 不是在所有决策上都打断玩家——日常事务（补给、移动、常规任务）自主执行后再汇报。只有在命中明确条件时才向玩家请示：明确站队或改变派系立场、高风险高后果行动、大额资源投入、发现自身能力不足以完成目标。请示包含当前局面、Agent 的建议、风险分析、替代路径，以及「如果你没回复我会怎么做」。
+        </div>
+        <div class="reason-block">
+          <div class="reason-label">为什么这样设计</div>
+          玩家参与感的核心是「关键时刻我能做主」，而不是「每步都要我管」。设计目标是让请示时刻有分量、有信息、有真实选择——而不是频繁打扰。两种参与模式可随时切换，不需要玩家提前声明。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="e3">
+    <div class="design-block">
+      <div class="design-block-header">
+        <span class="design-block-tag">增强三</span>
+        <span class="design-block-title">AI 脑子可选可感知——基模作为显式验证变量</span>
+      </div>
+      <div class="design-block-body">
+        <table class="cmp-table">
+          <thead><tr><th scope="col">维度</th><th scope="col">AIvilization</th><th scope="col">TinyMB</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">基模位置</th><td>服务器端统一控制，用户无感</td><td>用户侧，用户选择基模</td></tr>
+            <tr><th scope="row">模型差异的作用</th><td>不存在——所有角色用同一个模型</td><td>是首轮要验证的核心假设之一</td></tr>
+          </tbody>
+        </table>
+        <div class="reason-block">
+          <div class="reason-label">为什么改</div>
+          Trumen 的长期愿景需要验证「不同 AI 能力会带来不同的世界演化」。TinyMB 将基模选择权交给用户，使「同一任务条件下，不同基模产生不同执行路径和结果」成为首轮可观测、可对比的验证变量。
+        </div>
+        <div class="reason-block">
+          <div class="reason-label">服务 P1 的方式</div>
+          为「多 Agent 框架」提供可对比的能力维度——不同基模在同样的规则和约束下表现如何，是 P1 技术可行性验证的关键数据点。
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+</div>
+<script>
+const links=document.querySelectorAll('.sub-link');
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){links.forEach(l=>l.classList.remove('active'));const m=document.querySelector(`.sub-link[href="#${x.target.id}"]`);if(m)m.classList.add('active');}});},{rootMargin:'-15% 0px -75% 0px'});
+document.querySelectorAll('[id]').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

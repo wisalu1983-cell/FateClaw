@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TinyMB — 产品形态</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0c0d10;--bg-card:#1a1c22;--bg-card-2:#1f2128;
+  --border:#2a2d38;--border-l:#363a48;
+  --gold:#c9a050;--gold-dim:#a87e40;--gold-glow:rgba(201,160,80,.11);
+  --red-dim:rgba(200,80,80,.08);--red-border:rgba(200,80,80,.22);
+  --teal:#5b9ea8;--teal-dim:rgba(91,158,168,.08);--teal-border:rgba(91,158,168,.28);
+  --text:#d8dae2;--text-dim:#9ea2af;--text-faint:#818898;
+  --radius:6px;--radius-lg:10px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC',sans-serif;font-size:14px;font-weight:400;line-height:1.85;min-height:100vh}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
+.skip-link{position:absolute;top:-100%;left:8px;background:var(--gold);color:#0c0d10;padding:8px 16px;border-radius:0 0 var(--radius) var(--radius);font-size:13px;font-weight:600;text-decoration:none;z-index:9999;transition:top .15s}
+.skip-link:focus{top:0}
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh;max-width:1200px;margin:0 auto}
+.sidebar{position:sticky;top:0;height:100vh;padding:40px 0 32px;display:flex;flex-direction:column;border-right:1px solid var(--border);overflow-y:auto}
+.sidebar-inner{padding:0 24px}
+.sidebar-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--gold);letter-spacing:.03em;line-height:1.1;margin-bottom:4px}
+.sidebar-sub{font-size:12px;font-weight:500;color:var(--text-faint);letter-spacing:.08em;text-transform:uppercase;margin-bottom:36px}
+.page-nav{margin-bottom:8px}
+.page-link{display:flex;align-items:flex-start;gap:10px;padding:10px 24px;font-size:14px;font-weight:500;color:var(--text-dim);text-decoration:none;border-left:2px solid transparent;transition:color .15s,background .15s;line-height:1.45}
+.page-link:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.page-link.active{color:var(--gold);border-left-color:var(--gold);background:var(--gold-glow);font-weight:600}
+.page-link-num{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold-dim);flex-shrink:0;line-height:1.4;min-width:18px}
+.page-link.active .page-link-num{color:var(--gold)}
+.sub-nav{margin:2px 0 10px}
+.sub-link{display:block;padding:5px 24px 5px 52px;font-size:12.5px;font-weight:400;color:var(--text-faint);text-decoration:none;transition:color .15s;line-height:1.5}
+.sub-link:hover{color:var(--text-dim)}
+.sub-link.active{color:var(--gold-dim);font-weight:500}
+.sidebar-divider{height:1px;background:var(--border);margin:8px 24px 12px}
+.sidebar-meta{margin-top:auto;padding:20px 24px 0;border-top:1px solid var(--border);font-size:12px;color:var(--text-faint);line-height:1.8}
+.glossary-link{display:block;padding:8px 24px;font-size:13px;font-weight:500;color:var(--text-faint);text-decoration:none;transition:color .15s}
+.glossary-link:hover{color:var(--text-dim)}
+.main{padding:56px 64px 100px 64px;max-width:880px}
+.page-header{margin-bottom:48px;padding-bottom:36px;border-bottom:1px solid var(--border)}
+.page-header-eyebrow{font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:12px}
+.page-header-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:#edeef2;line-height:1.15;letter-spacing:.01em;margin-bottom:12px}
+.page-header-desc{font-size:14px;color:var(--text-dim);max-width:560px;line-height:1.85}
+.section{margin-bottom:56px}
+.subsection{margin-bottom:40px}
+.subsection-title{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.subsection-title::after{content:'';flex:1;height:1px;background:var(--border)}
+p{margin-bottom:14px;color:var(--text)}
+p:last-child{margin-bottom:0}
+
+/* Enhancement cards */
+.enhancement-card{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:16px;background:var(--bg-card)}
+.enhancement-header{display:flex;align-items:center;gap:12px;padding:16px 22px;background:var(--bg-card-2);border-bottom:1px solid var(--border)}
+.enhancement-num{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:700;color:var(--gold);flex-shrink:0}
+.enhancement-name{font-size:15px;font-weight:600;color:#edeef2}
+.enhancement-baseline{padding:11px 22px;background:var(--red-dim);border-bottom:1px solid var(--red-border);font-size:13.5px;color:#c08080;display:flex;gap:10px;align-items:flex-start}
+.enhancement-body{padding:18px 22px;font-size:14px;line-height:1.9}
+.enhancement-body p{margin-bottom:12px}
+.enhancement-body strong{color:#edeef2;font-weight:600}
+
+/* Mode pills */
+.mode-block{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.mode-pill{padding:14px 16px;border-radius:var(--radius);font-size:13.5px;line-height:1.75}
+.mode-pill-label{font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.mode-high{background:var(--teal-dim);border:1px solid var(--teal-border)}
+.mode-high .mode-pill-label{color:var(--teal)}
+.mode-low{background:rgba(120,120,160,.07);border:1px solid rgba(120,120,160,.2)}
+.mode-low .mode-pill-label{color:#9090c0}
+
+/* Experience block */
+.exp-block{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:18px}
+.exp-inherited{padding:18px 22px;background:rgba(91,158,168,.06);border-bottom:1px solid var(--border);font-size:14px;line-height:1.85}
+.exp-inherited-label{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);margin-bottom:7px}
+.exp-table{width:100%;border-collapse:collapse}
+.exp-table tr{border-top:1px solid var(--border)}
+.exp-table td,.exp-table th{padding:13px 18px;font-size:14px;vertical-align:top}
+.exp-table th{width:160px;font-size:12.5px;font-weight:600;color:var(--gold);background:var(--gold-glow);border-right:1px solid var(--border);white-space:nowrap;text-align:left}
+.exp-table td{color:var(--text-dim)}
+.summary-bar{background:var(--bg-card-2);border:1px solid var(--border);border-radius:var(--radius);padding:13px 18px;font-size:14px;color:var(--text-dim);margin-top:14px;display:flex;gap:10px;align-items:flex-start}
+.summary-bar-icon{color:var(--gold);flex-shrink:0;margin-top:2px}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border-l);border-radius:2px}
+@media(max-width:860px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
+  .main{padding:32px 24px 60px}
+  .mode-block{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">跳转到主要内容</a>
+<div class="layout">
+
+<nav class="sidebar" aria-label="文档导航">
+  <div class="sidebar-inner">
+    <div class="sidebar-logo">TinyMB</div>
+    <div class="sidebar-sub">Trumen P1 产品构思</div>
+  </div>
+  <div class="page-nav">
+    <a class="page-link" href="TinyMB-brief-01.html">
+      <span class="page-link-num">①</span><span>概览</span>
+    </a>
+    <a class="page-link active" href="TinyMB-brief-02.html">
+      <span class="page-link-num">②</span><span>产品形态</span>
+    </a>
+    <div class="sub-nav">
+      <a class="sub-link" href="#form">三项增强</a>
+      <a class="sub-link" href="#experience">预期的游戏体验</a>
+    </div>
+    <a class="page-link" href="TinyMB-brief-03.html">
+      <span class="page-link-num">③</span><span>三项增强的设计展开</span>
+    </a>
+    <a class="page-link" href="TinyMB-brief-04.html">
+      <span class="page-link-num">④</span><span>与第二阶段的关联</span>
+    </a>
+  </div>
+  <div class="sidebar-divider"></div>
+  <a class="glossary-link" href="TinyMB-brief-04.html#glossary">附：关键术语速查</a>
+  <div class="sidebar-meta">草稿 v0.3 · 2026-04-15<br>面向已了解 Trumen 愿景的同事</div>
+</nav>
+
+<main class="main" id="main-content">
+
+  <div class="page-header">
+    <div class="page-header-eyebrow">② 产品形态</div>
+    <h1 class="page-header-title">三项增强与预期体验</h1>
+    <p class="page-header-desc">概览页列出的三个空白（规则 / 参与 / AI 差异），对应以下三项增强。每张卡片说明这项增强做了什么、带来什么体验。</p>
+  </div>
+
+  <section class="section" id="form">
+    <div class="subsection">
+      <h2 class="subsection-title">三项增强</h2>
+
+      <!-- Enhancement 1 -->
+      <div class="enhancement-card">
+        <div class="enhancement-header">
+          <div class="enhancement-num">一</div>
+          <div class="enhancement-name">有规则的活世界</div>
+        </div>
+        <div class="enhancement-baseline">
+          <span aria-hidden="true">✕</span>
+          <span>AIvilization 的行动没有结构化后果，Agent 的决策好坏无从衡量。</span>
+        </div>
+        <div class="enhancement-body">
+          <p>一座名为<strong>「石冠城」</strong>的自治城邦持续运转。三大派系——<strong>守备军团、商盟、平民公社</strong>——围绕税收、粮价、安全互相牵制。6 名有独立性格和目标的命名 NPC 各自行动：在城主堡巡视、在市集做买卖、在酒馆交换情报、在农庄护理民生。</p>
+
+          <!-- 三派系关系示意图 -->
+          <div style="margin:20px 0 16px;display:flex;justify-content:center">
+            <svg viewBox="0 0 520 400" width="520" height="400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="三派系关系示意图：守备军团、商盟、平民公社三方互相牵制">
+              <!-- 张力连线 -->
+              <line x1="260" y1="72" x2="88" y2="330" stroke="#363a48" stroke-width="1.5" stroke-dasharray="6,4"/>
+              <line x1="260" y1="72" x2="432" y2="330" stroke="#363a48" stroke-width="1.5" stroke-dasharray="6,4"/>
+              <line x1="88" y1="330" x2="432" y2="330" stroke="#363a48" stroke-width="1.5" stroke-dasharray="6,4"/>
+              <!-- 张力标注 -->
+              <text x="148" y="192" fill="#818898" font-size="11" font-family="Noto Sans SC,sans-serif" text-anchor="middle" transform="rotate(-58,148,192)">税收与军饷</text>
+              <text x="372" y="192" fill="#818898" font-size="11" font-family="Noto Sans SC,sans-serif" text-anchor="middle" transform="rotate(58,372,192)">商路与安全</text>
+              <text x="260" y="360" fill="#818898" font-size="11" font-family="Noto Sans SC,sans-serif" text-anchor="middle">粮价与公平分配</text>
+              <!-- 守备军团 (顶部) -->
+              <rect x="190" y="32" width="140" height="64" rx="8" fill="rgba(91,158,168,.12)" stroke="#5b9ea8" stroke-width="1.5"/>
+              <text x="260" y="56" fill="#5b9ea8" font-size="13" font-weight="600" font-family="Noto Sans SC,sans-serif" text-anchor="middle">守备军团</text>
+              <text x="260" y="76" fill="#9ea2af" font-size="11" font-family="Noto Sans SC,sans-serif" text-anchor="middle">铁壁·卡尔 / 灰鸦·莫恩</text>
+              <!-- 平民公社 (左下) -->
+              <rect x="18" y="296" width="140" height="64" rx="8" fill="rgba(120,180,100,.1)" stroke="#7ab464" stroke-width="1.5"/>
+              <text x="88" y="320" fill="#7ab464" font-size="13" font-weight="600" font-family="Noto Sans SC,sans-serif" text-anchor="middle">平民公社</text>
+              <text x="88" y="340" fill="#9ea2af" font-size="11" font-family="Noto Sans SC,sans-serif" text-anchor="middle">老橡·赫尔曼</text>
+              <!-- 商盟 (右下) -->
+              <rect x="362" y="296" width="140" height="64" rx="8" fill="rgba(201,160,80,.1)" stroke="#c9a050" stroke-width="1.5"/>
+              <text x="432" y="320" fill="#c9a050" font-size="13" font-weight="600" font-family="Noto Sans SC,sans-serif" text-anchor="middle">商盟</text>
+              <text x="432" y="340" fill="#9ea2af" font-size="11" font-family="Noto Sans SC,sans-serif" text-anchor="middle">金秤·杜兰 / 黑帐·维克</text>
+              <!-- 中立节点 -->
+              <rect x="208" y="224" width="104" height="44" rx="6" fill="rgba(255,255,255,.04)" stroke="#363a48" stroke-width="1"/>
+              <text x="260" y="242" fill="#818898" font-size="11" font-weight="500" font-family="Noto Sans SC,sans-serif" text-anchor="middle">中立 · 酒馆</text>
+              <text x="260" y="258" fill="#818898" font-size="10" font-family="Noto Sans SC,sans-serif" text-anchor="middle">老酒·加利（信息枢纽）</text>
+              <!-- 玩家标注 -->
+              <circle cx="260" cy="168" r="18" fill="none" stroke="#c9a050" stroke-width="1" stroke-dasharray="3,3"/>
+              <text x="260" y="172" fill="#c9a050" font-size="11" font-weight="500" font-family="Noto Sans SC,sans-serif" text-anchor="middle">玩家</text>
+              <text x="260" y="144" fill="#818898" font-size="10" font-family="Noto Sans SC,sans-serif" text-anchor="middle">在三方之间权衡取舍</text>
+            </svg>
+          </div>
+
+          <p>每个行动都挂着代价：<strong>帮一方就会得罪另一方</strong>，接了高回报的灰色交易就要承担荣誉下降的后果，随从要吃饭要发饷，不维护就会流失。金钱、声望、荣誉、关系四个变量构成持续的取舍压力。</p>
+        </div>
+      </div>
+
+      <!-- Enhancement 2 - updated title -->
+      <div class="enhancement-card">
+        <div class="enhancement-header">
+          <div class="enhancement-num">二</div>
+          <div class="enhancement-name">参与深度可调：低频放置 ↔ 实时协作</div>
+        </div>
+        <div class="enhancement-baseline">
+          <span aria-hidden="true">✕</span>
+          <span>AIvilization 只有一种节奏——每隔几小时写 prompt 然后旁观——玩家参与度低且参与方式单一。</span>
+        </div>
+        <div class="enhancement-body">
+          <p>TinyMB 把参与频谱从「只有低频放置」扩展为「低频到实时均可」，两种模式随时切换：</p>
+          <div class="mode-block">
+            <div class="mode-pill mode-high">
+              <div class="mode-pill-label">实时协作模式（类似用 Claude Code）</div>
+              玩家和 Agent 实时对话协作。每步行动 10-30 秒一轮即时反馈，遇到重大决策（站队、高风险）Agent 暂停请示，玩家审查局面后拍板决定。
+            </div>
+            <div class="mode-pill mode-low">
+              <div class="mode-pill-label">低频放置模式（类似 AIvilization 挂机）</div>
+              玩家设定长期方针（经济优先级 / 派系倾向 / 风险偏好），Agent 自主行动，玩家隔一段时间回来翻日志、观察世界变化。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Enhancement 3 - updated with OpenClaw analogy -->
+      <div class="enhancement-card">
+        <div class="enhancement-header">
+          <div class="enhancement-num">三</div>
+          <div class="enhancement-name">AI 脑子可选可感知</div>
+        </div>
+        <div class="enhancement-baseline">
+          <span aria-hidden="true">✕</span>
+          <span>AIvilization 中所有 Agent 共用服务器端同一个模型，用户无感知、无选择权。</span>
+        </div>
+        <div class="enhancement-body">
+          <p>就像 OpenClaw 接入不同基模时表现出明显不同的对话质量和推理深度，TinyMB 中的玩家 Agent 同样由一个<strong>基础大语言模型（基模）</strong>直接驱动。基模决定的是 Agent 的<strong>智力水平</strong>——同样的任务指令，接入更强基模的 Agent 会做出更深入的局面分析、更灵活的路径规划、更合理的取舍判断。</p>
+          <p>这个差异在 TinyMB 中对玩家<strong>可感知</strong>：你能在请示包和行动日志里看到 Agent 怎么思考、为什么选这条路、在哪里判断力不足。基模不影响角色是谁、遵守什么规则（这些由官方系统 prompt 锁定），它影响的是「脑子好不好使」。</p>
+          <p>这是首轮原型要显式验证的核心变量：同等任务条件下，不同基模产生什么样的差异？</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="experience">
+    <div class="subsection">
+      <h2 class="subsection-title">预期的游戏体验</h2>
+
+      <div class="exp-block">
+        <div class="exp-inherited">
+          <div class="exp-inherited-label">继承自 AIvilization 的底色</div>
+          世界不因玩家下线而暂停，NPC 有自己的节奏，多个 Agent 之间产生超出预设的涌现行为。玩家上线时发现世界已经变了——有人暗中交换了情报，派系力量对比悄然移动。这种「世界活着」的感受是 TinyMB 继承的核心底色。
+        </div>
+        <div style="padding:10px 22px 4px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);font-weight:600;">三项增强带来的新体验</div>
+        <table class="exp-table" aria-label="三项增强带来的新体验">
+          <thead class="sr-only"><tr><th scope="col">增强</th><th scope="col">体验变化</th></tr></thead>
+          <tbody>
+            <tr>
+              <th scope="row">有规则的活世界</th>
+              <td>不是「看 Agent 做事」，而是「承担后果、据此调整方向」——帮了守备军团可能得罪商盟，接了灰色交易可能失去正直 NPC 的信任</td>
+            </tr>
+            <tr>
+              <th scope="row">参与深度可调</th>
+              <td>参与方式由玩家自己掌控：有时间就实时对话协作（10-30 秒一轮反馈 + 关键节点拍板），没空就切回挂机方针驱动，不再被锁死在「写完 prompt 只能等」</td>
+            </tr>
+            <tr>
+              <th scope="row">AI 脑子可选</th>
+              <td>换个基模，同样的任务可能有明显不同的执行路径和结果——这个差异可观察、可对比，是首轮验证要回答的核心问题</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="summary-bar">
+        <span class="summary-bar-icon" aria-hidden="true">◆</span>
+        <span><strong style="color:var(--text)">一句话总结：</strong>AIvilization 的活世界底色 + 骑砍式规则带来的有后果取舍 + 从挂机放置到实时协作的完整参与频谱 + 基模选择带来的可感知 AI 差异。</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+</div>
+<script>
+const links=document.querySelectorAll('.sub-link');
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){links.forEach(l=>l.classList.remove('active'));const m=document.querySelector(`.sub-link[href="#${x.target.id}"]`);if(m)m.classList.add('active');}});},{rootMargin:'-15% 0px -75% 0px'});
+document.querySelectorAll('[id]').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

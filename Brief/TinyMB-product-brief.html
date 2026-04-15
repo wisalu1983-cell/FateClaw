@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TinyMB — Trumen 第一阶段产品构思</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Noto+Serif+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0c0d10;
+    --bg-raised: #141519;
+    --bg-card:   #1a1c22;
+    --bg-card-2: #1f2128;
+    --border:    #2a2d38;
+    --border-l:  #363a48;
+    --gold:      #c9a050;
+    --gold-dim:  #a87e40;  /* was #8a6d35 — raised to pass 4.5:1 contrast */
+    --gold-glow: rgba(201,160,80,.12);
+    --red-dim:   rgba(200,80,80,.08);
+    --red-border:rgba(200,80,80,.25);
+    --teal:      #5b9ea8;
+    --teal-dim:  rgba(91,158,168,.08);
+    --teal-border:rgba(91,158,168,.28);
+    --text:      #d8dae2;
+    --text-dim:  #8a8e9a;
+    --text-faint:#818898;  /* was #55596a — raised to pass 4.5:1 contrast */
+    --radius:    6px;
+    --radius-lg: 10px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Serif SC', serif;
+    font-size: 15px;
+    line-height: 1.85;
+    min-height: 100vh;
+  }
+
+  /* ── LAYOUT ── */
+  .layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    min-height: 100vh;
+    max-width: 1180px;
+    margin: 0 auto;
+    gap: 0;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    padding: 48px 28px 32px 0;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+  }
+
+  .sidebar-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    color: var(--gold);
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+  .sidebar-sub {
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    margin-bottom: 36px;
+  }
+
+  .nav-group { margin-bottom: 28px; }
+  .nav-group-label {
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 10px;
+    padding-left: 12px;
+  }
+  .nav-item {
+    display: block;
+    padding: 7px 12px;
+    font-size: 13px;
+    color: var(--text-dim);
+    text-decoration: none;
+    border-radius: var(--radius);
+    transition: color .18s, background .18s;
+    border-left: 2px solid transparent;
+  }
+  .nav-item:hover { color: var(--text); background: var(--bg-card); }
+  .nav-item.active { color: var(--gold); border-left-color: var(--gold); background: var(--gold-glow); }
+
+  .sidebar-meta {
+    margin-top: auto;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--text-faint);
+    line-height: 1.7;
+  }
+
+  /* ── MAIN ── */
+  .main {
+    padding: 60px 60px 100px 60px;
+    max-width: 860px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    margin-bottom: 64px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -.01em;
+    color: #edeef2;
+    margin-bottom: 16px;
+  }
+  .hero-title em {
+    font-style: normal;
+    color: var(--gold);
+  }
+  .hero-desc {
+    font-size: 15px;
+    color: var(--text-dim);
+    max-width: 560px;
+    line-height: 1.9;
+  }
+  .hero-badge {
+    display: inline-block;
+    margin-top: 24px;
+    padding: 5px 14px;
+    border: 1px solid var(--gold-dim);
+    border-radius: 20px;
+    font-size: 12px;
+    color: var(--gold);
+    letter-spacing: .04em;
+  }
+
+  /* ── SECTION ── */
+  .section { margin-bottom: 72px; }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  .section-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    color: var(--gold-dim);
+    letter-spacing: .08em;
+    min-width: 24px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: #edeef2;
+    letter-spacing: .01em;
+  }
+
+  .subsection { margin-bottom: 44px; }
+  .subsection-title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .subsection-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  p { margin-bottom: 14px; color: var(--text); }
+  p:last-child { margin-bottom: 0; }
+
+  /* ── POSITIONING BLOCK ── */
+  .position-block {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    margin-bottom: 28px;
+    font-size: 15px;
+    line-height: 1.9;
+  }
+  .position-lead {
+    font-size: 17px;
+    font-weight: 500;
+    color: #edeef2;
+    margin-bottom: 12px;
+  }
+  .position-desc { color: var(--text-dim); }
+
+  /* ── COMPARISON TABLE (PLUS TABLE) ── */
+  .plus-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 8px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .plus-table thead tr {
+    background: var(--bg-card-2);
+  }
+  .plus-table thead th {
+    padding: 11px 18px;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    text-align: left;
+    font-weight: 500;
+  }
+  .plus-table thead th:first-child { width: 80px; }
+  .plus-table thead th:nth-child(2) { color: #c06060; }
+  .plus-table thead th:nth-child(3) { color: var(--gold); }
+
+  .plus-table tbody tr {
+    border-top: 1px solid var(--border);
+  }
+  .plus-table tbody td {
+    padding: 14px 18px;
+    font-size: 13.5px;
+    vertical-align: top;
+  }
+  .plus-table tbody td:first-child {
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: .06em;
+    color: var(--text-faint);
+    white-space: nowrap;
+    background: var(--bg-card-2);
+  }
+  .plus-table tbody td:nth-child(2) {
+    background: var(--red-dim);
+    color: #c08080;
+    border-left: 1px solid var(--red-border);
+  }
+  .plus-table tbody td:nth-child(3) {
+    background: var(--gold-glow);
+    color: var(--text);
+    border-left: 1px solid rgba(201,160,80,.2);
+  }
+
+  /* ── ENHANCEMENT CARDS ── */
+  .enhancement-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 20px;
+    background: var(--bg-card);
+  }
+  .enhancement-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 24px;
+    background: var(--bg-card-2);
+    border-bottom: 1px solid var(--border);
+  }
+  .enhancement-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid var(--gold-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    color: var(--gold);
+    flex-shrink: 0;
+    font-weight: 600;
+  }
+  .enhancement-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #edeef2;
+  }
+  .enhancement-baseline {
+    padding: 12px 24px;
+    background: var(--red-dim);
+    border-bottom: 1px solid var(--red-border);
+    font-size: 13px;
+    color: #c08080;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .enhancement-baseline-icon { opacity: .7; flex-shrink: 0; margin-top: 2px; }
+  .enhancement-body { padding: 20px 24px; font-size: 14px; line-height: 1.9; }
+  .enhancement-body p { margin-bottom: 12px; }
+  .enhancement-body strong { color: #edeef2; }
+
+  /* Mode pills */
+  .mode-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 14px;
+  }
+  .mode-pill {
+    padding: 14px 16px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .mode-pill-label {
+    font-size: 11px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .mode-high {
+    background: var(--teal-dim);
+    border: 1px solid var(--teal-border);
+  }
+  .mode-high .mode-pill-label { color: var(--teal); }
+  .mode-low {
+    background: rgba(120,120,160,.07);
+    border: 1px solid rgba(120,120,160,.2);
+  }
+  .mode-low .mode-pill-label { color: #9090c0; }
+
+  /* ── EXPERIENCE TABLE ── */
+  .exp-block {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .exp-inherited {
+    padding: 20px 24px;
+    background: rgba(91,158,168,.06);
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    line-height: 1.85;
+  }
+  .exp-inherited-label {
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .exp-table { width: 100%; border-collapse: collapse; }
+  .exp-table tr { border-top: 1px solid var(--border); }
+  .exp-table td { padding: 14px 20px; font-size: 13.5px; vertical-align: top; }
+  .exp-table td:first-child {
+    width: 160px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gold);
+    background: var(--gold-glow);
+    border-right: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  .summary-bar {
+    background: var(--bg-card-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 20px;
+    font-size: 13.5px;
+    color: var(--text-dim);
+    margin-top: 16px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .summary-bar-icon { color: var(--gold); flex-shrink: 0; margin-top: 2px; }
+
+  /* ── DESIGN DEEP DIVE ── */
+  .design-block {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 32px;
+    background: var(--bg-card);
+  }
+  .design-block-header {
+    padding: 16px 24px;
+    background: var(--bg-card-2);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .design-block-tag {
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+    border: 1px solid var(--gold-dim);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+  }
+  .design-block-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #edeef2;
+  }
+  .design-block-body { padding: 20px 24px; }
+
+  /* Generic compare table */
+  .cmp-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    font-size: 13.5px;
+  }
+  .cmp-table thead tr { background: var(--bg-card-2); }
+  .cmp-table thead th {
+    padding: 10px 16px;
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    text-align: left;
+    font-weight: 500;
+  }
+  .cmp-table thead th:nth-child(2) { color: #c06060; }
+  .cmp-table thead th:nth-child(3) { color: var(--gold); }
+  .cmp-table tbody tr { border-top: 1px solid var(--border); }
+  .cmp-table tbody td {
+    padding: 12px 16px;
+    vertical-align: top;
+    line-height: 1.75;
+  }
+  .cmp-table tbody td:first-child {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-faint);
+    white-space: nowrap;
+    background: var(--bg-card-2);
+    border-right: 1px solid var(--border);
+  }
+  .cmp-table tbody td:nth-child(2) {
+    color: #b07070;
+    background: var(--red-dim);
+    border-left: 1px solid var(--red-border);
+  }
+  .cmp-table tbody td:nth-child(3) {
+    color: var(--text);
+    background: var(--gold-glow);
+    border-left: 1px solid rgba(201,160,80,.15);
+  }
+
+  .reason-block {
+    background: var(--bg-card-2);
+    border-left: 2px solid var(--border-l);
+    padding: 14px 18px;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 13.5px;
+    color: var(--text-dim);
+    margin: 12px 0;
+    line-height: 1.85;
+  }
+  .reason-block strong { color: var(--text); }
+  .reason-label {
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  .analogy-box {
+    background: rgba(201,160,80,.05);
+    border: 1px solid rgba(201,160,80,.15);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    font-size: 13.5px;
+    color: var(--text-dim);
+    margin: 16px 0;
+    font-style: italic;
+    line-height: 1.85;
+  }
+
+  /* ── ARCH DIAGRAM ── */
+  .arch-diagram {
+    display: grid;
+    grid-template-columns: 1fr 36px 1fr;
+    gap: 0;
+    margin: 18px 0;
+    font-size: 12.5px;
+  }
+  .arch-col {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .arch-col-header {
+    padding: 9px 14px;
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+  }
+  .arch-col-header.aiv { background: var(--red-dim); color: #c06060; }
+  .arch-col-header.tmb { background: var(--gold-glow); color: var(--gold); }
+  .arch-col-body { padding: 12px 14px; line-height: 1.75; }
+  .arch-layer {
+    padding: 6px 10px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .arch-layer-aiv { background: rgba(200,80,80,.1); border: 1px solid rgba(200,80,80,.2); }
+  .arch-layer-tmb { background: rgba(201,160,80,.08); border: 1px solid rgba(201,160,80,.18); }
+  .arch-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-faint);
+    font-size: 16px;
+    padding-top: 42px;
+  }
+
+  /* ── P2 TABLE ── */
+  .p2-wrapper {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--bg-card);
+    margin-top: 20px;
+  }
+  .p2-row {
+    border-top: 1px solid var(--border);
+  }
+  .p2-artifact {
+    width: 200px;
+    padding: 14px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gold);
+    background: var(--gold-glow);
+    border-right: 1px solid var(--border);
+    vertical-align: middle;
+    line-height: 1.5;
+    text-align: left;
+  }
+  .p2-intent {
+    padding: 14px 18px;
+    font-size: 13.5px;
+    color: var(--text-dim);
+    line-height: 1.75;
+    vertical-align: middle;
+  }
+
+  .p2-header {
+    background: var(--bg-card-2);
+    border-bottom: 1px solid var(--border);
+  }
+  .p2-header th {
+    padding: 10px 18px;
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 500;
+    text-align: left;
+  }
+
+  /* ── GLOSSARY ── */
+  .glossary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .glossary-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    font-size: 13.5px;
+  }
+  .glossary-term {
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 5px;
+    font-size: 13px;
+  }
+  .glossary-def { color: var(--text-dim); line-height: 1.7; }
+
+  /* ── ROADMAP STRIP ── */
+  .roadmap {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 28px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .roadmap-phase {
+    flex: 1;
+    padding: 16px 20px;
+    text-align: center;
+    border-right: 1px solid var(--border);
+  }
+  .roadmap-phase:last-child { border-right: none; }
+  .roadmap-phase.active {
+    background: var(--gold-glow);
+    border-right-color: rgba(201,160,80,.2);
+  }
+  .roadmap-phase-num {
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 4px;
+  }
+  .roadmap-phase.active .roadmap-phase-num { color: var(--gold-dim); }
+  .roadmap-phase-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dim);
+  }
+  .roadmap-phase.active .roadmap-phase-name { color: var(--gold); }
+  .roadmap-arrow {
+    color: var(--text-faint);
+    padding: 0 2px;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  /* ── SCREEN READER ONLY ── */
+  .sr-only {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
+
+  /* ── FOCUS VISIBLE ── */
+  :focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* ── SKIP LINK ── */
+  .skip-link {
+    position: absolute;
+    top: -100%;
+    left: 8px;
+    background: var(--gold);
+    color: #0c0d10;
+    padding: 8px 16px;
+    border-radius: 0 0 var(--radius) var(--radius);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    z-index: 9999;
+    transition: top .15s;
+  }
+  .skip-link:focus { top: 0; }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border-l); border-radius: 2px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); flex-direction: row; flex-wrap: wrap; padding: 24px; gap: 16px; }
+    .main { padding: 36px 24px 60px; }
+    .mode-block { grid-template-columns: 1fr; }
+    .arch-diagram { grid-template-columns: 1fr; }
+    .arch-arrow { display: none; }
+    .glossary-grid { grid-template-columns: 1fr; }
+    .p2-wrapper { display: block; }
+    .p2-artifact { display: block; border-right: none; border-bottom: 1px solid var(--border); width: auto; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">跳转到主要内容</a>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar" aria-label="文档导航">
+    <div class="sidebar-logo">TinyMB</div>
+    <div class="sidebar-sub">Trumen P1 产品构思</div>
+
+    <div class="nav-group">
+      <div class="nav-group-label">文档导航</div>
+      <a class="nav-item" href="#positioning">定位：AIvilization Plus</a>
+      <a class="nav-item" href="#form">产品形态</a>
+      <a class="nav-item" href="#experience">预期游戏体验</a>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-group-label">三项增强设计展开</div>
+      <a class="nav-item" href="#e1">增强一：有规则的活世界</a>
+      <a class="nav-item" href="#e2">增强二：引导而非控制</a>
+      <a class="nav-item" href="#e3">增强三：AI 脑子可选</a>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-group-label">后续规划</div>
+      <a class="nav-item" href="#p2">与第二阶段的关联</a>
+      <a class="nav-item" href="#glossary">术语速查</a>
+    </div>
+
+    <div class="sidebar-meta">
+      草稿 v0.3<br>
+      2026-04-15<br>
+      面向已了解 Trumen 愿景的同事
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main" id="main-content">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-eyebrow">Trumen · Phase 1 · 产品构思</div>
+      <h1 class="hero-title">Tiny<em>MB</em></h1>
+      <p class="hero-desc">
+        Trumen 第一阶段验证载体。以极简化《骑马与砍杀》城镇玩法为规则骨架，
+        在持续运转的单城邦中让多个 LLM 驱动的 Agent 自主行动与交互。
+      </p>
+      <span class="hero-badge">AIvilization Plus</span>
+    </div>
+
+    <!-- ── SECTION 1 ── -->
+    <section class="section" id="positioning">
+
+      <div class="section-header">
+        <span class="section-num">一</span>
+        <h2 class="section-title">第一阶段要做什么</h2>
+      </div>
+
+      <!-- Positioning -->
+      <div class="subsection">
+        <h3 class="subsection-title">定位</h3>
+
+        <div class="position-block">
+          <div class="position-lead">TinyMB 是 AIvilization 的 Plus 版本，也是 Trumen 第一阶段（P1 世界模拟）的验证载体。</div>
+          <div class="position-desc">
+            AIvilization 验证了基础命题——LLM 驱动的 Agent 能在共享世界中自主生活——但留下了三个空白。TinyMB 逐一填补：
+          </div>
+        </div>
+
+        <table class="plus-table">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col"><span aria-hidden="true">▲</span> AIvilization 的空白</th>
+              <th scope="col"><span aria-hidden="true">✦</span> TinyMB 的增强</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">规则</th>
+              <td>无结构沙盒，行动无代价可衡量</td>
+              <td>极简骑砍规则：三派系博弈 + 四变量取舍 + 维护压力</td>
+            </tr>
+            <tr>
+              <th scope="row">参与</th>
+              <td>只能低频写 prompt 然后旁观，参与度低</td>
+              <td>高频实时对话 ↔ 低频挂机放置，完整频谱随时切换</td>
+            </tr>
+            <tr>
+              <th scope="row">AI 差异</th>
+              <td>统一服务器模型，用户无感</td>
+              <td>玩家自选基模，差异可感知、可对比、可验证</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Product Form -->
+      <div class="subsection" id="form">
+        <h3 class="subsection-title">产品形态</h3>
+
+        <p style="color:var(--text-dim); margin-bottom: 20px;">
+          AIvilization 的底座保留：一个持续运转的共享世界，Agent 有自己的生活节奏，多个 Agent 之间产生涌现行为。TinyMB 在这个底座上叠加三项增强。
+        </p>
+
+        <!-- Enhancement 1 -->
+        <div class="enhancement-card">
+          <div class="enhancement-header">
+            <div class="enhancement-num">一</div>
+            <div class="enhancement-name">有规则的活世界</div>
+          </div>
+          <div class="enhancement-baseline">
+            <span class="enhancement-baseline-icon" aria-hidden="true">✕</span>
+            <span>AIvilization 的行动没有结构化后果，Agent 的决策好坏无从衡量。</span>
+          </div>
+          <div class="enhancement-body">
+            <p>一座名为<strong>「石冠城」</strong>的自治城邦持续运转。三大派系——<strong>守备军团、商盟、平民公社</strong>——围绕税收、粮价、安全互相牵制。6 名有独立性格和目标的命名 NPC 各自行动：在城主堡巡视、在市集做买卖、在酒馆交换情报、在农庄护理民生。</p>
+            <p>每个行动都挂着代价：<strong>帮一方就会得罪另一方</strong>，接了高回报的灰色交易就要承担荣誉下降的后果，随从要吃饭要发饷，不维护就会流失。金钱、声望、荣誉、关系四个变量构成持续的取舍压力。</p>
+          </div>
+        </div>
+
+        <!-- Enhancement 2 -->
+        <div class="enhancement-card">
+          <div class="enhancement-header">
+            <div class="enhancement-num">二</div>
+            <div class="enhancement-name">引导而非控制</div>
+          </div>
+          <div class="enhancement-baseline">
+            <span class="enhancement-baseline-icon" aria-hidden="true">✕</span>
+            <span>AIvilization 只有一种节奏——每隔几小时写 prompt 然后等，玩家大部分时间只是旁观者。</span>
+          </div>
+          <div class="enhancement-body">
+            <p>TinyMB 把参与频谱从「只有低频」扩展为「低频到高频都有」，两种模式随时切换：</p>
+            <div class="mode-block">
+              <div class="mode-pill mode-high">
+                <div class="mode-pill-label">高频模式（类似用 Claude Code）</div>
+                玩家和 Agent 实时对话。每步行动 10-30 秒一轮反馈，遇到重大决策 Agent 暂停请示，玩家审查后拍板。
+              </div>
+              <div class="mode-pill mode-low">
+                <div class="mode-pill-label">低频模式（类似 AIvilization 放置）</div>
+                设定长期方针（经济优先级 / 派系倾向 / 风险偏好），Agent 自主行动，玩家隔一段时间回来翻日志。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Enhancement 3 -->
+        <div class="enhancement-card">
+          <div class="enhancement-header">
+            <div class="enhancement-num">三</div>
+            <div class="enhancement-name">AI 脑子可选可感知</div>
+          </div>
+          <div class="enhancement-baseline">
+            <span class="enhancement-baseline-icon" aria-hidden="true">✕</span>
+            <span>AIvilization 中所有 Agent 共用服务器端同一个模型，用户无感知、无选择权。</span>
+          </div>
+          <div class="enhancement-body">
+            <p>玩家可以选择驱动自己 Agent 的<strong>基础大语言模型（基模）</strong>。基模决定的是「脑子好不好使」——推理深度、规划质量、应变能力——而不是角色是谁、遵守什么规则（这些由官方系统 prompt 锁定）。</p>
+            <p>同一任务下，不同基模会产出不同的执行规划和路径，这个差异对玩家可感知，也是首轮原型要显式验证的核心变量。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Experience -->
+      <div class="subsection" id="experience">
+        <h3 class="subsection-title">预期的游戏体验</h3>
+
+        <div class="exp-block">
+          <div class="exp-inherited">
+            <div class="exp-inherited-label">继承自 AIvilization 的底色</div>
+            世界不因玩家下线而暂停，NPC 有自己的节奏，多个 Agent 之间产生超出预设的涌现行为。玩家上线时发现世界已经变了——有人暗中交换了情报，派系力量对比悄然移动。这种「世界活着」的感受是 TinyMB 继承的核心底色。
+          </div>
+          <div style="padding: 12px 24px 4px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-faint); font-weight: 500;">三项增强带来的新体验</div>
+          <table class="exp-table" aria-label="三项增强带来的新体验">
+            <thead class="sr-only"><tr><th scope="col">增强</th><th scope="col">体验变化</th></tr></thead>
+            <tbody>
+            <tr>
+              <th scope="row">有规则的活世界</th>
+              <td>不是「看 Agent 做事」，而是「承担后果、据此调整方向」——帮了守备军团可能得罪商盟，接了灰色交易可能失去正直 NPC 的信任</td>
+            </tr>
+            <tr>
+              <th scope="row">引导而非控制</th>
+              <td>参与深度由玩家自己控制：想深度介入就实时对话（10-30 秒一轮反馈 + 关键节点拍板），没空就挂机方针驱动</td>
+            </tr>
+            <tr>
+              <th scope="row">AI 脑子可选</th>
+              <td>换个基模，同样的任务可能有明显不同的执行路径和结果——差异可观察，是首轮验证要回答的核心问题</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="summary-bar">
+          <span class="summary-bar-icon" aria-hidden="true">◆</span>
+          <span>
+            <strong style="color: var(--text);">一句话总结：</strong>
+            AIvilization 的活世界底色 + 骑砍式规则带来的有后果取舍 + 从实时对话到挂机放置的完整参与频谱 + 基模选择带来的可感知 AI 差异。
+          </span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── SECTION 2 ── -->
+    <section class="section">
+
+      <div class="section-header">
+        <span class="section-num">二</span>
+        <h2 class="section-title">三项增强的设计展开</h2>
+      </div>
+
+      <p style="color: var(--text-dim); margin-bottom: 32px;">
+        以下展开说明上述三项增强在设计层面的具体变化。每一项都直接服务 P1「证明世界能跑起来、Agent 能自主行动并交互」的使命。
+      </p>
+
+      <!-- E1 -->
+      <div class="design-block" id="e1">
+        <div class="design-block-header">
+          <span class="design-block-tag">增强一</span>
+          <span class="design-block-title">有规则的活世界——从无结构沙盒到有规则博弈</span>
+        </div>
+        <div class="design-block-body">
+          <table class="cmp-table">
+            <thead><tr><th scope="col">维度</th><th scope="col">AIvilization</th><th scope="col">TinyMB</th></tr></thead>
+            <tbody>
+              <tr>
+                <th scope="row">玩法骨架</th>
+                <td>无预设目标和博弈结构，Agent 自由行动</td>
+                <td>骑砍四变量（金钱 / 声望 / 荣誉 / 关系）+ 三派系博弈 + 维护压力</td>
+              </tr>
+              <tr>
+                <th scope="row">行动后果</th>
+                <td>后果分散，无结构化取舍</td>
+                <td>帮一方得罪另一方、资源有限必须取舍、站队有不可逆后果</td>
+              </tr>
+              <tr>
+                <th scope="row">空间约束</th>
+                <td>无移动成本</td>
+                <td>区域间移动耗时 5-20 分钟，迫使规划连续事务</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="reason-block">
+            <div class="reason-label">为什么改</div>
+            无规则意味着 Agent 的决策好坏无从衡量。引入结构化规则后，Agent 的行为有了可评估的标准——「在有限资源和派系压力下做出什么取舍」。
+          </div>
+          <div class="reason-block">
+            <div class="reason-label">服务 P1 的方式</div>
+            结构化规则让 Agent 行为可评估、可比较、可复现，为「Agent 能自主行动并交互」提供可验证的观察框架。
+          </div>
+        </div>
+      </div>
+
+      <!-- E2 -->
+      <div class="design-block" id="e2">
+        <div class="design-block-header">
+          <span class="design-block-tag">增强二</span>
+          <span class="design-block-title">引导而非控制——从「只有低频」到「低频高频都有」</span>
+        </div>
+        <div class="design-block-body">
+          <p style="color:var(--text-dim); margin-bottom: 16px;">AIvilization 的用户参与度低，根本原因是架构只支持一种节奏：写 prompt → 等结果。TinyMB 同时改变了底层架构和上层交互方式。</p>
+
+          <div class="arch-diagram">
+            <div class="arch-col">
+              <div class="arch-col-header aiv">AIvilization · 双层 Agent</div>
+              <div class="arch-col-body">
+                <div class="arch-layer arch-layer-aiv">外层 AI（Cursor / Claude Code）<br><small style="color:var(--text-faint)">写每日策略 prompt</small></div>
+                <div class="arch-layer arch-layer-aiv">服务器端 AI 引擎<br><small style="color:var(--text-faint)">读 prompt → 自主决策执行</small></div>
+                <div style="padding: 6px 10px; font-size: 11px; color: #c06060;">用户只能写 prompt 和看日志<br>无法中断或实时参与</div>
+              </div>
+            </div>
+            <div class="arch-arrow" aria-hidden="true">→</div>
+            <div class="arch-col">
+              <div class="arch-col-header tmb">TinyMB · 单层 Agent + 多层约束</div>
+              <div class="arch-col-body">
+                <div class="arch-layer arch-layer-tmb">用户选择的 LLM（基模）<br><small style="color:var(--text-faint)">直接作为角色大脑，用户侧运行</small></div>
+                <div class="arch-layer arch-layer-tmb">官方系统 prompt（不可修改）<br><small style="color:var(--text-faint)">锁定行为框架与规则</small></div>
+                <div class="arch-layer arch-layer-tmb">服务器 Runtime<br><small style="color:var(--text-faint)">校验合法行动、结算结果</small></div>
+              </div>
+            </div>
+          </div>
+
+          <table class="cmp-table">
+            <thead><tr><th scope="col">维度</th><th scope="col">AIvilization（双层 Agent）</th><th scope="col">TinyMB（单层 Agent）</th></tr></thead>
+            <tbody>
+              <tr>
+                <th scope="row">行为决策者</th>
+                <td>服务器端 AI 引擎</td>
+                <td>用户选择的 LLM（基模）</td>
+              </tr>
+              <tr>
+                <th scope="row">用户影响方式</th>
+                <td>只能写每日策略 prompt（间接影响）</td>
+                <td>对话引导 + 请示回复 + 长期方针（直接参与决策链）</td>
+              </tr>
+              <tr>
+                <th scope="row">玩家中断权</th>
+                <td>无——写完 prompt 只能看结果</td>
+                <td>有——Agent 在关键节点暂停请示，玩家拍板</td>
+              </tr>
+              <tr>
+                <th scope="row">行为约束来源</th>
+                <td>服务器端内部逻辑（对外不透明）</td>
+                <td>官方系统 prompt（显式可设计）+ 服务器行动空间校验</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="analogy-box">
+            AIvilization 像是你写了一封策略建议书交给一个你看不到的经理人，他按自己的理解去执行；TinyMB 像是你直接坐在执行者旁边，他按规矩办事但遇到大事会转过头来问你——当然你也可以起身离开，他会按你之前定好的方针继续干活。
+          </div>
+
+          <div class="reason-block">
+            <div class="reason-label">为什么改</div>
+            双层架构下参与方式被锁死在低频放置。单层架构打开了高频实时互动的可能——每轮行动 10-30 秒即有反馈，同时保留了长期方针驱动的低频放置模式，形成完整的参与频谱。
+          </div>
+          <div class="reason-block">
+            <div class="reason-label">服务 P1 的方式</div>
+            高频互动提供可观察的行动日志和请示闭环；低频放置验证 Agent 在无人干预下的自主决策质量。
+          </div>
+        </div>
+      </div>
+
+      <!-- E3 -->
+      <div class="design-block" id="e3">
+        <div class="design-block-header">
+          <span class="design-block-tag">增强三</span>
+          <span class="design-block-title">AI 脑子可选可感知——基模作为显式验证变量</span>
+        </div>
+        <div class="design-block-body">
+          <table class="cmp-table">
+            <thead><tr><th scope="col">维度</th><th scope="col">AIvilization</th><th scope="col">TinyMB</th></tr></thead>
+            <tbody>
+              <tr>
+                <th scope="row">基模位置</th>
+                <td>服务器端统一控制，用户无感</td>
+                <td>用户侧，用户选择基模</td>
+              </tr>
+              <tr>
+                <th scope="row">模型差异的作用</th>
+                <td>不存在——所有角色用同一个模型</td>
+                <td>是首轮要验证的核心假设之一</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="reason-block">
+            <div class="reason-label">为什么改</div>
+            Trumen 的长期愿景需要验证「不同 AI 能力会带来不同的世界演化」。TinyMB 将基模选择权交给用户，使「同一任务条件下，不同基模产生不同执行路径和结果」成为首轮可观测、可对比的验证变量。
+          </div>
+          <div class="reason-block">
+            <div class="reason-label">服务 P1 的方式</div>
+            为「多 Agent 框架」提供可对比的能力维度——不同基模在同样的规则和约束下表现如何，是 P1 技术可行性验证的关键数据点。
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── SECTION 3 ── -->
+    <section class="section" id="p2">
+
+      <div class="section-header">
+        <span class="section-num">三</span>
+        <h2 class="section-title">与第二阶段的关联</h2>
+      </div>
+
+      <div class="roadmap">
+        <div class="roadmap-phase active">
+          <div class="roadmap-phase-num">Phase 1</div>
+          <div class="roadmap-phase-name">世界模拟</div>
+        </div>
+        <div class="roadmap-arrow" aria-hidden="true">→</div>
+        <div class="roadmap-phase">
+          <div class="roadmap-phase-num">Phase 2</div>
+          <div class="roadmap-phase-name">世界创建</div>
+        </div>
+        <div class="roadmap-arrow" aria-hidden="true">→</div>
+        <div class="roadmap-phase">
+          <div class="roadmap-phase-num">Phase 3</div>
+          <div class="roadmap-phase-name">世界涌现</div>
+        </div>
+      </div>
+
+      <p style="color: var(--text-dim); margin-bottom: 24px;">
+        P2 的使命是「让创作者能按意图发起属于自己的世界」。TinyMB 在 P1 跑通的那套东西，意图是将来能被拆出来、配置化，成为 P2「世界发起工具」的底层能力。
+      </p>
+
+      <table class="p2-wrapper" aria-label="TinyMB P1 产出物与 P2 关联">
+        <thead>
+          <tr class="p2-header">
+            <th scope="col" style="width:200px">TinyMB（P1）产出物</th>
+            <th scope="col">对 P2 的意图</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="p2-row">
+            <th scope="row" class="p2-artifact">统一的 Agent 行为循环</th>
+            <td class="p2-intent">P2 需要放入 Agent 并让它们自主行动，P1 的循环框架是这一能力的基础</td>
+          </tr>
+          <tr class="p2-row">
+            <th scope="row" class="p2-artifact">Agent 与 Runtime 的行动协议</th>
+            <td class="p2-intent">P2 发起的世界需要能校验和执行 Agent 行动，P1 定义了这个接口应该长什么样</td>
+          </tr>
+          <tr class="p2-row">
+            <th scope="row" class="p2-artifact">世界信息向 Agent 的传递结构</th>
+            <td class="p2-intent">P2 的不同世界需要向 Agent 传递环境信息，P1 验证了这套结构的必要形态</td>
+          </tr>
+          <tr class="p2-row">
+            <th scope="row" class="p2-artifact">可观察性记录机制</th>
+            <td class="p2-intent">P2 的世界需要能被创作者回看和运营，P1 的记录机制是这一能力的前提</td>
+          </tr>
+          <tr class="p2-row">
+            <th scope="row" class="p2-artifact">结构化的世界规则集</th>
+            <td class="p2-intent">P2 需要让创作者配置和组合规则，P1 的规则集是第一个完整跑通的样本</td>
+          </tr>
+          <tr class="p2-row">
+            <th scope="row" class="p2-artifact">基模差异的实验数据</th>
+            <td class="p2-intent">P2 需要支持 Agent 能力的配置，P1 的数据帮助确定能力维度的边界</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </section>
+
+    <!-- ── GLOSSARY ── -->
+    <section class="section" id="glossary">
+
+      <div class="section-header">
+        <span class="section-num">附</span>
+        <h2 class="section-title">关键术语速查</h2>
+      </div>
+
+      <div class="glossary-grid">
+        <div class="glossary-item">
+          <div class="glossary-term">基模</div>
+          <div class="glossary-def">驱动 Agent 核心推理的基础大语言模型（LLM），用户可选择，影响推理质量但不影响角色身份与规则框架</div>
+        </div>
+        <div class="glossary-item">
+          <div class="glossary-term">Agent Skill</div>
+          <div class="glossary-def">Agent 处理特定类型事务的任务能力包（方法、判断框架、流程经验），不同于传统 RPG 技能树</div>
+        </div>
+        <div class="glossary-item">
+          <div class="glossary-term">四变量</div>
+          <div class="glossary-def">金钱 / 声望 / 荣誉 / 关系——源自骑砍的核心策略维度</div>
+        </div>
+        <div class="glossary-item">
+          <div class="glossary-term">请示</div>
+          <div class="glossary-def">Agent 在关键决策点暂停执行、向玩家提交决策包等待审批的机制</div>
+        </div>
+        <div class="glossary-item">
+          <div class="glossary-term">Runtime</div>
+          <div class="glossary-def">服务器端的行动校验与结算引擎，是所有 Agent 行动的权威执行者</div>
+        </div>
+        <div class="glossary-item">
+          <div class="glossary-term">命名 NPC</div>
+          <div class="glossary-def">有唯一名字、性格、目标和派系身份的完整 Agent 实体，由服务端 LLM 驱动</div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+</div>
+
+<script>
+  // Active nav on scroll
+  const sections = document.querySelectorAll('[id]');
+  const navItems = document.querySelectorAll('.nav-item');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navItems.forEach(n => n.classList.remove('active'));
+        const match = document.querySelector(`.nav-item[href="#${e.target.id}"]`);
+        if (match) match.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => obs.observe(s));
+</script>
+
+</body>
+</html>
