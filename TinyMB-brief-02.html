@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TinyMB — 产品形态</title>
+<title>Trumen_AgentCraft — 增强一·游戏性</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -12,7 +12,7 @@
   --border:#2a2d38;--border-l:#363a48;
   --gold:#c9a050;--gold-dim:#a87e40;--gold-glow:rgba(201,160,80,.11);
   --red-dim:rgba(200,80,80,.08);--red-border:rgba(200,80,80,.22);
-  --teal:#5b9ea8;--teal-dim:rgba(91,158,168,.08);--teal-border:rgba(91,158,168,.28);
+  --teal:#5b9ea8;
   --text:#d8dae2;--text-dim:#9ea2af;--text-faint:#818898;
   --radius:6px;--radius-lg:10px;
 }
@@ -24,6 +24,8 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC',sans-seri
 .skip-link{position:absolute;top:-100%;left:8px;background:var(--gold);color:#0c0d10;padding:8px 16px;border-radius:0 0 var(--radius) var(--radius);font-size:13px;font-weight:600;text-decoration:none;z-index:9999;transition:top .15s}
 .skip-link:focus{top:0}
 .layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh;max-width:1200px;margin:0 auto}
+
+/* ── SIDEBAR ── */
 .sidebar{position:sticky;top:0;height:100vh;padding:40px 0 32px;display:flex;flex-direction:column;border-right:1px solid var(--border);overflow-y:auto}
 .sidebar-inner{padding:0 24px}
 .sidebar-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--gold);letter-spacing:.03em;line-height:1.1;margin-bottom:4px}
@@ -39,20 +41,57 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC',sans-seri
 .sub-link:hover{color:var(--text-dim)}
 .sub-link.active{color:var(--gold-dim);font-weight:500}
 .sidebar-divider{height:1px;background:var(--border);margin:8px 24px 12px}
-.sidebar-meta{margin-top:auto;padding:20px 24px 0;border-top:1px solid var(--border);font-size:12px;color:var(--text-faint);line-height:1.8}
+.sidebar-meta{margin-top:auto;padding:20px 24px 0;border-top:1px solid var(--border);font-size:12px;font-weight:400;color:var(--text-faint);line-height:1.8}
 .glossary-link{display:block;padding:8px 24px;font-size:13px;font-weight:500;color:var(--text-faint);text-decoration:none;transition:color .15s}
 .glossary-link:hover{color:var(--text-dim)}
+
+/* ── MAIN ── */
 .main{padding:56px 64px 100px 64px;max-width:880px}
 .page-header{margin-bottom:48px;padding-bottom:36px;border-bottom:1px solid var(--border)}
 .page-header-eyebrow{font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:12px}
 .page-header-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:#edeef2;line-height:1.15;letter-spacing:.01em;margin-bottom:12px}
 .page-header-desc{font-size:14px;color:var(--text-dim);max-width:560px;line-height:1.85}
+
+/* Sections */
 .section{margin-bottom:56px}
+.section-header{display:flex;align-items:baseline;gap:12px;margin-bottom:28px}
+.section-num{font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--gold-dim);letter-spacing:.08em;min-width:20px}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:#edeef2;letter-spacing:.01em}
 .subsection{margin-bottom:40px}
 .subsection-title{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);margin-bottom:16px;display:flex;align-items:center;gap:10px}
 .subsection-title::after{content:'';flex:1;height:1px;background:var(--border)}
 p{margin-bottom:14px;color:var(--text)}
 p:last-child{margin-bottom:0}
+
+/* Goal block */
+.goal-block{background:rgba(201,160,80,.06);border:1px solid rgba(201,160,80,.2);border-radius:var(--radius-lg);padding:18px 22px;margin-bottom:24px;font-size:14px;line-height:1.85}
+.goal-label{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:8px}
+
+/* Argument blocks */
+.arg-list{display:flex;flex-direction:column;gap:14px;margin-top:20px}
+.arg-block{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.arg-header{display:flex;align-items:center;gap:14px;padding:14px 20px;background:var(--bg-card-2);border-bottom:1px solid var(--border)}
+.arg-label{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-dim)}
+.arg-title{font-size:14px;font-weight:600;color:#edeef2}
+.arg-body{padding:16px 20px;font-size:14px;color:var(--text-dim);line-height:1.85}
+.arg-body strong{color:var(--text);font-weight:500}
+.arg-body p{margin-bottom:10px}
+.arg-body p:last-child{margin-bottom:0}
+
+/* Isomorphism mini-table */
+.iso-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13.5px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.iso-table thead tr{background:var(--bg-card-2)}
+.iso-table thead th{padding:8px 14px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);text-align:left}
+.iso-table tbody tr{border-top:1px solid var(--border)}
+.iso-table tbody td{padding:9px 14px;vertical-align:top;line-height:1.65}
+.iso-table tbody td:first-child{color:var(--text-dim);width:50%}
+.iso-table tbody td:last-child{color:var(--gold);font-weight:500}
+
+/* Agent capability list */
+.coverage-list{list-style:none;margin-top:12px;display:flex;flex-direction:column;gap:6px}
+.coverage-list li{display:flex;align-items:baseline;gap:12px;padding:9px 14px;background:var(--bg-card-2);border:1px solid var(--border);border-radius:var(--radius);font-size:13.5px;line-height:1.6}
+.cl-badge{flex-shrink:0;font-size:12px;font-weight:600;color:var(--gold);white-space:nowrap;min-width:72px}
+.cl-desc{color:var(--text-dim)}
 
 /* Enhancement cards */
 .enhancement-card{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:16px;background:var(--bg-card)}
@@ -64,35 +103,44 @@ p:last-child{margin-bottom:0}
 .enhancement-body p{margin-bottom:12px}
 .enhancement-body strong{color:#edeef2;font-weight:600}
 
-/* Mode pills */
-.mode-block{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
-.mode-pill{padding:14px 16px;border-radius:var(--radius);font-size:13.5px;line-height:1.75}
-.mode-pill-label{font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
-.mode-high{background:var(--teal-dim);border:1px solid var(--teal-border)}
-.mode-high .mode-pill-label{color:var(--teal)}
-.mode-low{background:rgba(120,120,160,.07);border:1px solid rgba(120,120,160,.2)}
-.mode-low .mode-pill-label{color:#9090c0}
+/* Agent behavior grid */
+.behavior-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.behavior-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px}
+.behavior-cat{font-size:13px;font-weight:600;color:var(--gold);margin-bottom:6px}
+.behavior-desc{font-size:13.5px;color:var(--text-dim);line-height:1.75}
 
-/* Experience block */
-.exp-block{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:18px}
-.exp-inherited{padding:18px 22px;background:rgba(91,158,168,.06);border-bottom:1px solid var(--border);font-size:14px;line-height:1.85}
-.exp-inherited-label{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);margin-bottom:7px}
-.exp-table{width:100%;border-collapse:collapse}
-.exp-table tr{border-top:1px solid var(--border)}
-.exp-table td,.exp-table th{padding:13px 18px;font-size:14px;vertical-align:top}
-.exp-table th{width:160px;font-size:12.5px;font-weight:600;color:var(--gold);background:var(--gold-glow);border-right:1px solid var(--border);white-space:nowrap;text-align:left}
-.exp-table td{color:var(--text-dim)}
-.summary-bar{background:var(--bg-card-2);border:1px solid var(--border);border-radius:var(--radius);padding:13px 18px;font-size:14px;color:var(--text-dim);margin-top:14px;display:flex;gap:10px;align-items:flex-start}
-.summary-bar-icon{color:var(--gold);flex-shrink:0;margin-top:2px}
+/* Design block */
+.design-block{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:32px;background:var(--bg-card)}
+.design-block-header{padding:14px 22px;background:var(--bg-card-2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.design-block-tag{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dim);border:1px solid var(--gold-dim);padding:2px 10px;border-radius:12px}
+.design-block-title{font-size:14px;font-weight:600;color:#edeef2}
+.design-block-body{padding:20px 22px}
+
+/* Compare table */
+.cmp-table{width:100%;border-collapse:collapse;margin:14px 0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;font-size:14px}
+.cmp-table thead tr{background:var(--bg-card-2)}
+.cmp-table thead th{padding:9px 14px;font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text-faint);text-align:left}
+.cmp-table thead th:nth-child(2){color:#c06060}
+.cmp-table thead th:nth-child(3){color:var(--gold)}
+.cmp-table tbody tr{border-top:1px solid var(--border)}
+.cmp-table tbody td,.cmp-table tbody th{padding:11px 14px;vertical-align:top;line-height:1.75}
+.cmp-table tbody th{font-size:12.5px;font-weight:600;color:var(--text-faint);white-space:nowrap;background:var(--bg-card-2);border-right:1px solid var(--border);text-align:left}
+.cmp-table tbody td:nth-child(2){color:#b07070;background:var(--red-dim);border-left:1px solid var(--red-border)}
+.cmp-table tbody td:nth-child(3){color:var(--text);background:var(--gold-glow);border-left:1px solid rgba(201,160,80,.15)}
+
+/* Reason block */
+.reason-block{background:var(--bg-card-2);border-left:2px solid var(--border-l);padding:13px 16px;border-radius:0 var(--radius) var(--radius) 0;font-size:14px;color:var(--text-dim);margin:10px 0;line-height:1.85}
+.reason-label{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);margin-bottom:5px}
 
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border-l);border-radius:2px}
+
 @media(max-width:860px){
   .layout{grid-template-columns:1fr}
   .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
   .main{padding:32px 24px 60px}
-  .mode-block{grid-template-columns:1fr}
+  .behavior-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -102,7 +150,7 @@ p:last-child{margin-bottom:0}
 
 <nav class="sidebar" aria-label="文档导航">
   <div class="sidebar-inner">
-    <div class="sidebar-logo">TinyMB</div>
+    <div class="sidebar-logo">Trumen_AgentCraft</div>
     <div class="sidebar-sub">Trumen P1 产品构思</div>
   </div>
   <div class="page-nav">
@@ -110,37 +158,124 @@ p:last-child{margin-bottom:0}
       <span class="page-link-num">①</span><span>概览</span>
     </a>
     <a class="page-link active" href="TinyMB-brief-02.html">
-      <span class="page-link-num">②</span><span>产品形态</span>
+      <span class="page-link-num">②</span><span>增强一·游戏性</span>
     </a>
     <div class="sub-nav">
-      <a class="sub-link" href="#form">三项增强</a>
-      <a class="sub-link" href="#experience">预期的游戏体验</a>
+      <a class="sub-link" href="#prototype">选取成熟对标原型</a>
+      <a class="sub-link" href="#implementation">MVP 中的具体落地</a>
+      <a class="sub-link" href="#validation">验证方式</a>
     </div>
     <a class="page-link" href="TinyMB-brief-03.html">
-      <span class="page-link-num">③</span><span>三项增强的设计展开</span>
+      <span class="page-link-num">③</span><span>增强二·参与</span>
     </a>
     <a class="page-link" href="TinyMB-brief-04.html">
-      <span class="page-link-num">④</span><span>与第二阶段的关联</span>
+      <span class="page-link-num">④</span><span>增强三·AI差异</span>
+    </a>
+    <a class="page-link" href="TinyMB-brief-05.html">
+      <span class="page-link-num">⑤</span><span>与第二阶段的关联</span>
+    </a>
+    <a class="page-link" href="TinyMB-brief-06.html">
+      <span class="page-link-num">⑥</span><span>附录·玩法框架选型</span>
     </a>
   </div>
   <div class="sidebar-divider"></div>
-  <a class="glossary-link" href="TinyMB-brief-04.html#glossary">附：关键术语速查</a>
-  <div class="sidebar-meta">草稿 v0.3 · 2026-04-15<br>面向已了解 Trumen 愿景的同事</div>
+  <a class="glossary-link" href="TinyMB-brief-05.html#glossary">附：关键术语速查</a>
+  <div class="sidebar-meta">草稿 v0.4 · 2026-04-16<br>面向已了解 Trumen 愿景的同事</div>
 </nav>
 
 <main class="main" id="main-content">
 
   <div class="page-header">
-    <div class="page-header-eyebrow">② 产品形态</div>
-    <h1 class="page-header-title">三项增强与预期体验</h1>
-    <p class="page-header-desc">概览页列出的三个空白（规则 / 参与 / AI 差异），对应以下三项增强。每张卡片说明这项增强做了什么、带来什么体验。</p>
+    <div class="page-header-eyebrow">② 增强一 · 游戏性</div>
+    <h1 class="page-header-title">增强一 · 游戏性</h1>
+    <p class="page-header-desc">如何在 Trumen_AgentCraft 的 MVP 中实现游戏性增强——选取对标原型、落地规则设计、验证方案。</p>
   </div>
 
-  <section class="section" id="form">
-    <div class="subsection">
-      <h2 class="subsection-title">三项增强</h2>
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- Section 一：选取成熟对标原型                      -->
+  <!-- ════════════════════════════════════════════════ -->
+  <section class="section" id="prototype">
+    <div class="section-header">
+      <span class="section-num">一</span>
+      <h2 class="section-title">选取成熟对标原型</h2>
+    </div>
 
-      <!-- Enhancement 1 -->
+    <div class="goal-block">
+      <div class="goal-label">升级目标</div>
+      实现三项增强的前提是升级 AIvilization 的玩法框架：<strong style="color:#edeef2">给世界加上目标感和更丰富的决策、博弈空间</strong>。
+    </div>
+
+    <p style="color:var(--text-dim);margin:0 0 20px;">以《骑马与砍杀》城镇玩法为原型制作第一版 MVP，探索三项增强的实现方式、验证各自的效果。</p>
+
+    <div class="arg-list">
+
+      <div class="arg-block">
+        <div class="arg-header">
+          <span class="arg-label">论据 1</span>
+          <span class="arg-title">架构天然同构——不需要改造 Agent 的基本行为模式</span>
+        </div>
+        <div class="arg-body">
+          <p>骑砍本身就是「角色在持续运转的沙盒世界中生活和闯荡」的游戏——这与 AIvilization「Agent 在持续运转的世界中生活」的架构<strong>天然同构</strong>。把 AIvilization 的经济沙盒世界换成骑砍的城邦世界，Agent 的行为模式基本不变，只是规则和目标换了。</p>
+          <table class="iso-table" aria-label="AIvilization 与骑砍世界架构对照">
+            <thead><tr><th scope="col">AIvilization</th><th scope="col">骑砍世界（Trumen_AgentCraft）</th></tr></thead>
+            <tbody>
+              <tr><td>Agent 在小镇中生活的居民</td><td>在石冠城中闯荡的外来者</td></tr>
+              <tr><td>长期目标：赚钱 / 升职</td><td>长期目标：加入派系 / 积累声望 / 争夺权力</td></tr>
+              <tr><td>日常：工作、购物、社交</td><td>日常：行军、补给、任务、社交</td></tr>
+              <tr><td>世界自主运行：其他 Agent 工作和社交</td><td>世界自主运行：NPC 巡视、交易、结盟、施压</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="arg-block">
+        <div class="arg-header">
+          <span class="arg-label">论据 2</span>
+          <span class="arg-title">22 年成熟规则——可直接拿来精简，不需从零设计</span>
+        </div>
+        <div class="arg-body">
+          <p>骑砍系列有 22 年历史，核心循环经大量玩家验证。战团的 mod 生态证明其规则可以被大幅精简到极小规模仍能成立。这是 MVP 阶段的关键优势——<strong>不需要从零设计游戏规则</strong>，只需要提取和裁剪。</p>
+        </div>
+      </div>
+
+      <div class="arg-block">
+        <div class="arg-header">
+          <span class="arg-label">论据 3</span>
+          <span class="arg-title">与多种主要 Agent 能力高度适配，能覆盖并验证多个核心维度</span>
+        </div>
+        <div class="arg-body">
+          <p>骑砍玩法的核心循环能很好地覆盖和利用以下多种 Agent 主要能力——这意味着在这个框架里跑起来的 Agent，可以同时在多个维度上产出有价值的验证数据：</p>
+          <ul class="coverage-list" role="list" aria-label="骑砍与多种 Agent 能力的适配">
+            <li><span class="cl-badge">文本会话</span><span class="cl-desc">与领主谈判、在宴会上拉拢派系、向玩家汇报局势分析</span></li>
+            <li><span class="cl-badge">任务分解</span><span class="cl-desc">「加入派系」自动拆解为：赚钱 → 招兵 → 提声望 → 争取封地</span></li>
+            <li><span class="cl-badge">持久记忆</span><span class="cl-desc">Agent 记住对每个 NPC 的恩怨经历，持续影响后续社交和决策</span></li>
+            <li><span class="cl-badge">自主规划</span><span class="cl-desc">无明确指令时，Agent 自主制定并推进多步骤的行动计划</span></li>
+            <li><span class="cl-badge">多 Agent 交互</span><span class="cl-desc">NPC 之间自主巡逻、谈判、结盟，世界格局在互动中演化</span></li>
+            <li><span class="cl-badge">环境感知决策</span><span class="cl-desc">同时评估金钱 / 声望 / 关系 / 派系压力，权衡当前最优行动</span></li>
+            <li><span class="cl-badge">团队编排</span><span class="cl-desc">招募不同专长的同伴，分配任务，Agent 协调执行并汇报进展</span></li>
+            <li><span class="cl-badge">反思自修正</span><span class="cl-desc">行动受阻时主动调整计划，推敲过程写入日志供玩家回看</span></li>
+            <li><span class="cl-badge">人机协作</span><span class="cl-desc">日常事务自主处理，关键决策（站队 / 大额投入）主动请示玩家</span></li>
+            <li><span class="cl-badge">人设定制</span><span class="cl-desc">「好战贵族」vs「精明商人」vs「浪荡剑客」→ 行为方式持续分化</span></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- Section 二：MVP 中的具体落地                      -->
+  <!-- ════════════════════════════════════════════════ -->
+  <section class="section" id="implementation">
+    <div class="section-header">
+      <span class="section-num">二</span>
+      <h2 class="section-title">MVP 中的具体落地</h2>
+    </div>
+
+    <!-- 增强一卡片 -->
+    <div class="subsection">
+      <h3 class="subsection-title">有规则的活世界</h3>
+
       <div class="enhancement-card">
         <div class="enhancement-header">
           <div class="enhancement-num">一</div>
@@ -148,7 +283,7 @@ p:last-child{margin-bottom:0}
         </div>
         <div class="enhancement-baseline">
           <span aria-hidden="true">✕</span>
-          <span>AIvilization 的行动没有结构化后果，Agent 的决策好坏无从衡量。</span>
+          <span>AIvilization 目标单一、玩法逻辑简单，游戏性与深度不足。</span>
         </div>
         <div class="enhancement-body">
           <p>一座名为<strong>「石冠城」</strong>的自治城邦持续运转。三大派系——<strong>守备军团、商盟、平民公社</strong>——围绕税收、粮价、安全互相牵制。6 名有独立性格和目标的命名 NPC 各自行动：在城主堡巡视、在市集做买卖、在酒馆交换情报、在农庄护理民生。</p>
@@ -190,84 +325,131 @@ p:last-child{margin-bottom:0}
           <p>每个行动都挂着代价：<strong>帮一方就会得罪另一方</strong>，接了高回报的灰色交易就要承担荣誉下降的后果，随从要吃饭要发饷，不维护就会流失。金钱、声望、荣誉、关系四个变量构成持续的取舍压力。</p>
         </div>
       </div>
+    </div>
 
-      <!-- Enhancement 2 - updated title -->
-      <div class="enhancement-card">
-        <div class="enhancement-header">
-          <div class="enhancement-num">二</div>
-          <div class="enhancement-name">参与深度可调：低频放置 ↔ 实时协作</div>
-        </div>
-        <div class="enhancement-baseline">
-          <span aria-hidden="true">✕</span>
-          <span>AIvilization 只有一种节奏——每隔几小时写 prompt 然后旁观——玩家参与度低且参与方式单一。</span>
-        </div>
-        <div class="enhancement-body">
-          <p>TinyMB 把参与频谱从「只有低频放置」扩展为「低频到实时均可」，两种模式随时切换：</p>
-          <div class="mode-block">
-            <div class="mode-pill mode-high">
-              <div class="mode-pill-label">实时协作模式（类似用 Claude Code）</div>
-              玩家和 Agent 实时对话协作。每步行动 10-30 秒一轮即时反馈，遇到重大决策（站队、高风险）Agent 暂停请示，玩家审查局面后拍板决定。
-            </div>
-            <div class="mode-pill mode-low">
-              <div class="mode-pill-label">低频放置模式（类似 AIvilization 挂机）</div>
-              玩家设定长期方针（经济优先级 / 派系倾向 / 风险偏好），Agent 自主行动，玩家隔一段时间回来翻日志、观察世界变化。
-            </div>
-          </div>
-        </div>
+    <!-- 石冠城区域地图 + Agent 行为模式 -->
+    <div class="subsection">
+      <h3 class="subsection-title">石冠城区域与 Agent 行为模式</h3>
+
+      <p style="color:var(--text-dim);margin-bottom:20px;">在石冠城的规则框架下，Agent 跑完整的感知→思考→决策→行动循环。以下是石冠城的区域布局和 Agent 的日常行为覆盖范围：</p>
+
+      <!-- 石冠城区域地图 -->
+      <div style="margin:0 0 28px;display:flex;justify-content:center">
+        <svg viewBox="0 0 560 370" width="560" height="370" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="石冠城四区域布局示意图：城主堡、市集区、酒馆区、外城农庄，以及区域间移动耗时">
+          <!-- 背景城墙暗示 -->
+          <rect x="60" y="30" width="440" height="260" rx="12" fill="none" stroke="#2a2d38" stroke-width="1" stroke-dasharray="8,6"/>
+          <text x="280" y="20" fill="#363a48" font-size="10" font-family="Noto Sans SC,sans-serif" text-anchor="middle" letter-spacing=".1em">—— 石 冠 城 ——</text>
+          <!-- 城主堡 (左上) -->
+          <rect x="80" y="52" width="180" height="90" rx="8" fill="rgba(91,158,168,.08)" stroke="#5b9ea8" stroke-width="1.5"/>
+          <text x="170" y="80" fill="#5b9ea8" font-size="14" font-weight="600" font-family="Noto Sans SC,sans-serif" text-anchor="middle">城主堡</text>
+          <text x="170" y="100" fill="#818898" font-size="11" font-family="Noto Sans SC,sans-serif" text-anchor="middle">觐见权贵 · 请求裁决</text>
+          <text x="170" y="118" fill="#5b9ea8" font-size="10" font-family="Noto Sans SC,sans-serif" text-anchor="middle" opacity=".7">铁壁·卡尔 / 灰鸦·莫恩</text>
+          <!-- 市集区 (右上) -->
+          <rect x="300" y="52" width="180" height="90" rx="8" fill="rgba(201,160,80,.08)" stroke="#c9a050" stroke-width="1.5"/>
+          <text x="390" y="80" fill="#c9a050" font-size="14" font-weight="600" font-family="Noto Sans SC,sans-serif" text-anchor="middle">市集区</text>
+          <text x="390" y="100" fill="#818898" font-size="11" font-family="Noto Sans SC,sans-serif" text-anchor="middle">买卖商品 · 接行会任务</text>
+          <text x="390" y="118" fill="#c9a050" font-size="10" font-family="Noto Sans SC,sans-serif" text-anchor="middle" opacity=".7">金秤·杜兰 / 黑帐·维克</text>
+          <!-- 酒馆区 (左下) -->
+          <rect x="80" y="180" width="180" height="90" rx="8" fill="rgba(180,140,200,.08)" stroke="#9080b0" stroke-width="1.5"/>
+          <text x="170" y="208" fill="#9080b0" font-size="14" font-weight="600" font-family="Noto Sans SC,sans-serif" text-anchor="middle">酒馆区</text>
+          <text x="170" y="228" fill="#818898" font-size="11" font-family="Noto Sans SC,sans-serif" text-anchor="middle">招募佣兵 · 打听消息</text>
+          <text x="170" y="246" fill="#9080b0" font-size="10" font-family="Noto Sans SC,sans-serif" text-anchor="middle" opacity=".7">老酒·加利（中立信息枢纽）</text>
+          <!-- 外城农庄 (右下, 城墙外) -->
+          <rect x="300" y="180" width="180" height="90" rx="8" fill="rgba(120,180,100,.07)" stroke="#7ab464" stroke-width="1.5"/>
+          <text x="390" y="208" fill="#7ab464" font-size="14" font-weight="600" font-family="Noto Sans SC,sans-serif" text-anchor="middle">外城农庄</text>
+          <text x="390" y="228" fill="#818898" font-size="11" font-family="Noto Sans SC,sans-serif" text-anchor="middle">招募农兵 · 购买粮食</text>
+          <text x="390" y="246" fill="#7ab464" font-size="10" font-family="Noto Sans SC,sans-serif" text-anchor="middle" opacity=".7">老橡·赫尔曼</text>
+          <!-- 移动耗时标注：城主堡 ↔ 市集 -->
+          <line x1="262" y1="92" x2="298" y2="92" stroke="#363a48" stroke-width="1"/>
+          <text x="280" y="85" fill="#818898" font-size="10" font-family="Noto Sans SC,sans-serif" text-anchor="middle">10min</text>
+          <!-- 移动耗时标注：城主堡 ↔ 酒馆 -->
+          <line x1="170" y1="144" x2="170" y2="178" stroke="#363a48" stroke-width="1"/>
+          <text x="184" y="165" fill="#818898" font-size="10" font-family="Noto Sans SC,sans-serif" text-anchor="start">5min</text>
+          <!-- 移动耗时标注：市集 ↔ 农庄 -->
+          <line x1="390" y1="144" x2="390" y2="178" stroke="#363a48" stroke-width="1"/>
+          <text x="404" y="165" fill="#818898" font-size="10" font-family="Noto Sans SC,sans-serif" text-anchor="start">10min</text>
+          <!-- 移动耗时标注：酒馆 ↔ 农庄 -->
+          <line x1="262" y1="222" x2="298" y2="222" stroke="#363a48" stroke-width="1"/>
+          <text x="280" y="215" fill="#818898" font-size="10" font-family="Noto Sans SC,sans-serif" text-anchor="middle">15min</text>
+          <!-- 对角线移动：城主堡 ↔ 农庄 (最远) -->
+          <line x1="258" y1="130" x2="306" y2="186" stroke="#363a48" stroke-width="1" stroke-dasharray="4,4"/>
+          <text x="298" y="154" fill="#c08080" font-size="10" font-family="Noto Sans SC,sans-serif" text-anchor="start">20min</text>
+          <!-- 图例 -->
+          <text x="280" y="340" fill="#818898" font-size="11" font-family="Noto Sans SC,sans-serif" text-anchor="middle">区域间移动耗时迫使 Agent 提前规划路线，同一区域内优先处理多件事务</text>
+        </svg>
       </div>
 
-      <!-- Enhancement 3 - updated with OpenClaw analogy -->
-      <div class="enhancement-card">
-        <div class="enhancement-header">
-          <div class="enhancement-num">三</div>
-          <div class="enhancement-name">AI 脑子可选可感知</div>
+      <div class="behavior-grid">
+        <div class="behavior-card">
+          <div class="behavior-cat">日常移动与补给</div>
+          <div class="behavior-desc">在城主堡、市集、酒馆、农庄之间移动，补充粮食与军饷，维持随从队伍的运转</div>
         </div>
-        <div class="enhancement-baseline">
-          <span aria-hidden="true">✕</span>
-          <span>AIvilization 中所有 Agent 共用服务器端同一个模型，用户无感知、无选择权。</span>
+        <div class="behavior-card">
+          <div class="behavior-cat">经济与任务</div>
+          <div class="behavior-desc">买卖货物赚差价、接受行会或 NPC 的委托任务、管理金钱收支与资源调配</div>
         </div>
-        <div class="enhancement-body">
-          <p>就像 OpenClaw 接入不同基模时表现出明显不同的对话质量和推理深度，TinyMB 中的玩家 Agent 同样由一个<strong>基础大语言模型（基模）</strong>直接驱动。基模决定的是 Agent 的<strong>智力水平</strong>——同样的任务指令，接入更强基模的 Agent 会做出更深入的局面分析、更灵活的路径规划、更合理的取舍判断。</p>
-          <p>这个差异在 TinyMB 中对玩家<strong>可感知</strong>：你能在请示包和行动日志里看到 Agent 怎么思考、为什么选这条路、在哪里判断力不足。基模不影响角色是谁、遵守什么规则（这些由官方系统 prompt 锁定），它影响的是「脑子好不好使」。</p>
-          <p>这是首轮原型要显式验证的核心变量：同等任务条件下，不同基模产生什么样的差异？</p>
+        <div class="behavior-card">
+          <div class="behavior-cat">社交与政治</div>
+          <div class="behavior-desc">拜访派系领袖、参加宴会、打听情报、在三派系之间权衡站队或保持中立</div>
+        </div>
+        <div class="behavior-card">
+          <div class="behavior-cat">冲突与防御</div>
+          <div class="behavior-desc">在任务执行中遭遇风险时自动结算冲突后果，护送、巡逻、驱赶威胁</div>
+        </div>
+        <div class="behavior-card">
+          <div class="behavior-cat">请示与协作</div>
+          <div class="behavior-desc">日常事务自主处理，遇到重大决策（明确站队、高风险行动、大额投入）主动向玩家请示并等待拍板</div>
+        </div>
+        <div class="behavior-card">
+          <div class="behavior-cat">成长与进阶</div>
+          <div class="behavior-desc">声望、荣誉与关系的积累逐步解锁新的行动路径——从外来者到派系帮手，再到核心成员</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 设计展开对比表 -->
+    <div class="subsection">
+      <h3 class="subsection-title">设计维度对比</h3>
+
+      <div class="design-block">
+        <div class="design-block-header">
+          <span class="design-block-tag">增强一</span>
+          <span class="design-block-title">有规则的活世界——从无结构沙盒到有规则博弈</span>
+        </div>
+        <div class="design-block-body">
+          <table class="cmp-table">
+            <thead><tr><th scope="col">维度</th><th scope="col">AIvilization</th><th scope="col">Trumen_AgentCraft</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">玩法骨架</th><td>无预设目标和博弈结构，Agent 自由行动</td><td>骑砍四变量（金钱 / 声望 / 荣誉 / 关系）+ 三派系博弈 + 维护压力</td></tr>
+              <tr><th scope="row">行动后果</th><td>后果分散，无结构化取舍</td><td>帮一方得罪另一方、资源有限必须取舍、站队有不可逆后果</td></tr>
+              <tr><th scope="row">空间约束</th><td>无移动成本</td><td>区域间移动耗时 5-20 分钟，迫使规划连续事务</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section" id="experience">
-    <div class="subsection">
-      <h2 class="subsection-title">预期的游戏体验</h2>
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- Section 三：验证方式                              -->
+  <!-- ════════════════════════════════════════════════ -->
+  <section class="section" id="validation">
+    <div class="section-header">
+      <span class="section-num">三</span>
+      <h2 class="section-title">验证方式</h2>
+    </div>
 
-      <div class="exp-block">
-        <div class="exp-inherited">
-          <div class="exp-inherited-label">继承自 AIvilization 的底色</div>
-          世界不因玩家下线而暂停，NPC 有自己的节奏，多个 Agent 之间产生超出预设的涌现行为。玩家上线时发现世界已经变了——有人暗中交换了情报，派系力量对比悄然移动。这种「世界活着」的感受是 TinyMB 继承的核心底色。
-        </div>
-        <div style="padding:10px 22px 4px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);font-weight:600;">三项增强带来的新体验</div>
-        <table class="exp-table" aria-label="三项增强带来的新体验">
-          <thead class="sr-only"><tr><th scope="col">增强</th><th scope="col">体验变化</th></tr></thead>
-          <tbody>
-            <tr>
-              <th scope="row">有规则的活世界</th>
-              <td>不是「看 Agent 做事」，而是「承担后果、据此调整方向」——帮了守备军团可能得罪商盟，接了灰色交易可能失去正直 NPC 的信任</td>
-            </tr>
-            <tr>
-              <th scope="row">参与深度可调</th>
-              <td>参与方式由玩家自己掌控：有时间就实时对话协作（10-30 秒一轮反馈 + 关键节点拍板），没空就切回挂机方针驱动，不再被锁死在「写完 prompt 只能等」</td>
-            </tr>
-            <tr>
-              <th scope="row">AI 脑子可选</th>
-              <td>换个基模，同样的任务可能有明显不同的执行路径和结果——这个差异可观察、可对比，是首轮验证要回答的核心问题</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="summary-bar">
-        <span class="summary-bar-icon" aria-hidden="true">◆</span>
-        <span><strong style="color:var(--text)">一句话总结：</strong>AIvilization 的活世界底色 + 骑砍式规则带来的有后果取舍 + 从挂机放置到实时协作的完整参与频谱 + 基模选择带来的可感知 AI 差异。</span>
-      </div>
+    <div class="reason-block">
+      <div class="reason-label">验证假设</div>
+      引入多维目标和博弈规则后，Agent 行为多样性和玩家主动介入的动力会显著提升——目标丰富、变化多、路径不固定时，玩家和 Agent 都有更多有意义的决策空间。
+    </div>
+    <div class="reason-block">
+      <div class="reason-label">观察指标</div>
+      Agent 是否在四变量（金钱 / 声望 / 荣誉 / 关系）间做出有意义的取舍；不同人设的 Agent 是否产生不同策略选择；玩家是否主动调整方向而非只是旁观。
+    </div>
+    <div class="reason-block">
+      <div class="reason-label">成功标准</div>
+      Agent 行为不收敛到单一最优路径；世界状态在多轮运行后出现分化而非趋同；玩家能感受到「我的选择真的改变了局势走向」。
     </div>
   </section>
 

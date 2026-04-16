@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TinyMB — 概览</title>
+<title>Trumen_AgentCraft — 概览</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -12,7 +12,7 @@
   --border:#2a2d38;--border-l:#363a48;
   --gold:#c9a050;--gold-dim:#a87e40;--gold-glow:rgba(201,160,80,.11);
   --red-dim:rgba(200,80,80,.08);--red-border:rgba(200,80,80,.22);
-  --teal:#5b9ea8;
+  --teal:#5b9ea8;--teal-dim:rgba(91,158,168,.08);--teal-border:rgba(91,158,168,.28);
   --text:#d8dae2;--text-dim:#9ea2af;--text-faint:#818898;
   --radius:6px;--radius-lg:10px;
 }
@@ -59,9 +59,6 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC',sans-seri
 .section-header{display:flex;align-items:baseline;gap:12px;margin-bottom:28px}
 .section-num{font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--gold-dim);letter-spacing:.08em;min-width:20px}
 .section-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:#edeef2;letter-spacing:.01em}
-.subsection{margin-bottom:40px}
-.subsection-title{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);margin-bottom:16px;display:flex;align-items:center;gap:10px}
-.subsection-title::after{content:'';flex:1;height:1px;background:var(--border)}
 p{margin-bottom:14px;color:var(--text)}
 p:last-child{margin-bottom:0}
 
@@ -82,51 +79,26 @@ p:last-child{margin-bottom:0}
 .plus-table tbody td:nth-child(2){background:var(--red-dim);color:#c08080;border-left:1px solid var(--red-border)}
 .plus-table tbody td:nth-child(3){background:var(--gold-glow);color:var(--text);border-left:1px solid rgba(201,160,80,.18)}
 
-/* Argument blocks for MB rationale */
-.arg-list{display:flex;flex-direction:column;gap:14px;margin-top:20px}
-.arg-block{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
-.arg-header{display:flex;align-items:center;gap:14px;padding:14px 20px;background:var(--bg-card-2);border-bottom:1px solid var(--border)}
-.arg-label{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-dim)}
-.arg-title{font-size:14px;font-weight:600;color:#edeef2}
-.arg-body{padding:16px 20px;font-size:14px;color:var(--text-dim);line-height:1.85}
-.arg-body strong{color:var(--text);font-weight:500}
-.arg-body p{margin-bottom:10px}
-.arg-body p:last-child{margin-bottom:0}
-
-/* Isomorphism mini-table */
-.iso-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13.5px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
-.iso-table thead tr{background:var(--bg-card-2)}
-.iso-table thead th{padding:8px 14px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-faint);text-align:left}
-.iso-table tbody tr{border-top:1px solid var(--border)}
-.iso-table tbody td{padding:9px 14px;vertical-align:top;line-height:1.65}
-.iso-table tbody td:first-child{color:var(--text-dim);width:50%}
-.iso-table tbody td:last-child{color:var(--gold);font-weight:500}
-
-/* Agent capability list */
-.coverage-list{list-style:none;margin-top:12px;display:flex;flex-direction:column;gap:6px}
-.coverage-list li{display:flex;align-items:baseline;gap:12px;padding:9px 14px;background:var(--bg-card-2);border:1px solid var(--border);border-radius:var(--radius);font-size:13.5px;line-height:1.6}
-.cl-badge{flex-shrink:0;font-size:12px;font-weight:600;color:var(--gold);white-space:nowrap;min-width:72px}
-.cl-desc{color:var(--text-dim)}
-
-/* Goal block */
-.goal-block{background:rgba(201,160,80,.06);border:1px solid rgba(201,160,80,.2);border-radius:var(--radius-lg);padding:18px 22px;margin-bottom:24px;font-size:14px;line-height:1.85}
-.goal-label{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:8px}
+/* Experience block */
+.exp-block{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:18px}
+.exp-inherited{padding:18px 22px;background:rgba(91,158,168,.06);border-bottom:1px solid var(--border);font-size:14px;line-height:1.85}
+.exp-inherited-label{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);margin-bottom:7px}
+.exp-table{width:100%;border-collapse:collapse}
+.exp-table tr{border-top:1px solid var(--border)}
+.exp-table td,.exp-table th{padding:13px 18px;font-size:14px;vertical-align:top}
+.exp-table th{width:160px;font-size:12.5px;font-weight:600;color:var(--gold);background:var(--gold-glow);border-right:1px solid var(--border);white-space:nowrap;text-align:left}
+.exp-table td{color:var(--text-dim)}
+.summary-bar{background:var(--bg-card-2);border:1px solid var(--border);border-radius:var(--radius);padding:13px 18px;font-size:14px;color:var(--text-dim);margin-top:14px;display:flex;gap:10px;align-items:flex-start}
+.summary-bar-icon{color:var(--gold);flex-shrink:0;margin-top:2px}
 
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border-l);border-radius:2px}
-/* Agent behavior grid */
-.behavior-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
-.behavior-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px}
-.behavior-cat{font-size:13px;font-weight:600;color:var(--gold);margin-bottom:6px}
-.behavior-desc{font-size:13.5px;color:var(--text-dim);line-height:1.75}
 
 @media(max-width:860px){
   .layout{grid-template-columns:1fr}
   .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
   .main{padding:32px 24px 60px}
-  .coverage-grid{grid-template-columns:repeat(3,1fr)}
-  .behavior-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -136,7 +108,7 @@ p:last-child{margin-bottom:0}
 
 <nav class="sidebar" aria-label="文档导航">
   <div class="sidebar-inner">
-    <div class="sidebar-logo">TinyMB</div>
+    <div class="sidebar-logo">Trumen_AgentCraft</div>
     <div class="sidebar-sub">Trumen P1 产品构思</div>
   </div>
   <div class="page-nav">
@@ -145,22 +117,27 @@ p:last-child{margin-bottom:0}
     </a>
     <div class="sub-nav">
       <a class="sub-link" href="#positioning">定位：AIvilization Plus</a>
-      <a class="sub-link" href="#why-mb">为什么选骑砍作为玩法骨架</a>
-      <a class="sub-link" href="#agent-behavior">Agent 的预期行为模式</a>
+      <a class="sub-link" href="#experience">预期的游戏体验</a>
     </div>
     <a class="page-link" href="TinyMB-brief-02.html">
-      <span class="page-link-num">②</span><span>产品形态</span>
+      <span class="page-link-num">②</span><span>增强一·游戏性</span>
     </a>
     <a class="page-link" href="TinyMB-brief-03.html">
-      <span class="page-link-num">③</span><span>三项增强的设计展开</span>
+      <span class="page-link-num">③</span><span>增强二·参与</span>
     </a>
     <a class="page-link" href="TinyMB-brief-04.html">
-      <span class="page-link-num">④</span><span>与第二阶段的关联</span>
+      <span class="page-link-num">④</span><span>增强三·AI差异</span>
+    </a>
+    <a class="page-link" href="TinyMB-brief-05.html">
+      <span class="page-link-num">⑤</span><span>与第二阶段的关联</span>
+    </a>
+    <a class="page-link" href="TinyMB-brief-06.html">
+      <span class="page-link-num">⑥</span><span>附录·玩法框架选型</span>
     </a>
   </div>
   <div class="sidebar-divider"></div>
-  <a class="glossary-link" href="TinyMB-brief-04.html#glossary">附：关键术语速查</a>
-  <div class="sidebar-meta">草稿 v0.3 · 2026-04-15<br>面向已了解 Trumen 愿景的同事</div>
+  <a class="glossary-link" href="TinyMB-brief-05.html#glossary">附：关键术语速查</a>
+  <div class="sidebar-meta">草稿 v0.4 · 2026-04-16<br>面向已了解 Trumen 愿景的同事</div>
 </nav>
 
 <main class="main" id="main-content">
@@ -168,7 +145,7 @@ p:last-child{margin-bottom:0}
   <div class="hero">
     <div class="hero-eyebrow">Trumen · Phase 1 · 产品构思</div>
     <h1 class="hero-title">Tiny<em>MB</em></h1>
-    <p class="hero-desc">Trumen 第一阶段验证载体。以极简化《骑马与砍杀》城镇玩法为规则骨架，在持续运转的单城邦中让多个 LLM 驱动的 Agent 自主行动与交互。</p>
+    <p class="hero-desc">Trumen 第一阶段验证载体。在持续运转的单城邦中，验证多个 LLM 驱动的 Agent 能否在具有多层次目标与动态博弈的环境下自主行动与交互。</p>
     <span class="hero-badge">AIvilization Plus</span>
   </div>
 
@@ -179,8 +156,8 @@ p:last-child{margin-bottom:0}
     </div>
 
     <div class="position-block">
-      <div class="position-lead">TinyMB 是 AIvilization 的 Plus 版本，也是 Trumen 第一阶段（P1 世界模拟）的验证载体。</div>
-      <div class="position-desc">AIvilization 验证了基础命题——LLM 驱动的 Agent 能在共享世界中自主生活——但留下了三个空白。TinyMB 逐一填补：</div>
+      <div class="position-lead">Trumen_AgentCraft 是 AIvilization 的 Plus 版本，也是 Trumen 第一阶段（P1 世界模拟）的验证载体。</div>
+      <div class="position-desc">AIvilization 验证了基础命题——LLM 驱动的 Agent 能在共享世界中自主生活——但留下了三个空白。Trumen_AgentCraft 逐一填补：</div>
     </div>
 
     <table class="plus-table">
@@ -188,19 +165,19 @@ p:last-child{margin-bottom:0}
         <tr>
           <th scope="col"></th>
           <th scope="col"><span aria-hidden="true">▲</span> AIvilization 的空白</th>
-          <th scope="col"><span aria-hidden="true">✦</span> TinyMB 的增强</th>
+          <th scope="col"><span aria-hidden="true">✦</span> Trumen_AgentCraft 的增强</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <th scope="row">规则</th>
-          <td>无结构沙盒，行动无代价可衡量</td>
-          <td>极简骑砍规则：三派系博弈 + 四变量取舍 + 维护压力</td>
+          <th scope="row">游戏性</th>
+          <td>目标单一、玩法逻辑简单，游戏性薄弱</td>
+          <td>引入多维目标体系与博弈规则，提升游戏性与可玩深度</td>
         </tr>
         <tr>
           <th scope="row">参与</th>
           <td>只能低频写 prompt 然后旁观，参与度低</td>
-          <td>高频实时对话 ↔ 低频挂机放置，完整频谱随时切换</td>
+          <td>高频实时对话 ↔ 低频挂机放置兼容。<br>类比使用 Agent 工作时既能高频对话，又能列一个大 Plan 长时间自动工作</td>
         </tr>
         <tr>
           <th scope="row">AI 差异</th>
@@ -211,154 +188,44 @@ p:last-child{margin-bottom:0}
     </table>
   </section>
 
-  <section class="section" id="why-mb">
+  <section class="section" id="experience">
     <div class="section-header">
       <span class="section-num">二</span>
-      <h2 class="section-title">为什么选骑马与砍杀作为玩法骨架</h2>
+      <h2 class="section-title">预期的游戏体验</h2>
     </div>
 
-    <div class="goal-block">
-      <div class="goal-label">首要目标</div>
-      引入极简版骑砍规则的核心目标之一：<strong style="color:#edeef2">给世界加上目标感和可玩性</strong>。AIvilization 的无结构沙盒让 Agent 行为缺乏可衡量的取舍标准，也缺乏让玩家持续投入的目标驱动力。骑砍的四变量（金钱 / 声望 / 荣誉 / 关系）和三派系博弈，给每个行动挂上代价、给玩家提供明确的进阶目标。
+    <div class="exp-block">
+      <div class="exp-inherited">
+        <div class="exp-inherited-label">继承自 AIvilization 的底色</div>
+        世界不因玩家下线而暂停，NPC 有自己的节奏，多个 Agent 之间产生超出预设的涌现行为。玩家上线时发现世界已经变了——有人暗中交换了情报，派系力量对比悄然移动。这种「世界活着」的感受是 Trumen_AgentCraft 继承的核心底色。
+      </div>
+      <div style="padding:10px 22px 4px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);font-weight:600;">三项增强带来的新体验</div>
+      <table class="exp-table" aria-label="三项增强带来的新体验">
+        <thead class="sr-only"><tr><th scope="col">增强</th><th scope="col">体验变化</th></tr></thead>
+        <tbody>
+          <tr>
+            <th scope="row">有规则的活世界</th>
+            <td>引入多层次目标与动态博弈后，世界的复杂性和变化性大幅提升——目标更丰富、意外更多、路径不固定，游戏乐趣以及玩家主动介入和决策的动力自然增强</td>
+          </tr>
+          <tr>
+            <th scope="row">参与深度可调</th>
+            <td>参与方式由玩家自己掌控：有时间就实时对话协作（10-30 秒一轮反馈 + 关键节点拍板），没空就切回挂机方针驱动，不再被锁死在「写完 prompt 只能等」</td>
+          </tr>
+          <tr>
+            <th scope="row">AI 脑子可选</th>
+            <td>换个基模，同样的任务可能有明显不同的执行路径和结果——这个差异可观察、可对比，是首轮验证要回答的核心问题</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <div class="arg-list">
-
-      <div class="arg-block">
-        <div class="arg-header">
-          <span class="arg-label">论据 1</span>
-          <span class="arg-title">架构天然同构——不需要改造 Agent 的基本行为模式</span>
-        </div>
-        <div class="arg-body">
-          <p>骑砍本身就是「角色在持续运转的沙盒世界中生活和闯荡」的游戏——这与 AIvilization「Agent 在持续运转的世界中生活」的架构<strong>天然同构</strong>。把 AIvilization 的经济沙盒世界换成骑砍的城邦世界，Agent 的行为模式基本不变，只是规则和目标换了。</p>
-          <table class="iso-table" aria-label="AIvilization 与骑砍世界架构对照">
-            <thead><tr><th scope="col">AIvilization</th><th scope="col">骑砍世界（TinyMB）</th></tr></thead>
-            <tbody>
-              <tr><td>Agent 在小镇中生活的居民</td><td>在石冠城中闯荡的外来者</td></tr>
-              <tr><td>长期目标：赚钱 / 升职</td><td>长期目标：加入派系 / 积累声望 / 争夺权力</td></tr>
-              <tr><td>日常：工作、购物、社交</td><td>日常：行军、补给、任务、社交</td></tr>
-              <tr><td>世界自主运行：其他 Agent 工作和社交</td><td>世界自主运行：NPC 巡视、交易、结盟、施压</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="arg-block">
-        <div class="arg-header">
-          <span class="arg-label">论据 2</span>
-          <span class="arg-title">22 年成熟规则——可直接拿来精简，不需从零设计</span>
-        </div>
-        <div class="arg-body">
-          <p>骑砍系列有 22 年历史，核心循环经大量玩家验证。战团的 mod 生态证明其规则可以被大幅精简到极小规模仍能成立。这是 MVP 阶段的关键优势——<strong>不需要从零设计游戏规则</strong>，只需要提取和裁剪。</p>
-        </div>
-      </div>
-
-      <div class="arg-block">
-        <div class="arg-header">
-          <span class="arg-label">论据 3</span>
-          <span class="arg-title">与多种主要 Agent 能力高度适配，能覆盖并验证多个核心维度</span>
-        </div>
-        <div class="arg-body">
-          <p>骑砍玩法的核心循环能很好地覆盖和利用以下多种 Agent 主要能力——这意味着在这个框架里跑起来的 Agent，可以同时在多个维度上产出有价值的验证数据：</p>
-          <ul class="coverage-list" role="list" aria-label="骑砍与多种 Agent 能力的适配">
-            <li><span class="cl-badge">文本会话</span><span class="cl-desc">与领主谈判、在宴会上拉拢派系、向玩家汇报局势分析</span></li>
-            <li><span class="cl-badge">任务分解</span><span class="cl-desc">「加入派系」自动拆解为：赚钱 → 招兵 → 提声望 → 争取封地</span></li>
-            <li><span class="cl-badge">持久记忆</span><span class="cl-desc">Agent 记住对每个 NPC 的恩怨经历，持续影响后续社交和决策</span></li>
-            <li><span class="cl-badge">自主规划</span><span class="cl-desc">无明确指令时，Agent 自主制定并推进多步骤的行动计划</span></li>
-            <li><span class="cl-badge">多 Agent 交互</span><span class="cl-desc">NPC 之间自主巡逻、谈判、结盟，世界格局在互动中演化</span></li>
-            <li><span class="cl-badge">环境感知决策</span><span class="cl-desc">同时评估金钱 / 声望 / 关系 / 派系压力，权衡当前最优行动</span></li>
-            <li><span class="cl-badge">团队编排</span><span class="cl-desc">招募不同专长的同伴，分配任务，Agent 协调执行并汇报进展</span></li>
-            <li><span class="cl-badge">反思自修正</span><span class="cl-desc">行动受阻时主动调整计划，推敲过程写入日志供玩家回看</span></li>
-            <li><span class="cl-badge">人机协作</span><span class="cl-desc">日常事务自主处理，关键决策（站队 / 大额投入）主动请示玩家</span></li>
-            <li><span class="cl-badge">人设定制</span><span class="cl-desc">「好战贵族」vs「精明商人」vs「浪荡剑客」→ 行为方式持续分化</span></li>
-          </ul>
-        </div>
-      </div>
-
+    <div class="summary-bar">
+      <span class="summary-bar-icon" aria-hidden="true">◆</span>
+      <span><strong style="color:var(--text)">一句话总结：</strong>AIvilization 的活世界底色 + 多维目标与博弈规则带来的有后果取舍 + 从挂机放置到实时协作的完整参与频谱 + 基模选择带来的可感知 AI 差异。</span>
     </div>
   </section>
 
-  <section class="section" id="agent-behavior">
-    <div class="section-header">
-      <span class="section-num">三</span>
-      <h2 class="section-title">Agent 的预期行为模式</h2>
-    </div>
-
-    <p style="color:var(--text-dim);margin-bottom:20px;">在石冠城的规则框架下，Agent 跑完整的感知→思考→决策→行动循环。以下是石冠城的区域布局和 Agent 的日常行为覆盖范围：</p>
-
-    <!-- 石冠城区域地图 -->
-    <div style="margin:0 0 28px;display:flex;justify-content:center">
-      <svg viewBox="0 0 560 370" width="560" height="370" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="石冠城四区域布局示意图：城主堡、市集区、酒馆区、外城农庄，以及区域间移动耗时">
-        <!-- 背景城墙暗示 -->
-        <rect x="60" y="30" width="440" height="260" rx="12" fill="none" stroke="#2a2d38" stroke-width="1" stroke-dasharray="8,6"/>
-        <text x="280" y="20" fill="#363a48" font-size="10" font-family="Noto Sans SC,sans-serif" text-anchor="middle" letter-spacing=".1em">—— 石 冠 城 ——</text>
-        <!-- 城主堡 (左上) -->
-        <rect x="80" y="52" width="180" height="90" rx="8" fill="rgba(91,158,168,.08)" stroke="#5b9ea8" stroke-width="1.5"/>
-        <text x="170" y="80" fill="#5b9ea8" font-size="14" font-weight="600" font-family="Noto Sans SC,sans-serif" text-anchor="middle">城主堡</text>
-        <text x="170" y="100" fill="#818898" font-size="11" font-family="Noto Sans SC,sans-serif" text-anchor="middle">觐见权贵 · 请求裁决</text>
-        <text x="170" y="118" fill="#5b9ea8" font-size="10" font-family="Noto Sans SC,sans-serif" text-anchor="middle" opacity=".7">铁壁·卡尔 / 灰鸦·莫恩</text>
-        <!-- 市集区 (右上) -->
-        <rect x="300" y="52" width="180" height="90" rx="8" fill="rgba(201,160,80,.08)" stroke="#c9a050" stroke-width="1.5"/>
-        <text x="390" y="80" fill="#c9a050" font-size="14" font-weight="600" font-family="Noto Sans SC,sans-serif" text-anchor="middle">市集区</text>
-        <text x="390" y="100" fill="#818898" font-size="11" font-family="Noto Sans SC,sans-serif" text-anchor="middle">买卖商品 · 接行会任务</text>
-        <text x="390" y="118" fill="#c9a050" font-size="10" font-family="Noto Sans SC,sans-serif" text-anchor="middle" opacity=".7">金秤·杜兰 / 黑帐·维克</text>
-        <!-- 酒馆区 (左下) -->
-        <rect x="80" y="180" width="180" height="90" rx="8" fill="rgba(180,140,200,.08)" stroke="#9080b0" stroke-width="1.5"/>
-        <text x="170" y="208" fill="#9080b0" font-size="14" font-weight="600" font-family="Noto Sans SC,sans-serif" text-anchor="middle">酒馆区</text>
-        <text x="170" y="228" fill="#818898" font-size="11" font-family="Noto Sans SC,sans-serif" text-anchor="middle">招募佣兵 · 打听消息</text>
-        <text x="170" y="246" fill="#9080b0" font-size="10" font-family="Noto Sans SC,sans-serif" text-anchor="middle" opacity=".7">老酒·加利（中立信息枢纽）</text>
-        <!-- 外城农庄 (右下, 城墙外) -->
-        <rect x="300" y="180" width="180" height="90" rx="8" fill="rgba(120,180,100,.07)" stroke="#7ab464" stroke-width="1.5"/>
-        <text x="390" y="208" fill="#7ab464" font-size="14" font-weight="600" font-family="Noto Sans SC,sans-serif" text-anchor="middle">外城农庄</text>
-        <text x="390" y="228" fill="#818898" font-size="11" font-family="Noto Sans SC,sans-serif" text-anchor="middle">招募农兵 · 购买粮食</text>
-        <text x="390" y="246" fill="#7ab464" font-size="10" font-family="Noto Sans SC,sans-serif" text-anchor="middle" opacity=".7">老橡·赫尔曼</text>
-        <!-- 移动耗时标注：城主堡 ↔ 市集 -->
-        <line x1="262" y1="92" x2="298" y2="92" stroke="#363a48" stroke-width="1"/>
-        <text x="280" y="85" fill="#818898" font-size="10" font-family="Noto Sans SC,sans-serif" text-anchor="middle">10min</text>
-        <!-- 移动耗时标注：城主堡 ↔ 酒馆 -->
-        <line x1="170" y1="144" x2="170" y2="178" stroke="#363a48" stroke-width="1"/>
-        <text x="184" y="165" fill="#818898" font-size="10" font-family="Noto Sans SC,sans-serif" text-anchor="start">5min</text>
-        <!-- 移动耗时标注：市集 ↔ 农庄 -->
-        <line x1="390" y1="144" x2="390" y2="178" stroke="#363a48" stroke-width="1"/>
-        <text x="404" y="165" fill="#818898" font-size="10" font-family="Noto Sans SC,sans-serif" text-anchor="start">10min</text>
-        <!-- 移动耗时标注：酒馆 ↔ 农庄 -->
-        <line x1="262" y1="222" x2="298" y2="222" stroke="#363a48" stroke-width="1"/>
-        <text x="280" y="215" fill="#818898" font-size="10" font-family="Noto Sans SC,sans-serif" text-anchor="middle">15min</text>
-        <!-- 对角线移动：城主堡 ↔ 农庄 (最远) -->
-        <line x1="258" y1="130" x2="306" y2="186" stroke="#363a48" stroke-width="1" stroke-dasharray="4,4"/>
-        <text x="298" y="154" fill="#c08080" font-size="10" font-family="Noto Sans SC,sans-serif" text-anchor="start">20min</text>
-        <!-- 图例 -->
-        <text x="280" y="340" fill="#818898" font-size="11" font-family="Noto Sans SC,sans-serif" text-anchor="middle">区域间移动耗时迫使 Agent 提前规划路线，同一区域内优先处理多件事务</text>
-      </svg>
-    </div>
-
-    <div class="behavior-grid">
-      <div class="behavior-card">
-        <div class="behavior-cat">日常移动与补给</div>
-        <div class="behavior-desc">在城主堡、市集、酒馆、农庄之间移动，补充粮食与军饷，维持随从队伍的运转</div>
-      </div>
-      <div class="behavior-card">
-        <div class="behavior-cat">经济与任务</div>
-        <div class="behavior-desc">买卖货物赚差价、接受行会或 NPC 的委托任务、管理金钱收支与资源调配</div>
-      </div>
-      <div class="behavior-card">
-        <div class="behavior-cat">社交与政治</div>
-        <div class="behavior-desc">拜访派系领袖、参加宴会、打听情报、在三派系之间权衡站队或保持中立</div>
-      </div>
-      <div class="behavior-card">
-        <div class="behavior-cat">冲突与防御</div>
-        <div class="behavior-desc">在任务执行中遭遇风险时自动结算冲突后果，护送、巡逻、驱赶威胁</div>
-      </div>
-      <div class="behavior-card">
-        <div class="behavior-cat">请示与协作</div>
-        <div class="behavior-desc">日常事务自主处理，遇到重大决策（明确站队、高风险行动、大额投入）主动向玩家请示并等待拍板</div>
-      </div>
-      <div class="behavior-card">
-        <div class="behavior-cat">成长与进阶</div>
-        <div class="behavior-desc">声望、荣誉与关系的积累逐步解锁新的行动路径——从外来者到派系帮手，再到核心成员</div>
-      </div>
-    </div>
-  </section>
+</main>
 </div>
 <script>
 const links=document.querySelectorAll('.sub-link');

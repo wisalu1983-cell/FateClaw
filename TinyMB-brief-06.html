@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trumen_AgentCraft — 附录：玩法框架选型</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0c0d10;--bg-card:#1a1c22;--bg-card-2:#1f2128;
+  --border:#2a2d38;--border-l:#363a48;
+  --gold:#c9a050;--gold-dim:#a87e40;--gold-glow:rgba(201,160,80,.11);
+  --red-dim:rgba(200,80,80,.08);--red-border:rgba(200,80,80,.22);
+  --teal:#5b9ea8;
+  --text:#d8dae2;--text-dim:#9ea2af;--text-faint:#818898;
+  --radius:6px;--radius-lg:10px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC',sans-serif;font-size:14px;font-weight:400;line-height:1.85;min-height:100vh}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
+.skip-link{position:absolute;top:-100%;left:8px;background:var(--gold);color:#0c0d10;padding:8px 16px;border-radius:0 0 var(--radius) var(--radius);font-size:13px;font-weight:600;text-decoration:none;z-index:9999;transition:top .15s}
+.skip-link:focus{top:0}
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh;max-width:1200px;margin:0 auto}
+.sidebar{position:sticky;top:0;height:100vh;padding:40px 0 32px;display:flex;flex-direction:column;border-right:1px solid var(--border);overflow-y:auto}
+.sidebar-inner{padding:0 24px}
+.sidebar-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--gold);letter-spacing:.03em;line-height:1.1;margin-bottom:4px}
+.sidebar-sub{font-size:12px;font-weight:500;color:var(--text-faint);letter-spacing:.08em;text-transform:uppercase;margin-bottom:36px}
+.page-nav{margin-bottom:8px}
+.page-link{display:flex;align-items:flex-start;gap:10px;padding:10px 24px;font-size:14px;font-weight:500;color:var(--text-dim);text-decoration:none;border-left:2px solid transparent;transition:color .15s,background .15s;line-height:1.45}
+.page-link:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.page-link.active{color:var(--gold);border-left-color:var(--gold);background:var(--gold-glow);font-weight:600}
+.page-link-num{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold-dim);flex-shrink:0;line-height:1.4;min-width:18px}
+.page-link.active .page-link-num{color:var(--gold)}
+.sub-nav{margin:2px 0 10px}
+.sub-link{display:block;padding:5px 24px 5px 52px;font-size:12.5px;font-weight:400;color:var(--text-faint);text-decoration:none;transition:color .15s;line-height:1.5}
+.sub-link:hover{color:var(--text-dim)}
+.sub-link.active{color:var(--gold-dim);font-weight:500}
+.sidebar-divider{height:1px;background:var(--border);margin:8px 24px 12px}
+.sidebar-meta{margin-top:auto;padding:20px 24px 0;border-top:1px solid var(--border);font-size:12px;color:var(--text-faint);line-height:1.8}
+.glossary-link{display:block;padding:8px 24px;font-size:13px;font-weight:500;color:var(--text-faint);text-decoration:none;transition:color .15s}
+.glossary-link:hover{color:var(--text-dim)}
+.main{padding:56px 64px 100px 64px;max-width:920px}
+.page-header{margin-bottom:48px;padding-bottom:36px;border-bottom:1px solid var(--border)}
+.page-header-eyebrow{font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:12px}
+.page-header-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:#edeef2;line-height:1.15;letter-spacing:.01em;margin-bottom:12px}
+.page-header-desc{font-size:14px;color:var(--text-dim);max-width:600px;line-height:1.85}
+.section{margin-bottom:56px}
+.subsection-title{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.subsection-title::after{content:'';flex:1;height:1px;background:var(--border)}
+p{margin-bottom:14px;color:var(--text)}
+p:last-child{margin-bottom:0}
+
+/* Criterion table */
+.crit-table{width:100%;border-collapse:collapse;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:24px}
+.crit-table thead tr{background:var(--bg-card-2)}
+.crit-table thead th{padding:9px 14px;font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text-faint);text-align:left}
+.crit-table tbody tr{border-top:1px solid var(--border)}
+.crit-table tbody td,.crit-table tbody th{padding:11px 14px;font-size:13.5px;vertical-align:top;line-height:1.65}
+.crit-table tbody th{font-weight:600;color:var(--gold);background:var(--gold-glow);border-right:1px solid var(--border);white-space:nowrap;text-align:left;width:80px}
+.crit-table tbody td:nth-child(2){color:var(--text);width:80px}
+.crit-table tbody td:last-child{color:var(--text-dim)}
+.badge-must{display:inline-block;padding:1px 8px;border-radius:10px;font-size:11px;font-weight:600;background:rgba(201,160,80,.15);border:1px solid rgba(201,160,80,.3);color:var(--gold);margin-left:6px}
+.badge-high{display:inline-block;padding:1px 8px;border-radius:10px;font-size:11px;font-weight:600;background:rgba(91,158,168,.1);border:1px solid rgba(91,158,168,.25);color:var(--teal);margin-left:6px}
+
+/* Maturity table */
+.mat-table{width:100%;border-collapse:collapse;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;font-size:13px;margin-bottom:24px}
+.mat-table thead tr{background:var(--bg-card-2)}
+.mat-table thead th{padding:8px 14px;font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text-faint);text-align:left}
+.mat-table tbody tr{border-top:1px solid var(--border)}
+.mat-table tbody td{padding:10px 14px;vertical-align:top;line-height:1.65;color:var(--text-dim)}
+.mat-table tbody td:first-child{font-weight:600;color:var(--text);width:120px}
+
+/* Comparison matrix */
+.matrix-wrap{overflow-x:auto;margin-bottom:24px}
+.matrix{border-collapse:collapse;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;font-size:12.5px;width:100%}
+.matrix thead tr{background:var(--bg-card-2)}
+.matrix thead th{padding:9px 10px;font-size:11px;font-weight:600;letter-spacing:.05em;color:var(--text-faint);text-align:center;white-space:nowrap;border-left:1px solid var(--border)}
+.matrix thead th:first-child{text-align:left;border-left:none;width:160px}
+.matrix thead th.winner{color:var(--gold)}
+.matrix tbody tr{border-top:1px solid var(--border)}
+.matrix tbody td{padding:9px 10px;text-align:center;border-left:1px solid var(--border);color:var(--text-dim)}
+.matrix tbody td:first-child{text-align:left;border-left:none;font-size:12px;font-weight:600;color:var(--text-faint);background:var(--bg-card-2);padding-left:14px}
+.matrix tbody td.winner-col{background:var(--gold-glow)}
+.star-5{color:var(--gold)}
+.star-4{color:#a89060}
+.star-3{color:#706050}
+.star-2{color:#504038}
+
+/* Summary cards */
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+.summary-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px}
+.summary-card-name{font-size:12.5px;font-weight:600;color:var(--gold-dim);margin-bottom:3px}
+.summary-card-desc{font-size:12.5px;color:var(--text-dim);line-height:1.6}
+
+/* Conclusion block */
+.conclusion-block{background:rgba(201,160,80,.05);border:1px solid rgba(201,160,80,.2);border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:20px}
+.conclusion-label{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:10px}
+
+/* Bottleneck table */
+.btn-table{width:100%;border-collapse:collapse;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;font-size:13.5px}
+.btn-table thead tr{background:var(--bg-card-2)}
+.btn-table thead th{padding:9px 14px;font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text-faint);text-align:left}
+.btn-table tbody tr{border-top:1px solid var(--border)}
+.btn-table tbody td{padding:12px 14px;vertical-align:top;line-height:1.65;color:var(--text-dim)}
+.btn-table tbody td:first-child{font-weight:600;color:var(--text);width:100px;background:var(--bg-card-2);border-right:1px solid var(--border)}
+
+/* Insight box */
+.insight{background:rgba(91,158,168,.06);border:1px solid rgba(91,158,168,.2);border-radius:var(--radius);padding:14px 18px;font-size:13.5px;color:var(--text-dim);line-height:1.8;margin:16px 0}
+.insight strong{color:var(--teal)}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border-l);border-radius:2px}
+@media(max-width:860px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
+  .main{padding:32px 24px 60px}
+  .summary-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">跳转到主要内容</a>
+<div class="layout">
+
+<nav class="sidebar" aria-label="文档导航">
+  <div class="sidebar-inner">
+    <div class="sidebar-logo">Trumen_AgentCraft</div>
+    <div class="sidebar-sub">Trumen P1 产品构思</div>
+  </div>
+  <div class="page-nav">
+    <a class="page-link" href="TinyMB-brief-01.html"><span class="page-link-num">①</span><span>概览</span></a>
+    <a class="page-link" href="TinyMB-brief-02.html"><span class="page-link-num">②</span><span>增强一·游戏性</span></a>
+    <a class="page-link" href="TinyMB-brief-03.html"><span class="page-link-num">③</span><span>增强二·参与</span></a>
+    <a class="page-link" href="TinyMB-brief-04.html"><span class="page-link-num">④</span><span>增强三·AI差异</span></a>
+    <a class="page-link" href="TinyMB-brief-05.html"><span class="page-link-num">⑤</span><span>与第二阶段的关联</span></a>
+    <a class="page-link active" href="TinyMB-brief-06.html"><span class="page-link-num">⑥</span><span>附录·玩法框架选型</span></a>
+    <div class="sub-nav">
+      <a class="sub-link" href="#background">选型背景与标准</a>
+      <a class="sub-link" href="#matrix">8方案对比</a>
+      <a class="sub-link" href="#conclusion">结论</a>
+    </div>
+  </div>
+  <div class="sidebar-divider"></div>
+  <a class="glossary-link" href="TinyMB-brief-05.html#glossary">附：关键术语速查</a>
+  <div class="sidebar-meta">草稿 v0.4 · 2026-04-16<br>面向已了解 Trumen 愿景的同事</div>
+</nav>
+
+<main class="main" id="main-content">
+
+  <div class="page-header">
+    <div class="page-header-eyebrow">⑥ 附录</div>
+    <h1 class="page-header-title">玩法框架选型</h1>
+    <p class="page-header-desc">为什么选骑砍框架而非其他方向——从评估标准到候选方案对比到最终结论的完整推导。</p>
+  </div>
+
+  <!-- ══ Section 一：选型问题与评估框架 ══ -->
+  <section class="section" id="background">
+    <h2 class="subsection-title">选型问题与评估框架</h2>
+
+    <p style="color:var(--text-dim);margin-bottom:16px;">核心问题：<strong style="color:var(--text)">在 AIvilization 的架构壳子里，把"经济沙盒"换成什么样的世界规则和 Agent 目标？</strong></p>
+
+    <p style="color:var(--text-dim);margin-bottom:20px;">为此建立了 8 项评估标准。其中 C1、C2 是淘汰门槛——不满足直接排除；通过门槛后，综合 C3-C8 比较优劣：</p>
+
+    <table class="crit-table" aria-label="评估标准">
+      <thead><tr><th scope="col">编号</th><th scope="col">权重</th><th scope="col">标准说明</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">C1</th><td>必须<span class="badge-must">MUST</span></td><td>有成熟参考规则——核心机制可从已有游戏中提取，不需从零设计</td></tr>
+        <tr><th scope="row">C2</th><td>必须<span class="badge-must">MUST</span></td><td>兼容 AIvilization 架构——Agent 在世界中"生活"、连续运行、玩家通过引导参与</td></tr>
+        <tr><th scope="row">C3</th><td>高<span class="badge-high">HIGH</span></td><td>Agent 间交互丰富且有实质后果——社交互动会影响世界格局，不只是聊天</td></tr>
+        <tr><th scope="row">C4</th><td>高<span class="badge-high">HIGH</span></td><td>题材与经济沙盒差异明显——Agent 的核心目标不是经济优化</td></tr>
+        <tr><th scope="row">C5</th><td>高<span class="badge-high">HIGH</span></td><td>能产生比 AIvilization 更丰富的 Agent 行为——激发更复杂的行为模式</td></tr>
+        <tr><th scope="row">C6</th><td>中</td><td>有空间/地图维度</td></tr>
+        <tr><th scope="row">C7</th><td>中</td><td>有 AI/LLM Agent 相关研究基础——降低技术风险</td></tr>
+        <tr><th scope="row">C8</th><td>高<span class="badge-high">HIGH</span></td><td>充分利用已成熟的 Agent 技术——差异化卖点不依赖未验证能力</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ══ Section 二：候选方案与评估结果 ══ -->
+  <section class="section" id="matrix">
+    <h2 class="subsection-title">候选方案与评估结果</h2>
+
+    <p style="color:var(--text-dim);margin-bottom:16px;">从"持续运转的共享世界 + Agent 自主生活"的架构约束出发，筛选出 8 个方向各异的候选方案：</p>
+
+    <div class="summary-grid">
+      <div class="summary-card"><div class="summary-card-name">F. 政治权谋</div><div class="summary-card-desc">「AIvilization 里赚的是钱，这里争的是权」</div></div>
+      <div class="summary-card"><div class="summary-card-name">G. 生存社群</div><div class="summary-card-desc">「AIvilization 里各自发展，这里必须抱团求生」</div></div>
+      <div class="summary-card"><div class="summary-card-name">H. 悬疑小镇</div><div class="summary-card-desc">「AIvilization 里信息透明，这里每个人都可能有秘密」</div></div>
+      <div class="summary-card"><div class="summary-card-name">I. 冒险公会</div><div class="summary-card-desc">「AIvilization 里做生意，这里打怪升级」</div></div>
+      <div class="summary-card"><div class="summary-card-name">J. 沙盒SLG</div><div class="summary-card-desc">「AIvilization 里经营人生，这里经营国家」</div></div>
+      <div class="summary-card" style="border-color:rgba(201,160,80,.3);background:var(--gold-glow)"><div class="summary-card-name" style="color:var(--gold)">K. 极简骑砍</div><div class="summary-card-desc">「AIvilization 里在小镇定居生活，这里在大陆上闯荡天下」</div></div>
+      <div class="summary-card"><div class="summary-card-name">L. 西部世界</div><div class="summary-card-desc">「AIvilization 里 Agent 在规则内成长，这里 Agent 可能质疑规则本身」</div></div>
+      <div class="summary-card"><div class="summary-card-name">M. 黑客帝国</div><div class="summary-card-desc">「AIvilization 里世界是透明的，这里世界本身可能是假的」</div></div>
+    </div>
+
+    <p style="color:var(--text-dim);margin-bottom:12px;">按 8 项标准逐一评分（★ 越多越强）：</p>
+
+    <div class="matrix-wrap">
+      <table class="matrix" aria-label="8方案评分矩阵">
+        <thead>
+          <tr>
+            <th scope="col">标准</th>
+            <th scope="col">F</th>
+            <th scope="col">G</th>
+            <th scope="col">H</th>
+            <th scope="col">I</th>
+            <th scope="col">J</th>
+            <th scope="col" class="winner">K</th>
+            <th scope="col">L</th>
+            <th scope="col">M</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>C1 成熟参考 <span class="badge-must" style="margin:0">MUST</span></td><td><span class="star-3">★★★</span></td><td><span class="star-4">★★★★</span></td><td><span class="star-4">★★★★</span></td><td><span class="star-4">★★★★</span></td><td><span class="star-5">★★★★★</span></td><td class="winner-col"><span class="star-5">★★★★★</span></td><td><span class="star-3">★★★</span></td><td><span class="star-2">★★</span></td></tr>
+          <tr><td>C2 架构兼容 <span class="badge-must" style="margin:0">MUST</span></td><td><span class="star-5">★★★★★</span></td><td><span class="star-5">★★★★★</span></td><td><span class="star-4">★★★★</span></td><td><span class="star-5">★★★★★</span></td><td><span class="star-3">★★★</span></td><td class="winner-col"><span class="star-5">★★★★★</span></td><td><span class="star-5">★★★★★</span></td><td><span class="star-5">★★★★★</span></td></tr>
+          <tr><td>C3 交互有后果</td><td><span class="star-5">★★★★★</span></td><td><span class="star-4">★★★★</span></td><td><span class="star-5">★★★★★</span></td><td><span class="star-3">★★★</span></td><td><span class="star-4">★★★★</span></td><td class="winner-col"><span class="star-5">★★★★★</span></td><td><span class="star-5">★★★★★</span></td><td><span class="star-3">★★★</span></td></tr>
+          <tr><td>C4 题材差异</td><td><span class="star-5">★★★★★</span></td><td><span class="star-4">★★★★</span></td><td><span class="star-5">★★★★★</span></td><td><span class="star-4">★★★★</span></td><td><span class="star-4">★★★★</span></td><td class="winner-col"><span class="star-5">★★★★★</span></td><td><span class="star-5">★★★★★</span></td><td><span class="star-5">★★★★★</span></td></tr>
+          <tr><td>C5 行为更丰富</td><td><span class="star-5">★★★★★</span></td><td><span class="star-4">★★★★</span></td><td><span class="star-5">★★★★★</span></td><td><span class="star-3">★★★</span></td><td><span class="star-3">★★★</span></td><td class="winner-col"><span class="star-5">★★★★★</span></td><td><span class="star-5">★★★★★</span></td><td><span class="star-3">★★★</span></td></tr>
+          <tr><td>C6 空间/地图</td><td><span class="star-4">★★★★</span></td><td><span class="star-5">★★★★★</span></td><td><span class="star-5">★★★★★</span></td><td><span class="star-5">★★★★★</span></td><td><span class="star-5">★★★★★</span></td><td class="winner-col"><span class="star-5">★★★★★</span></td><td><span class="star-4">★★★★</span></td><td><span class="star-5">★★★★★</span></td></tr>
+          <tr><td>C7 AI 研究</td><td><span class="star-2">★★</span></td><td><span class="star-2">★★</span></td><td><span class="star-4">★★★★</span></td><td><span class="star-2">★★</span></td><td><span class="star-3">★★★</span></td><td class="winner-col"><span class="star-2">★★</span></td><td><span class="star-4">★★★★</span></td><td><span class="star-3">★★★</span></td></tr>
+          <tr><td><strong>C8 利用成熟 Agent 技术</strong></td><td><span class="star-3">★★★</span></td><td><span class="star-4">★★★★</span></td><td><span class="star-3">★★★</span></td><td><span class="star-4">★★★★</span></td><td><span class="star-3">★★★</span></td><td class="winner-col"><span class="star-5" style="font-weight:700">★★★★★</span></td><td><span class="star-2">★★</span></td><td><span class="star-2">★★</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 矩阵解读 -->
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 22px;margin-bottom:8px">
+      <div style="font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:14px">矩阵中的三个关键发现</div>
+
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;gap:12px;align-items:flex-start">
+          <span style="flex-shrink:0;width:22px;height:22px;border-radius:50%;background:rgba(201,160,80,.15);color:var(--gold);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center">1</span>
+          <div style="font-size:13.5px;color:var(--text-dim);line-height:1.75;"><strong style="color:var(--text)">门槛筛选——C1 和 C2 淘汰弱项方案。</strong>M（黑客帝国）在 C1 上仅 ★★（无游戏参考，核心机制需从头设计）；J（沙盒SLG）在 C2 上仅 ★★★（Agent 代表"势力"而非"人"，与架构存在根本张力）。两者在门槛标准上就有明显短板。</div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start">
+          <span style="flex-shrink:0;width:22px;height:22px;border-radius:50%;background:rgba(201,160,80,.15);color:var(--gold);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center">2</span>
+          <div style="font-size:13.5px;color:var(--text-dim);line-height:1.75;"><strong style="color:var(--text)">C8 拉开决定性差距。</strong>K 是唯一的 ★★★★★；F、H、J、M 都在 ★★★ 以下；L、M 仅 ★★。看上去题材有吸引力的方案（政治权谋、悬疑小镇、西部世界），恰恰在 C8 上最弱——它们的差异化卖点依赖 Agent 尚未成熟的能力。</div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start">
+          <span style="flex-shrink:0;width:22px;height:22px;border-radius:50%;background:rgba(201,160,80,.15);color:var(--gold);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center">3</span>
+          <div style="font-size:13.5px;color:var(--text-dim);line-height:1.75;"><strong style="color:var(--text)">K 在 8 项中拿了 7 项 ★★★★★。</strong>唯一弱项 C7（AI 研究基础）是中等权重，且不影响可行性——骑砍 NPC 自主行为系统本身就有 22 年的工程实践。综合来看 K 没有短板。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ Section 三：结论与瓶颈分析 ══ -->
+  <section class="section" id="conclusion">
+    <h2 class="subsection-title">结论与瓶颈分析</h2>
+
+    <div class="conclusion-block">
+      <div class="conclusion-label">为什么选定极简骑砍</div>
+      <p style="color:var(--text-dim);margin-bottom:10px;">两项门槛标准（C1 规则成熟、C2 架构兼容）均满分。综合评分最高，且无短板。</p>
+      <p style="color:var(--text-dim);">根本原因：<strong style="color:var(--text)">骑砍本身就是"角色在持续运转的沙盒世界中生活和闯荡"的游戏，这与 AIvilization "Agent 在持续运转的世界中生活"的架构天然一致。</strong>替换规则和目标即可接入，Agent 的基本行为模式不需要改造。</p>
+    </div>
+
+    <p style="color:var(--text-dim);margin-bottom:12px;">C8 是拉开差距的决定性标准——它的评分依据是当前 Agent 能力的成熟度边界：</p>
+
+    <table class="mat-table" aria-label="Agent能力成熟度">
+      <thead><tr><th scope="col">成熟度</th><th scope="col">能力</th></tr></thead>
+      <tbody>
+        <tr><td>✅ 成熟</td><td>自然语言对话/人格保持、结构化推理/分析、目标→子任务分解、工具/行动调用、反思/自我修正、用户定义人设、人机协作校准</td></tr>
+        <tr><td>⚠️ 半成熟</td><td>跨会话记忆保持、多 Agent 自由交互/涌现动态、结构化多 Agent 团队编排（5-7 个 Agent 内有效）</td></tr>
+        <tr><td>❌ 未成熟</td><td>长期战略欺骗、心智理论（ToM）</td></tr>
+        <tr><td>❌ 不存在</td><td>元认知/自我意识、自主人格演化</td></tr>
+      </tbody>
+    </table>
+
+    <p style="color:var(--text-dim);margin-bottom:12px;">K 的 C8 满分是因为它的多维度决策环境（经济+军事+社交+政治四线并行）天然覆盖了全部 ✅ 已成熟能力，且核心卖点不依赖任何 ❌ 未成熟能力。而其他方案的核心瓶颈恰恰出在这里：</p>
+
+    <table class="btn-table" aria-label="其他方向的核心瓶颈">
+      <thead><tr><th scope="col">方案</th><th scope="col">亮点</th><th scope="col">核心瓶颈</th></tr></thead>
+      <tbody>
+        <tr><td>F. 政治权谋</td><td>交互后果和行为丰富度与骑砍并列满分</td><td>差异化卖点（阴谋/权谋）依赖 ❌ 战略欺骗，实际会退化为坦诚的政治讨论</td></tr>
+        <tr><td>H. 悬疑小镇</td><td>推理和信息博弈方向有 LLM 研究基础</td><td>核心机制（信息隐藏+欺骗检测）依赖 ❌ 未成熟能力，悬疑感难以实现</td></tr>
+        <tr><td>L. 西部世界</td><td>「觉醒」是唯一可能实现质变式突破的维度</td><td>觉醒阶段需要 ❌ 不存在的元认知能力；Loop 阶段反而浪费已有 Agent 能力</td></tr>
+        <tr><td>G. 生存社群</td><td>与 AIvilization 架构最接近，实现风险最低</td><td>可能与 AIvilization 过于相似，差异化不够</td></tr>
+        <tr><td>J. 沙盒SLG</td><td>规则最成熟（C1 满分）</td><td>Agent 代表"势力"而非"人"，与 AIvilization 的"Agent 是一个人"架构存在根本张力</td></tr>
+      </tbody>
+    </table>
+
+    <div class="insight" style="margin-top:20px">
+      骑砍天然包含了其他方案的部分元素（封臣/建国 ≈ 政治权谋简化版；资源管理 ≈ 生存社群变体；接任务/组队 ≈ 冒险公会一部分），可在此框架上渐进叠加，无需在选型阶段就做全面覆盖。
+    </div>
+  </section>
+
+</main>
+</div>
+<script>
+const links=document.querySelectorAll('.sub-link');
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){links.forEach(l=>l.classList.remove('active'));const m=document.querySelector(`.sub-link[href="#${x.target.id}"]`);if(m)m.classList.add('active');}});},{rootMargin:'-15% 0px -75% 0px'});
+document.querySelectorAll('[id]').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>
