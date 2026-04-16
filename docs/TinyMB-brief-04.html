@@ -1,0 +1,403 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trumen_AgentCraft — 增强三·AI差异</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0c0d10;--bg-card:#1a1c22;--bg-card-2:#1f2128;
+  --border:#2a2d38;--border-l:#363a48;
+  --gold:#c9a050;--gold-dim:#a87e40;--gold-glow:rgba(201,160,80,.11);
+  --red-dim:rgba(200,80,80,.08);--red-border:rgba(200,80,80,.22);
+  --teal:#5b9ea8;--teal-dim:rgba(91,158,168,.08);--teal-border:rgba(91,158,168,.28);
+  --text:#d8dae2;--text-dim:#9ea2af;--text-faint:#818898;
+  --radius:6px;--radius-lg:10px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC',sans-serif;font-size:14px;font-weight:400;line-height:1.85;min-height:100vh}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
+.skip-link{position:absolute;top:-100%;left:8px;background:var(--gold);color:#0c0d10;padding:8px 16px;border-radius:0 0 var(--radius) var(--radius);font-size:13px;font-weight:600;text-decoration:none;z-index:9999;transition:top .15s}
+.skip-link:focus{top:0}
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh;max-width:1200px;margin:0 auto}
+.sidebar{position:sticky;top:0;height:100vh;padding:40px 0 32px;display:flex;flex-direction:column;border-right:1px solid var(--border);overflow-y:auto}
+.sidebar-inner{padding:0 24px}
+.sidebar-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--gold);letter-spacing:.03em;line-height:1.1;margin-bottom:4px}
+.sidebar-sub{font-size:12px;font-weight:500;color:var(--text-faint);letter-spacing:.08em;text-transform:uppercase;margin-bottom:36px}
+.page-nav{margin-bottom:8px}
+.page-link{display:flex;align-items:flex-start;gap:10px;padding:10px 24px;font-size:14px;font-weight:500;color:var(--text-dim);text-decoration:none;border-left:2px solid transparent;transition:color .15s,background .15s;line-height:1.45}
+.page-link:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.page-link.active{color:var(--gold);border-left-color:var(--gold);background:var(--gold-glow);font-weight:600}
+.page-link-num{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold-dim);flex-shrink:0;line-height:1.4;min-width:18px}
+.page-link.active .page-link-num{color:var(--gold)}
+.sub-nav{margin:2px 0 10px}
+.sub-link{display:block;padding:5px 24px 5px 52px;font-size:12.5px;font-weight:400;color:var(--text-faint);text-decoration:none;transition:color .15s;line-height:1.5}
+.sub-link:hover{color:var(--text-dim)}
+.sub-link.active{color:var(--gold-dim);font-weight:500}
+.sidebar-divider{height:1px;background:var(--border);margin:8px 24px 12px}
+.sidebar-meta{margin-top:auto;padding:20px 24px 0;border-top:1px solid var(--border);font-size:12px;color:var(--text-faint);line-height:1.8}
+.glossary-link{display:block;padding:8px 24px;font-size:13px;font-weight:500;color:var(--text-faint);text-decoration:none;transition:color .15s}
+.glossary-link:hover{color:var(--text-dim)}
+.main{padding:56px 64px 100px 64px;max-width:880px}
+.page-header{margin-bottom:48px;padding-bottom:36px;border-bottom:1px solid var(--border)}
+.page-header-eyebrow{font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:12px}
+.page-header-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:#edeef2;line-height:1.15;letter-spacing:.01em;margin-bottom:12px}
+.page-header-desc{font-size:14px;color:var(--text-dim);max-width:560px;line-height:1.85}
+.section{margin-bottom:48px}
+.subsection{margin-bottom:40px}
+.subsection-title{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.subsection-title::after{content:'';flex:1;height:1px;background:var(--border)}
+p{margin-bottom:14px;color:var(--text)}
+p:last-child{margin-bottom:0}
+
+/* Enhancement cards */
+.enhancement-card{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:16px;background:var(--bg-card)}
+.enhancement-header{display:flex;align-items:center;gap:12px;padding:16px 22px;background:var(--bg-card-2);border-bottom:1px solid var(--border)}
+.enhancement-num{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:700;color:var(--gold);flex-shrink:0}
+.enhancement-name{font-size:15px;font-weight:600;color:#edeef2}
+.enhancement-baseline{padding:11px 22px;background:var(--red-dim);border-bottom:1px solid var(--red-border);font-size:13.5px;color:#c08080;display:flex;gap:10px;align-items:flex-start}
+.enhancement-body{padding:18px 22px;font-size:14px;line-height:1.9}
+.enhancement-body p{margin-bottom:12px}
+.enhancement-body strong{color:#edeef2;font-weight:600}
+
+/* Comparison table */
+.cmp-table{width:100%;border-collapse:collapse;margin:14px 0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;font-size:14px}
+.cmp-table thead tr{background:var(--bg-card-2)}
+.cmp-table thead th{padding:9px 14px;font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text-faint);text-align:left}
+.cmp-table thead th:nth-child(2){color:#c06060}
+.cmp-table thead th:nth-child(3){color:var(--gold)}
+.cmp-table tbody tr{border-top:1px solid var(--border)}
+.cmp-table tbody td,.cmp-table tbody th{padding:11px 14px;vertical-align:top;line-height:1.75}
+.cmp-table tbody th{font-size:12.5px;font-weight:600;color:var(--text-faint);white-space:nowrap;background:var(--bg-card-2);border-right:1px solid var(--border);text-align:left}
+.cmp-table tbody td:nth-child(2){color:#b07070;background:var(--red-dim);border-left:1px solid var(--red-border)}
+.cmp-table tbody td:nth-child(3){color:var(--text);background:var(--gold-glow);border-left:1px solid rgba(201,160,80,.15)}
+
+/* Reason block */
+.reason-block{background:var(--bg-card-2);border-left:2px solid var(--border-l);padding:13px 16px;border-radius:0 var(--radius) var(--radius) 0;font-size:14px;color:var(--text-dim);margin:10px 0;line-height:1.85}
+.reason-label{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);margin-bottom:5px}
+
+/* Deploy table */
+.deploy-table{width:100%;border-collapse:collapse;margin:14px 0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;font-size:14px}
+.deploy-table thead tr{background:var(--bg-card-2)}
+.deploy-table thead th{padding:9px 14px;font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text-faint);text-align:left}
+.deploy-table tbody tr{border-top:1px solid var(--border)}
+.deploy-table tbody td,.deploy-table tbody th{padding:11px 14px;vertical-align:top;line-height:1.75}
+.deploy-table tbody th{font-size:12.5px;font-weight:600;color:var(--text-faint);white-space:nowrap;background:var(--bg-card-2);border-right:1px solid var(--border);text-align:left}
+.deploy-table tbody td{color:var(--text-dim)}
+
+/* Info flow blocks */
+.flow-block{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:14px}
+.flow-header{padding:12px 18px;background:var(--bg-card-2);border-bottom:1px solid var(--border);font-size:13px;font-weight:600;color:#edeef2;display:flex;align-items:center;gap:10px}
+.flow-tag{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:10px}
+.flow-tag-npc{color:#c06060;border:1px solid rgba(200,80,80,.3);background:var(--red-dim)}
+.flow-tag-player{color:var(--gold);border:1px solid rgba(201,160,80,.3);background:var(--gold-glow)}
+.flow-tag-input{color:var(--teal);border:1px solid var(--teal-border);background:var(--teal-dim)}
+.flow-body{padding:14px 18px;font-size:13.5px;color:var(--text-dim);line-height:1.85}
+.flow-body ol{list-style:none;counter-reset:flow-step;padding:0}
+.flow-body li{counter-increment:flow-step;display:flex;align-items:flex-start;gap:10px;padding:4px 0}
+.flow-body li::before{content:counter(flow-step);flex-shrink:0;width:20px;height:20px;border-radius:50%;border:1px solid var(--border-l);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--text-faint);margin-top:3px}
+
+/* Key distinction callout */
+.key-callout{background:rgba(201,160,80,.06);border:1px solid rgba(201,160,80,.2);border-radius:var(--radius-lg);padding:16px 20px;margin:18px 0;font-size:14px;line-height:1.85}
+.key-callout-label{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:6px}
+.key-callout-body{color:var(--text-dim)}
+.key-callout-body strong{color:var(--text);font-weight:600}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border-l);border-radius:2px}
+@media(max-width:860px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
+  .main{padding:32px 24px 60px}
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">跳转到主要内容</a>
+<div class="layout">
+
+<nav class="sidebar" aria-label="文档导航">
+  <div class="sidebar-inner">
+    <div class="sidebar-logo">Trumen_AgentCraft</div>
+    <div class="sidebar-sub">Trumen P1 产品构思</div>
+  </div>
+  <div class="page-nav">
+    <a class="page-link" href="TinyMB-brief-01.html">
+      <span class="page-link-num">①</span><span>概览</span>
+    </a>
+    <a class="page-link" href="TinyMB-brief-02.html">
+      <span class="page-link-num">②</span><span>增强一·游戏性</span>
+    </a>
+    <a class="page-link" href="TinyMB-brief-03.html">
+      <span class="page-link-num">③</span><span>增强二·参与</span>
+    </a>
+    <a class="page-link active" href="TinyMB-brief-04.html">
+      <span class="page-link-num">④</span><span>增强三·AI差异</span>
+    </a>
+    <div class="sub-nav">
+      <a class="sub-link" href="#design">设计思路</a>
+      <a class="sub-link" href="#architecture">技术架构</a>
+      <a class="sub-link" href="#validation">验证方式</a>
+    </div>
+    <a class="page-link" href="TinyMB-brief-05.html">
+      <span class="page-link-num">⑤</span><span>与第二阶段的关联</span>
+    </a>
+    <a class="page-link" href="TinyMB-brief-06.html">
+      <span class="page-link-num">⑥</span><span>附录·玩法框架选型</span>
+    </a>
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-meta">草稿 v0.4 · 2026-04-16<br>面向已了解 Trumen 愿景的同事</div>
+</nav>
+
+<main class="main" id="main-content">
+
+  <div class="page-header">
+    <div class="page-header-eyebrow">④ 增强三 · AI差异</div>
+    <h1 class="page-header-title">增强三 · AI差异</h1>
+    <p class="page-header-desc">如何在 Trumen_AgentCraft 的 MVP 中实现 AI 差异增强——架构分工、基模选择机制、验证方案。</p>
+  </div>
+
+  <!-- ═══════ Section 一：设计思路 ═══════ -->
+  <section class="section" id="design">
+    <h2 class="subsection-title">设计思路</h2>
+
+    <!-- 增强卡片 -->
+    <div class="enhancement-card">
+      <div class="enhancement-header">
+        <div class="enhancement-num">三</div>
+        <div class="enhancement-name">AI 脑子可选可感知</div>
+      </div>
+      <div class="enhancement-baseline">
+        <span aria-hidden="true">✕</span>
+        <span>AIvilization 中所有 Agent 共用服务器端同一个模型，用户无感知、无选择权。</span>
+      </div>
+      <div class="enhancement-body">
+        <p>就像 OpenClaw 接入不同基模时表现出明显不同的对话质量和推理深度，Trumen_AgentCraft 中的玩家 Agent 同样由一个<strong>基础大语言模型（基模）</strong>直接驱动。基模决定的是 Agent 的<strong>智力水平</strong>——同样的任务指令，接入更强基模的 Agent 会做出更深入的局面分析、更灵活的路径规划、更合理的取舍判断。</p>
+        <p>这个差异在 Trumen_AgentCraft 中对玩家<strong>可感知</strong>：你能在请示包和行动日志里看到 Agent 怎么思考、为什么选这条路、在哪里判断力不足。</p>
+
+        <div class="key-callout">
+          <div class="key-callout-label">关键区分</div>
+          <div class="key-callout-body">基模不影响<strong>角色是谁、遵守什么规则</strong>（这些由官方系统 prompt 锁定），它影响的是<strong>「脑子好不好使」</strong>——推理质量、局面分析深度、决策合理性。</div>
+        </div>
+
+        <p>这是首轮原型要显式验证的核心变量：同等任务条件下，不同基模产生什么样的差异？</p>
+      </div>
+    </div>
+
+    <!-- 对比表 -->
+    <table class="cmp-table">
+      <thead><tr><th scope="col">维度</th><th scope="col">AIvilization</th><th scope="col">Trumen_AgentCraft</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">基模位置</th><td>服务器端统一控制，用户无感</td><td>用户侧，用户选择基模</td></tr>
+        <tr><th scope="row">模型差异的作用</th><td>不存在——所有角色用同一个模型</td><td>是首轮要验证的核心假设之一</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ═══════ Section 二：技术架构 ═══════ -->
+  <section class="section" id="architecture">
+    <h2 class="subsection-title">技术架构——用户侧与系统侧的分工</h2>
+
+    <p style="color:var(--text-dim);margin-bottom:20px;">Trumen_AgentCraft 的多 Agent 框架采用三层结构，将角色智能与权威状态分离。Agent Framework 是与具体玩法解耦的角色决策与协作子系统——其底层运行逻辑与 OpenClaw 高度相似，运行环境是一个特定的游戏世界。</p>
+
+    <!-- 三层架构图 — HTML/CSS -->
+    <div style="margin:24px 0;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;background:var(--bg-card);padding:28px 24px;display:flex;flex-direction:column;gap:0;align-items:center">
+
+      <!-- Layer 1: Client -->
+      <div style="width:100%;max-width:480px;border:2px solid #5b9ea8;border-radius:8px;background:rgba(91,158,168,.08);padding:16px 20px;text-align:center">
+        <div style="font-size:14px;font-weight:600;color:#5b9ea8;margin-bottom:4px">Client</div>
+        <div style="font-size:12.5px;color:var(--text-dim);line-height:1.6">用户输入输出 · UI 渲染 · 日志与对话展示</div>
+      </div>
+
+      <!-- Arrow: Client ↔ Runtime -->
+      <div style="display:flex;align-items:center;gap:24px;padding:6px 0;color:var(--text-faint);font-size:11px">
+        <span>用户输入 / 操作 ↓</span>
+        <span style="font-size:18px;color:#4a4e5c">⇅</span>
+        <span>↑ 状态更新 / 可见事件</span>
+      </div>
+
+      <!-- Layer 2: Server / Runtime -->
+      <div style="width:100%;border:2px solid #c08060;border-radius:8px;background:rgba(192,128,96,.05);padding:18px 20px">
+        <div style="font-size:14px;font-weight:600;color:#c08060;text-align:center;margin-bottom:14px">Server / Runtime</div>
+
+        <!-- 调度中枢 -->
+        <div style="border:1px solid rgba(192,128,96,.4);border-radius:6px;background:rgba(192,128,96,.08);padding:12px 16px;text-align:center;margin-bottom:14px">
+          <div style="font-size:13px;font-weight:600;color:#e0ddd0">调度中枢</div>
+          <div style="font-size:12px;color:var(--text-dim);margin-top:2px">权威状态 · 时间推进 · 事件分发</div>
+        </div>
+
+        <!-- 两种判定 -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div style="border:1.5px solid #b08050;border-radius:6px;background:rgba(176,128,80,.06);padding:12px 14px">
+            <div style="font-size:12.5px;font-weight:600;color:#d0a060;margin-bottom:4px">代码规则判定</div>
+            <div style="font-size:12px;color:var(--text-dim);line-height:1.65">合法性 · 数值 · 资源 · 时间结算</div>
+          </div>
+          <div style="border:1.5px solid #9070b0;border-radius:6px;background:rgba(144,112,176,.06);padding:12px 14px">
+            <div style="font-size:12.5px;font-weight:600;color:#b090d0;margin-bottom:4px">LLM 裁判判定</div>
+            <div style="font-size:12px;color:var(--text-dim);line-height:1.65">开放式结果：态度 · 许可 · 说服等语义判定</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Arrow: Runtime ↔ Agent Framework -->
+      <div style="display:flex;align-items:center;gap:24px;padding:6px 0;color:var(--text-faint);font-size:11px">
+        <span>观察包 / 状态 ↓</span>
+        <span style="font-size:18px;color:#4a4e5c">⇅</span>
+        <span>↑ 行动意图</span>
+      </div>
+
+      <!-- Layer 3: Agent Framework -->
+      <div style="width:100%;border:2px solid rgba(201,160,80,.5);border-radius:8px;background:rgba(201,160,80,.04);padding:18px 20px">
+        <div style="font-size:14px;font-weight:600;color:var(--gold);text-align:center;margin-bottom:14px">Agent Framework</div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div style="border:1.5px solid #c06060;border-radius:6px;background:rgba(192,96,96,.06);padding:14px 16px">
+            <div style="font-size:13px;font-weight:600;color:#e08080;margin-bottom:6px">NPC Agent</div>
+            <div style="font-size:12px;color:var(--text-dim);line-height:1.65">
+              运行在<strong style="color:var(--text)">服务端</strong><br>
+              LLM：系统统一调用<br>
+              配置：服务端管控
+            </div>
+          </div>
+          <div style="border:1.5px solid var(--gold);border-radius:6px;background:rgba(201,160,80,.06);padding:14px 16px">
+            <div style="font-size:13px;font-weight:600;color:var(--gold);margin-bottom:6px">玩家 Agent</div>
+            <div style="font-size:12px;color:var(--text-dim);line-height:1.65">
+              运行在<strong style="color:var(--text)">用户侧</strong><br>
+              LLM：用户选择基模<br>
+              行为框架：官方 prompt 锁定
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 底部注释 -->
+      <div style="margin-top:14px;padding:10px 16px;border:1px solid rgba(201,160,80,.2);border-radius:6px;background:rgba(201,160,80,.04);font-size:12px;color:var(--text-dim);text-align:center;line-height:1.7;width:100%">
+        两类 Agent 对 Runtime 的接口<strong style="color:var(--text)">完全相同</strong>：接收观察包 → 输出结构化行动意图 → Runtime 统一校验结算。差异仅在部署位置和 LLM 来源。
+      </div>
+    </div>
+
+    <!-- 部署拆分表 -->
+    <div style="margin:24px 0 8px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint)">部署拆分详情</div>
+    <table class="deploy-table">
+      <thead><tr><th scope="col">Agent 类型</th><th scope="col">Framework 实例位置</th><th scope="col">LLM 来源</th><th scope="col">行为框架约束来源</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">NPC Agent</th><td>Server / Runtime 内部</td><td>服务端统一调用</td><td>服务端配置</td></tr>
+        <tr><th scope="row">玩家 Agent</th><td>用户侧（用户环境）</td><td>用户选择的基模</td><td>官方系统 prompt（不可修改）</td></tr>
+      </tbody>
+    </table>
+
+    <div class="key-callout">
+      <div class="key-callout-label">接口统一</div>
+      <div class="key-callout-body">两类 Agent 对 Runtime 的接口<strong>完全相同</strong>：接收观察包，输出结构化行动意图，由 Runtime 统一校验和结算。差异仅在于 Framework 实例跑在哪里、以及推理 LLM 由谁提供。</div>
+    </div>
+
+    <!-- 信息流 -->
+    <div style="margin:28px 0 14px">
+      <h2 class="subsection-title">主信息流</h2>
+    </div>
+
+    <div class="flow-block">
+      <div class="flow-header">
+        <span class="flow-tag flow-tag-input">输入</span>
+        玩家输入链路
+      </div>
+      <div class="flow-body">
+        <ol>
+          <li><span>Client 提交玩家输入（方针设定、请示回复、对话指令等）</span></li>
+          <li><span>输入进入玩家 Agent Framework 的<strong style="color:var(--text)">决策上下文</strong>，随后走标准玩家 Agent 链路</span></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="flow-block">
+      <div class="flow-header">
+        <span class="flow-tag flow-tag-player">玩家</span>
+        玩家 Agent 链路
+      </div>
+      <div class="flow-body">
+        <ol>
+          <li><span>Runtime → 用户侧玩家 Agent Framework：发送<strong style="color:var(--text)">观察包</strong></span></li>
+          <li><span>玩家 Agent Framework（用户基模 + 官方 prompt）→ Runtime：返回<strong style="color:var(--text)">结构化行动意图</strong></span></li>
+          <li><span>Runtime：校验与结算流程<strong style="color:var(--text)">与 NPC 链路完全相同</strong>，更新权威状态并同步 Client</span></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="flow-block">
+      <div class="flow-header">
+        <span class="flow-tag flow-tag-npc">NPC</span>
+        NPC Agent 链路
+      </div>
+      <div class="flow-body">
+        <ol>
+          <li><span>Runtime → NPC Agent Framework：发送<strong style="color:var(--text)">观察包</strong></span></li>
+          <li><span>NPC Agent Framework → Runtime：返回<strong style="color:var(--text)">结构化行动意图</strong></span></li>
+          <li><span>Runtime：代码规则或 LLM 裁判完成<strong style="color:var(--text)">校验与结算</strong>，更新权威状态并同步 Client</span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ Section 三：验证方式 ═══════ -->
+  <section class="section" id="validation">
+    <h2 class="subsection-title">验证方式</h2>
+
+    <div class="reason-block">
+      <div class="reason-label">验证假设</div>
+      不同基模在同等任务条件下会产生玩家可感知的行为差异——推理质量的高低会体现在决策路径、取舍偏好和任务执行效率上。
+    </div>
+    <div class="reason-block">
+      <div class="reason-label">观察指标</div>
+      控制相同初始条件和角色人设，对比不同基模的 Agent 在决策路径、风险评估深度、多步规划合理性、取舍偏好上的表现差异。
+    </div>
+    <div class="reason-block">
+      <div class="reason-label">成功标准</div>
+      差异可被玩家观察到并形成偏好（"这个基模的 Agent 明显更会算账 / 更敢冒险"）；不同基模不会全部收敛到相同行为模式。
+    </div>
+  </section>
+
+  <!-- ═══════ 备注：MVP 多人场景下的 NPC 简化方案 ═══════ -->
+  <section class="section" id="npc-note" style="border-top:1px solid var(--border);padding-top:48px">
+    <h2 class="subsection-title">备注：MVP 多人场景下的 NPC 方案</h2>
+
+    <p style="color:var(--text-dim);margin-bottom:16px;">LLM 驱动的 NPC 是 MVP 的加分项而非三项增强的验证前提——三项增强的验证目标均在玩家 Agent 侧。如果 MVP 需要支持多人，以下方案可避免"NPC 同时和多个玩家互动"的复杂度：</p>
+
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 22px;margin-bottom:16px">
+      <div style="font-size:13px;font-weight:600;color:var(--gold);margin-bottom:12px">方案：NPC 公共状态统一 + 一对一按需互动</div>
+
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:8px 14px;font-size:13px;line-height:1.75">
+        <div style="color:var(--text-faint);font-weight:500;white-space:nowrap">公共状态</div>
+        <div style="color:var(--text-dim)">NPC 位置、派系立场、市场价格、政策——全服统一一份，代码规则驱动变化，不需要 LLM</div>
+
+        <div style="color:var(--text-faint);font-weight:500;white-space:nowrap">私有状态</div>
+        <div style="color:var(--text-dim)">NPC 和每个玩家的关系值、对话历史、任务进度——按玩家隔离，互不干扰</div>
+
+        <div style="color:var(--text-faint);font-weight:500;white-space:nowrap">LLM 调用</div>
+        <div style="color:var(--text-dim)">仅在玩家发起一对一互动时按需触发。NPC 结合公共状态 + 和该玩家的私有状态来响应</div>
+
+        <div style="color:var(--text-faint);font-weight:500;white-space:nowrap">并发处理</div>
+        <div style="color:var(--text-dim)">多个玩家同时找同一个 NPC → 排队处理，和 MMO NPC 交互队列一致</div>
+
+        <div style="color:var(--text-faint);font-weight:500;white-space:nowrap">世界演化</div>
+        <div style="color:var(--text-dim)">取消 NPC 间自主互动，世界变化由规则系统驱动（价格波动、派系张力、定时事件）</div>
+      </div>
+    </div>
+
+    <p style="color:var(--text-dim);font-size:13px;line-height:1.75;">本质上是 <strong style="color:var(--text)">MMO NPC 经典模型 + LLM 对话能力</strong>：NPC 的存在和公共行为走传统方案，交互时用 LLM 生成自然语言对话和推理判断。服务端 LLM 成本从"NPC 数 × tick 频率"降为"玩家互动次数"，按需付费。</p>
+  </section>
+
+</main>
+</div>
+<script>
+const links=document.querySelectorAll('.sub-link');
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){links.forEach(l=>l.classList.remove('active'));const m=document.querySelector(`.sub-link[href="#${x.target.id}"]`);if(m)m.classList.add('active');}});},{rootMargin:'-15% 0px -75% 0px'});
+document.querySelectorAll('[id]').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

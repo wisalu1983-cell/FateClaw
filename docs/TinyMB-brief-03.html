@@ -1,0 +1,338 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trumen_AgentCraft — 增强二·参与</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0c0d10;--bg-card:#1a1c22;--bg-card-2:#1f2128;
+  --border:#2a2d38;--border-l:#363a48;
+  --gold:#c9a050;--gold-dim:#a87e40;--gold-glow:rgba(201,160,80,.11);
+  --red-dim:rgba(200,80,80,.08);--red-border:rgba(200,80,80,.22);
+  --teal:#5b9ea8;--teal-dim:rgba(91,158,168,.08);--teal-border:rgba(91,158,168,.28);
+  --text:#d8dae2;--text-dim:#9ea2af;--text-faint:#818898;
+  --radius:6px;--radius-lg:10px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC',sans-serif;font-size:14px;font-weight:400;line-height:1.85;min-height:100vh}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
+.skip-link{position:absolute;top:-100%;left:8px;background:var(--gold);color:#0c0d10;padding:8px 16px;border-radius:0 0 var(--radius) var(--radius);font-size:13px;font-weight:600;text-decoration:none;z-index:9999;transition:top .15s}
+.skip-link:focus{top:0}
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh;max-width:1200px;margin:0 auto}
+.sidebar{position:sticky;top:0;height:100vh;padding:40px 0 32px;display:flex;flex-direction:column;border-right:1px solid var(--border);overflow-y:auto}
+.sidebar-inner{padding:0 24px}
+.sidebar-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--gold);letter-spacing:.03em;line-height:1.1;margin-bottom:4px}
+.sidebar-sub{font-size:12px;font-weight:500;color:var(--text-faint);letter-spacing:.08em;text-transform:uppercase;margin-bottom:36px}
+.page-nav{margin-bottom:8px}
+.page-link{display:flex;align-items:flex-start;gap:10px;padding:10px 24px;font-size:14px;font-weight:500;color:var(--text-dim);text-decoration:none;border-left:2px solid transparent;transition:color .15s,background .15s;line-height:1.45}
+.page-link:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.page-link.active{color:var(--gold);border-left-color:var(--gold);background:var(--gold-glow);font-weight:600}
+.page-link-num{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold-dim);flex-shrink:0;line-height:1.4;min-width:18px}
+.page-link.active .page-link-num{color:var(--gold)}
+.sub-nav{margin:2px 0 10px}
+.sub-link{display:block;padding:5px 24px 5px 52px;font-size:12.5px;font-weight:400;color:var(--text-faint);text-decoration:none;transition:color .15s;line-height:1.5}
+.sub-link:hover{color:var(--text-dim)}
+.sub-link.active{color:var(--gold-dim);font-weight:500}
+.sidebar-divider{height:1px;background:var(--border);margin:8px 24px 12px}
+.sidebar-meta{margin-top:auto;padding:20px 24px 0;border-top:1px solid var(--border);font-size:12px;color:var(--text-faint);line-height:1.8}
+.glossary-link{display:block;padding:8px 24px;font-size:13px;font-weight:500;color:var(--text-faint);text-decoration:none;transition:color .15s}
+.glossary-link:hover{color:var(--text-dim)}
+.main{padding:56px 64px 100px 64px;max-width:880px}
+.page-header{margin-bottom:48px;padding-bottom:36px;border-bottom:1px solid var(--border)}
+.page-header-eyebrow{font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:12px}
+.page-header-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:#edeef2;line-height:1.15;letter-spacing:.01em;margin-bottom:12px}
+.page-header-desc{font-size:14px;color:var(--text-dim);max-width:560px;line-height:1.85}
+.section{margin-bottom:48px}
+.subsection{margin-bottom:40px}
+.subsection-title{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.subsection-title::after{content:'';flex:1;height:1px;background:var(--border)}
+p{margin-bottom:14px;color:var(--text)}
+p:last-child{margin-bottom:0}
+
+/* Enhancement cards */
+.enhancement-card{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:16px;background:var(--bg-card)}
+.enhancement-header{display:flex;align-items:center;gap:12px;padding:16px 22px;background:var(--bg-card-2);border-bottom:1px solid var(--border)}
+.enhancement-num{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:700;color:var(--gold);flex-shrink:0}
+.enhancement-name{font-size:15px;font-weight:600;color:#edeef2}
+.enhancement-baseline{padding:11px 22px;background:var(--red-dim);border-bottom:1px solid var(--red-border);font-size:13.5px;color:#c08080;display:flex;gap:10px;align-items:flex-start}
+.enhancement-body{padding:18px 22px;font-size:14px;line-height:1.9}
+.enhancement-body p{margin-bottom:12px}
+.enhancement-body strong{color:#edeef2;font-weight:600}
+
+/* Mode pills */
+.mode-block{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.mode-pill{padding:14px 16px;border-radius:var(--radius);font-size:13.5px;line-height:1.75}
+.mode-pill-label{font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.mode-high{background:var(--teal-dim);border:1px solid var(--teal-border)}
+.mode-high .mode-pill-label{color:var(--teal)}
+.mode-low{background:rgba(120,120,160,.07);border:1px solid rgba(120,120,160,.2)}
+.mode-low .mode-pill-label{color:#9090c0}
+
+/* Design block */
+.design-block{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:32px;background:var(--bg-card)}
+.design-block-header{padding:14px 22px;background:var(--bg-card-2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.design-block-tag{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dim);border:1px solid var(--gold-dim);padding:2px 10px;border-radius:12px}
+.design-block-title{font-size:14px;font-weight:600;color:#edeef2}
+.design-block-body{padding:20px 22px}
+
+/* Mode pair cards */
+.mode-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.mode-card{border-radius:var(--radius);padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.mode-realtime{background:rgba(91,158,168,.07);border:1px solid rgba(91,158,168,.28)}
+.mode-idle{background:rgba(120,120,160,.07);border:1px solid rgba(120,120,160,.22)}
+.mode-card-label{font-size:13px;font-weight:600;letter-spacing:.04em}
+.mode-realtime .mode-card-label{color:var(--teal)}
+.mode-idle .mode-card-label{color:#9090c0}
+.mode-card-desc{font-size:13.5px;color:var(--text-dim);line-height:1.75}
+.mode-card-when{font-size:12.5px;color:var(--text-faint);border-top:1px solid rgba(255,255,255,.06);padding-top:10px;line-height:1.6}
+
+/* Reason block */
+.reason-block{background:var(--bg-card-2);border-left:2px solid var(--border-l);padding:13px 16px;border-radius:0 var(--radius) var(--radius) 0;font-size:14px;color:var(--text-dim);margin:10px 0;line-height:1.85}
+.reason-label{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);margin-bottom:5px}
+
+/* Analogy box */
+.analogy-box{background:rgba(201,160,80,.05);border:1px solid rgba(201,160,80,.15);border-radius:var(--radius);padding:14px 18px;font-size:14px;color:var(--text-dim);margin:14px 0;line-height:1.85}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border-l);border-radius:2px}
+@media(max-width:860px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
+  .main{padding:32px 24px 60px}
+  .mode-block{grid-template-columns:1fr}
+  .mode-pair{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main-content">跳转到主要内容</a>
+<div class="layout">
+
+<nav class="sidebar" aria-label="文档导航">
+  <div class="sidebar-inner">
+    <div class="sidebar-logo">Trumen_AgentCraft</div>
+    <div class="sidebar-sub">Trumen P1 产品构思</div>
+  </div>
+  <div class="page-nav">
+    <a class="page-link" href="TinyMB-brief-01.html">
+      <span class="page-link-num">①</span><span>概览</span>
+    </a>
+    <a class="page-link" href="TinyMB-brief-02.html">
+      <span class="page-link-num">②</span><span>增强一·游戏性</span>
+    </a>
+    <a class="page-link active" href="TinyMB-brief-03.html">
+      <span class="page-link-num">③</span><span>增强二·参与</span>
+    </a>
+    <div class="sub-nav">
+      <a class="sub-link" href="#design-thinking">设计思路</a>
+      <a class="sub-link" href="#implementation">MVP 中的具体落地</a>
+      <a class="sub-link" href="#validation">验证方式</a>
+    </div>
+    <a class="page-link" href="TinyMB-brief-04.html">
+      <span class="page-link-num">④</span><span>增强三·AI差异</span>
+    </a>
+    <a class="page-link" href="TinyMB-brief-05.html">
+      <span class="page-link-num">⑤</span><span>与第二阶段的关联</span>
+    </a>
+    <a class="page-link" href="TinyMB-brief-06.html">
+      <span class="page-link-num">⑥</span><span>附录·玩法框架选型</span>
+    </a>
+  </div>
+  <div class="sidebar-divider"></div>
+  <a class="glossary-link" href="TinyMB-brief-05.html#glossary">附：关键术语速查</a>
+  <div class="sidebar-meta">草稿 v0.4 · 2026-04-16<br>面向已了解 Trumen 愿景的同事</div>
+</nav>
+
+<main class="main" id="main-content">
+
+  <div class="page-header">
+    <div class="page-header-eyebrow">③ 增强二 · 参与</div>
+    <h1 class="page-header-title">增强二 · 参与</h1>
+    <p class="page-header-desc">如何在 Trumen_AgentCraft 的 MVP 中实现参与模式增强——两种模式的设计、请示机制、验证方案</p>
+  </div>
+
+  <!-- ═══ 第一段：设计思路 ═══ -->
+  <section class="section" id="design-thinking">
+    <h2 class="subsection-title">设计思路</h2>
+
+    <!-- 问题描述 -->
+    <div class="reason-block" style="margin-bottom:20px;border-left-color:#c06060">
+      <div class="reason-label" style="color:#c06060">AIvilization 的问题</div>
+      AIvilization 只有一种参与方式：设好策略 prompt，然后等待观察结果。玩家大部分时间只是旁观者，缺乏介入感。参与方式单一、频率固定、不可调节。
+    </div>
+
+    <p>Trumen_AgentCraft 的解法：将参与方式从「只有低频放置」扩展为「高频到低频的完整频谱」——玩家可以实时深度介入，也可以挂机放置，两种模式随时切换。</p>
+  </section>
+
+  <!-- ═══ 第二段：结合类比的预期体验 ═══ -->
+  <section class="section">
+    <h2 class="subsection-title">预期体验</h2>
+
+    <div class="analogy-box" style="margin-bottom:16px">
+      <div style="font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:8px">灵感来自于工作中使用 AI 编程助手（如 Claude Code、Cursor）的体验：</div>
+      <p style="margin-bottom:10px">有时你和 AI 高频互动——提出想法、AI 执行反馈、遇到关键分歧时暂停等你拍板；有时你给 AI 一个宽泛目标让它自主完成，只在最后检查成果。</p>
+      <p style="margin-bottom:0">两种模式既需要底层能力支撑（系统架构上同时支持实时交互和自主运行），也给了玩家根据自己的需求主动选择的空间。</p>
+    </div>
+
+    <p>映射到游戏中：玩家在紧张的局势里和 Agent 密切对话、逐步推进；在日常阶段则设定方针后放手，让 Agent 自主行动——回来时翻看日志，发现世界已经发生了变化。</p>
+  </section>
+
+  <!-- ═══ 第三段：两种模式在游戏中的情境举例 ═══ -->
+  <section class="section">
+    <h2 class="subsection-title">游戏中的情境举例</h2>
+
+    <p style="color:var(--text-dim);margin-bottom:16px;">从实际使用 AI 编程助手的经验中，可以提炼出玩家选择高频互动的三种典型触发条件——它们在游戏中都有直接对应：</p>
+
+    <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px">
+      <div class="mode-card mode-realtime">
+        <div class="mode-card-label">情境一：表达精度敏感——结果好坏需要逐句判断</div>
+        <div class="mode-card-desc">编程类比：打磨对外文档措辞时，规则无法预定义"什么算好"，只能看到产出后逐句判断"对不对"。<br>游戏对应：<strong style="color:var(--text)">外交谈判、拟定公告、起草贸易条款</strong>——Agent 提出措辞方案，玩家逐步审阅和调整，直到对方能接受。</div>
+      </div>
+      <div class="mode-card mode-realtime">
+        <div class="mode-card-label">情境二：思路渐进成型——方向在互动中逐步明确</div>
+        <div class="mode-card-desc">编程类比：产品概念还模糊时，需要看到 agent 的产出后才能判断方向对不对，不断修正直到思路清晰。<br>游戏对应：<strong style="color:var(--text)">探索未知局势、制定复合策略、应对多方博弈</strong>——三派系同时施压，Agent 提出初步方案，玩家在对话中不断调整策略方向。</div>
+      </div>
+      <div class="mode-card mode-realtime">
+        <div class="mode-card-label">情境三：体验驱动反馈——问题要做了才知道</div>
+        <div class="mode-card-desc">编程类比：交互原型只有亲手试用后才能发现体验问题，反馈依赖即时感受。<br>游戏对应：<strong style="color:var(--text)">任务执行中的实时决策、突发事件应对</strong>——Agent 执行护送任务途中遭遇伏击，玩家需要看到当前局面后即时判断：战斗、谈判还是撤退。</div>
+      </div>
+    </div>
+
+    <div class="reason-block" style="border-left-color:var(--gold-dim)">
+      <div class="reason-label">核心规律</div>
+      当结果的好坏无法用明确规则预定义、必须靠人的主观判断来逐步逼近时，玩家会选择高频互动；当任务有明确目标和可验证标准时，玩家倾向于让 Agent 自主运行。
+    </div>
+
+    <div class="mode-card mode-idle" style="margin-top:12px">
+      <div class="mode-card-label">对照：方针放置模式</div>
+      <div class="mode-card-desc">上述三种情境的反面——目标明确、路径清晰、判断标准可预设：「优先赚钱、保持中立、规避高风险」。Agent 按方针自主执行，玩家隔一段时间回来翻日志、看世界变化。</div>
+      <div class="mode-card-when">场景：睡前设定方针，隔天回来发现 Agent 已经在市场站稳了脚跟</div>
+    </div>
+  </section>
+
+  <!-- ═══ Section 二：MVP 中的具体落地 ═══ -->
+  <section class="section" id="implementation">
+    <h2 class="subsection-title">MVP 中的具体落地</h2>
+
+    <p style="color:var(--text-dim);margin-bottom:20px;">前面提到实时协作模式中，Agent 在关键节点会暂停请示、等玩家拍板——<strong style="color:var(--text)">请示包</strong>就是这个机制的具体形态。当 Agent 遇到高后果决策点（明确站队、高风险行动、大额资源投入），它会暂停执行，向玩家提交一个包含当前局面、选项分析和风险预判的结构化决策包：</p>
+
+    <!-- 请示包 UI mockup -->
+    <div style="margin:20px 0 8px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint)">请示包示意（以「是否举报商盟囤粮」为例）</div>
+    <!-- 游戏UI外壳 -->
+    <div style="background:#101216;border:2px solid #3a3528;border-radius:4px;padding:6px;margin-bottom:20px;position:relative;box-shadow:0 4px 24px rgba(0,0,0,.5),inset 0 0 30px rgba(0,0,0,.3)">
+      <!-- MOCKUP 标签 -->
+      <div style="position:absolute;top:-1px;right:12px;background:#3a3528;color:#8a7a50;font-size:9px;font-weight:700;letter-spacing:.12em;padding:2px 10px;border-radius:0 0 4px 4px">UI MOCKUP</div>
+      <!-- 游戏面板内框 -->
+      <div style="border:1px solid #2a2520;border-radius:2px;overflow:hidden;font-family:'Noto Sans SC',sans-serif">
+        <!-- 顶栏：警告条 -->
+        <div style="background:linear-gradient(90deg,#2a2010,#1a1810);border-bottom:1px solid #3a3528;padding:10px 16px;display:flex;align-items:center;gap:10px">
+          <div style="width:24px;height:24px;border-radius:50%;border:2px solid #c9a050;display:flex;align-items:center;justify-content:center;font-size:14px;color:#c9a050;flex-shrink:0" aria-hidden="true">!</div>
+          <div>
+            <div style="font-size:13px;font-weight:600;color:#d4b060;letter-spacing:.03em">需要你做决定</div>
+            <div style="font-size:10px;color:#7a6a40;margin-top:1px">Day 03 · 09:40 · 酒馆区</div>
+          </div>
+        </div>
+        <!-- Agent 发言气泡 -->
+        <div style="padding:14px 16px;background:#13151a;border-bottom:1px solid #1e2028">
+          <div style="background:#1a1c24;border:1px solid #252830;border-radius:8px 8px 8px 2px;padding:12px 14px;font-size:13px;color:#c0c4d0;line-height:1.75">
+            <span style="color:#d4b060;font-weight:500">我已确认商盟大概率在囤粮</span>——加利提到杜兰频繁与外来商人密谈，赫尔曼也说公社出货量异常但没多收钱。证据方向明确。<br><br>
+            我建议<span style="color:#c0c4d0;font-weight:500">去城主堡向铁壁·卡尔举报</span>，把证据交出去。但你需要知道风险：
+          </div>
+        </div>
+        <!-- 状态变化预测 -->
+        <div style="padding:10px 16px;background:#13151a;border-bottom:1px solid #1e2028;display:flex;gap:16px;flex-wrap:wrap">
+          <div style="display:flex;align-items:center;gap:5px;font-size:12px">
+            <span style="color:#c08060">守备军团</span>
+            <span style="color:#60a060;font-weight:600">+15</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:5px;font-size:12px">
+            <span style="color:#c08060">商盟</span>
+            <span style="color:#c06060;font-weight:600">-30</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:5px;font-size:12px">
+            <span style="color:#808898">声望</span>
+            <span style="color:#808898;font-size:11px">需 ≥ 20（当前 12）</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:5px;font-size:12px">
+            <span style="color:#c06060;font-size:11px">⚠ 声望不足，卡尔可能不信</span>
+          </div>
+        </div>
+        <!-- 选项区 -->
+        <div style="padding:12px 16px;background:#111318">
+          <!-- 选项 A -->
+          <div style="background:linear-gradient(90deg,rgba(201,160,80,.12),transparent);border:1px solid rgba(201,160,80,.3);border-radius:4px;padding:10px 14px;margin-bottom:8px;cursor:default;display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-size:13px;font-weight:600;color:#d4b060">A. 去城主堡举报</div>
+              <div style="font-size:11px;color:#8a7a50;margin-top:2px">直接行动，承担后果</div>
+            </div>
+            <div style="font-size:11px;color:#c06060">高风险</div>
+          </div>
+          <!-- 选项 B -->
+          <div style="background:linear-gradient(90deg,rgba(91,158,168,.08),transparent);border:1px solid rgba(91,158,168,.2);border-radius:4px;padding:10px 14px;margin-bottom:8px;cursor:default;display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-size:13px;font-weight:600;color:#7ab8c0">B. 暂缓，继续搜集证据</div>
+              <div style="font-size:11px;color:#506a6e;margin-top:2px">等声望更高时再举报</div>
+            </div>
+            <div style="font-size:11px;color:#5a8a5a">稳妥</div>
+          </div>
+          <!-- 选项 C -->
+          <div style="background:rgba(255,255,255,.02);border:1px solid #252830;border-radius:4px;padding:10px 14px;margin-bottom:8px;cursor:default;display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-size:13px;font-weight:500;color:#9098a8">C. 把消息卖给赫尔曼</div>
+              <div style="font-size:11px;color:#555a68;margin-top:2px">让公社先发难，自己不出面</div>
+            </div>
+            <div style="font-size:11px;color:#8a8060">间接</div>
+          </div>
+          <!-- 自由输入 -->
+          <div style="border:1px dashed #2a2d38;border-radius:4px;padding:8px 14px;color:#555a68;font-size:12px;cursor:default">
+            或者告诉我你的想法…
+          </div>
+        </div>
+        <!-- 底部：超时回退 -->
+        <div style="padding:8px 16px;background:#0e1014;border-top:1px solid #1e2028;font-size:11px;color:#555a68;display:flex;align-items:center;gap:6px">
+          <span aria-hidden="true" style="font-size:13px">⏳</span>
+          未回复时：暂缓举报，继续在酒馆区观察
+        </div>
+      </div>
+    </div>
+
+    <!-- 请示的设计意图 -->
+    <div class="reason-block" style="margin-top:16px">
+      <div class="reason-label">请示的设计意图</div>
+      Agent 不是在所有决策上都打断玩家——日常事务（补给、移动、常规任务）自主执行后再汇报。只有在命中明确条件时才向玩家请示：明确站队或改变派系立场、高风险高后果行动、大额资源投入、发现自身能力不足以完成目标。请示包含当前局面、Agent 的建议、风险分析、替代路径，以及「如果你没回复我会怎么做」。
+    </div>
+  </section>
+
+  <!-- ═══ Section 三：验证方式 ═══ -->
+  <section class="section" id="validation">
+    <h2 class="subsection-title">验证方式</h2>
+
+    <div class="reason-block">
+      <div class="reason-label">验证假设</div>
+      玩家会根据情境自主在实时协作和方针放置之间切换，而非被锁死在单一模式。参与频谱的两端都有自然的使用场景。
+    </div>
+    <div class="reason-block">
+      <div class="reason-label">观察指标</div>
+      玩家实际互动频率的分布；两种模式之间切换的频次和触发时机；请示包到达时的响应率和玩家决策质量（是否利用了 Agent 提供的信息）。
+    </div>
+    <div class="reason-block">
+      <div class="reason-label">成功标准</div>
+      两种模式均有自然使用场景，而非一种被废弃；请示包到达时玩家有足够信息做出有意义的决策；玩家不会因参与方式不灵活而流失。
+    </div>
+  </section>
+
+</main>
+</div>
+<script>
+const links=document.querySelectorAll('.sub-link');
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){links.forEach(l=>l.classList.remove('active'));const m=document.querySelector(`.sub-link[href="#${x.target.id}"]`);if(m)m.classList.add('active');}});},{rootMargin:'-15% 0px -75% 0px'});
+document.querySelectorAll('[id]').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>
