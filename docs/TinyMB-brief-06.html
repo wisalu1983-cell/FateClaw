@@ -23,26 +23,26 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC',sans-seri
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
 .skip-link{position:absolute;top:-100%;left:8px;background:var(--gold);color:#0c0d10;padding:8px 16px;border-radius:0 0 var(--radius) var(--radius);font-size:13px;font-weight:600;text-decoration:none;z-index:9999;transition:top .15s}
 .skip-link:focus{top:0}
-.layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh;max-width:1200px;margin:0 auto}
+.layout{display:grid;grid-template-columns:220px 1fr;min-height:100vh;max-width:1440px;margin:0 auto}
 .sidebar{position:sticky;top:0;height:100vh;padding:40px 0 32px;display:flex;flex-direction:column;border-right:1px solid var(--border);overflow-y:auto}
-.sidebar-inner{padding:0 24px}
-.sidebar-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--gold);letter-spacing:.03em;line-height:1.1;margin-bottom:4px}
+.sidebar-inner{padding:0 20px}
+.sidebar-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--gold);letter-spacing:.03em;line-height:1.1;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sidebar-sub{font-size:12px;font-weight:500;color:var(--text-faint);letter-spacing:.08em;text-transform:uppercase;margin-bottom:36px}
 .page-nav{margin-bottom:8px}
-.page-link{display:flex;align-items:flex-start;gap:10px;padding:10px 24px;font-size:14px;font-weight:500;color:var(--text-dim);text-decoration:none;border-left:2px solid transparent;transition:color .15s,background .15s;line-height:1.45}
+.page-link{display:flex;align-items:flex-start;gap:10px;padding:10px 16px;font-size:13px;font-weight:500;color:var(--text-dim);text-decoration:none;border-left:2px solid transparent;transition:color .15s,background .15s;line-height:1.45;white-space:nowrap;overflow:hidden}
 .page-link:hover{color:var(--text);background:rgba(255,255,255,.03)}
 .page-link.active{color:var(--gold);border-left-color:var(--gold);background:var(--gold-glow);font-weight:600}
 .page-link-num{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold-dim);flex-shrink:0;line-height:1.4;min-width:18px}
 .page-link.active .page-link-num{color:var(--gold)}
 .sub-nav{margin:2px 0 10px}
-.sub-link{display:block;padding:5px 24px 5px 52px;font-size:12.5px;font-weight:400;color:var(--text-faint);text-decoration:none;transition:color .15s;line-height:1.5}
+.sub-link{display:block;padding:5px 16px 5px 44px;font-size:12px;font-weight:400;color:var(--text-faint);text-decoration:none;transition:color .15s;line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sub-link:hover{color:var(--text-dim)}
 .sub-link.active{color:var(--gold-dim);font-weight:500}
-.sidebar-divider{height:1px;background:var(--border);margin:8px 24px 12px}
-.sidebar-meta{margin-top:auto;padding:20px 24px 0;border-top:1px solid var(--border);font-size:12px;color:var(--text-faint);line-height:1.8}
-.glossary-link{display:block;padding:8px 24px;font-size:13px;font-weight:500;color:var(--text-faint);text-decoration:none;transition:color .15s}
+.sidebar-divider{height:1px;background:var(--border);margin:8px 16px 12px}
+.sidebar-meta{margin-top:auto;padding:20px 16px 0;border-top:1px solid var(--border);font-size:12px;color:var(--text-faint);line-height:1.8}
+.glossary-link{display:block;padding:8px 16px;font-size:13px;font-weight:500;color:var(--text-faint);text-decoration:none;transition:color .15s}
 .glossary-link:hover{color:var(--text-dim)}
-.main{padding:56px 64px 100px 64px;max-width:920px}
+.main{padding:56px 64px 100px 64px;max-width:960px}
 .page-header{margin-bottom:48px;padding-bottom:36px;border-bottom:1px solid var(--border)}
 .page-header-eyebrow{font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:12px}
 .page-header-title{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:#edeef2;line-height:1.15;letter-spacing:.01em;margin-bottom:12px}
@@ -114,10 +114,20 @@ p:last-child{margin-bottom:0}
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border-l);border-radius:2px}
+.nav-toggle{display:none;background:none;border:1px solid var(--border);border-radius:var(--radius);color:var(--text-dim);cursor:pointer;padding:4px 10px;font-size:18px;line-height:1}
 @media(max-width:860px){
   .layout{grid-template-columns:1fr}
-  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
-  .main{padding:32px 24px 60px}
+  .sidebar{position:sticky;top:0;height:auto;border-right:none;border-bottom:1px solid var(--border);padding:0;z-index:100;background:var(--bg);overflow:visible}
+  .sidebar-inner{display:flex;align-items:center;justify-content:space-between;padding:12px 20px}
+  .sidebar-logo{margin-bottom:0;font-size:18px}
+  .sidebar-sub{display:none}
+  .nav-toggle{display:block}
+  .page-nav,.sidebar-divider,.glossary-link,.sidebar-meta{display:none}
+  .sidebar.open .page-nav{display:block;padding:4px 0 8px;border-top:1px solid var(--border)}
+  .sidebar.open .sidebar-divider{display:block}
+  .sidebar.open .glossary-link{display:block}
+  .sidebar.open .sidebar-meta{display:block;margin-top:0}
+  .main{padding:32px 20px 60px;max-width:none}
   .summary-grid{grid-template-columns:1fr}
 }
 </style>
@@ -130,14 +140,15 @@ p:last-child{margin-bottom:0}
   <div class="sidebar-inner">
     <div class="sidebar-logo">Trumen_AgentCraft</div>
     <div class="sidebar-sub">Trumen P1 产品构思</div>
+    <button class="nav-toggle" aria-label="切换导航" aria-expanded="false">☰</button>
   </div>
   <div class="page-nav">
     <a class="page-link" href="TinyMB-brief-01.html"><span class="page-link-num">①</span><span>概览</span></a>
-    <a class="page-link" href="TinyMB-brief-02.html"><span class="page-link-num">②</span><span>增强一·游戏性</span></a>
-    <a class="page-link" href="TinyMB-brief-03.html"><span class="page-link-num">③</span><span>增强二·玩家参与度</span></a>
-    <a class="page-link" href="TinyMB-brief-04.html"><span class="page-link-num">④</span><span>增强三·Agent能力差异</span></a>
+    <a class="page-link" href="TinyMB-brief-02.html"><span class="page-link-num">②</span><span>PLUS· 游戏性</span></a>
+    <a class="page-link" href="TinyMB-brief-03.html"><span class="page-link-num">③</span><span>PLUS· 玩家参与度</span></a>
+    <a class="page-link" href="TinyMB-brief-04.html"><span class="page-link-num">④</span><span>PLUS· Agent能力差异</span></a>
     <a class="page-link" href="TinyMB-brief-05.html"><span class="page-link-num">⑤</span><span>与第二阶段的关联</span></a>
-    <a class="page-link active" href="TinyMB-brief-06.html"><span class="page-link-num">⑥</span><span>附录·玩法框架选型</span></a>
+    <a class="page-link active" href="TinyMB-brief-06.html"><span class="page-link-num">⑥</span><span>玩法框架选型</span></a>
     <div class="sub-nav">
       <a class="sub-link" href="#background">选型背景与标准</a>
       <a class="sub-link" href="#matrix">8方案对比</a>
@@ -152,8 +163,7 @@ p:last-child{margin-bottom:0}
 <main class="main" id="main-content">
 
   <div class="page-header">
-    <div class="page-header-eyebrow">⑥ 附录</div>
-    <h1 class="page-header-title">玩法框架选型</h1>
+    <h1 class="page-header-title"><span style="font-size:42px;color:var(--gold-dim)">附</span>录：玩法框架选型</h1>
     <p class="page-header-desc">为什么选骑砍框架而非其他方向——从评估标准到候选方案对比到最终结论的完整推导。</p>
   </div>
 
@@ -294,6 +304,8 @@ p:last-child{margin-bottom:0}
 const links=document.querySelectorAll('.sub-link');
 const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){links.forEach(l=>l.classList.remove('active'));const m=document.querySelector(`.sub-link[href="#${x.target.id}"]`);if(m)m.classList.add('active');}});},{rootMargin:'-15% 0px -75% 0px'});
 document.querySelectorAll('[id]').forEach(s=>obs.observe(s));
+const navToggle=document.querySelector('.nav-toggle'),sidebarEl=document.querySelector('.sidebar');
+if(navToggle)navToggle.addEventListener('click',()=>{sidebarEl.classList.toggle('open');const isOpen=sidebarEl.classList.contains('open');navToggle.setAttribute('aria-expanded',isOpen);navToggle.textContent=isOpen?'✕':'☰';});
 </script>
 </body>
 </html>

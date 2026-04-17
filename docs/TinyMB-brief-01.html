@@ -23,30 +23,30 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC',sans-seri
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
 .skip-link{position:absolute;top:-100%;left:8px;background:var(--gold);color:#0c0d10;padding:8px 16px;border-radius:0 0 var(--radius) var(--radius);font-size:13px;font-weight:600;text-decoration:none;z-index:9999;transition:top .15s}
 .skip-link:focus{top:0}
-.layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh;max-width:1200px;margin:0 auto}
+.layout{display:grid;grid-template-columns:220px 1fr;min-height:100vh;max-width:1440px;margin:0 auto}
 
 /* ── SIDEBAR ── */
 .sidebar{position:sticky;top:0;height:100vh;padding:40px 0 32px;display:flex;flex-direction:column;border-right:1px solid var(--border);overflow-y:auto}
-.sidebar-inner{padding:0 24px}
-.sidebar-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--gold);letter-spacing:.03em;line-height:1.1;margin-bottom:4px}
+.sidebar-inner{padding:0 20px}
+.sidebar-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--gold);letter-spacing:.03em;line-height:1.1;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sidebar-sub{font-size:12px;font-weight:500;color:var(--text-faint);letter-spacing:.08em;text-transform:uppercase;margin-bottom:36px}
 .page-nav{margin-bottom:8px}
-.page-link{display:flex;align-items:flex-start;gap:10px;padding:10px 24px;font-size:14px;font-weight:500;color:var(--text-dim);text-decoration:none;border-left:2px solid transparent;transition:color .15s,background .15s;line-height:1.45}
+.page-link{display:flex;align-items:flex-start;gap:10px;padding:10px 16px;font-size:13px;font-weight:500;color:var(--text-dim);text-decoration:none;border-left:2px solid transparent;transition:color .15s,background .15s;line-height:1.45;white-space:nowrap;overflow:hidden}
 .page-link:hover{color:var(--text);background:rgba(255,255,255,.03)}
 .page-link.active{color:var(--gold);border-left-color:var(--gold);background:var(--gold-glow);font-weight:600}
 .page-link-num{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--gold-dim);flex-shrink:0;line-height:1.4;min-width:18px}
 .page-link.active .page-link-num{color:var(--gold)}
 .sub-nav{margin:2px 0 10px}
-.sub-link{display:block;padding:5px 24px 5px 52px;font-size:12.5px;font-weight:400;color:var(--text-faint);text-decoration:none;transition:color .15s;line-height:1.5}
+.sub-link{display:block;padding:5px 16px 5px 44px;font-size:12px;font-weight:400;color:var(--text-faint);text-decoration:none;transition:color .15s;line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sub-link:hover{color:var(--text-dim)}
 .sub-link.active{color:var(--gold-dim);font-weight:500}
-.sidebar-divider{height:1px;background:var(--border);margin:8px 24px 12px}
-.sidebar-meta{margin-top:auto;padding:20px 24px 0;border-top:1px solid var(--border);font-size:12px;font-weight:400;color:var(--text-faint);line-height:1.8}
-.glossary-link{display:block;padding:8px 24px;font-size:13px;font-weight:500;color:var(--text-faint);text-decoration:none;transition:color .15s}
+.sidebar-divider{height:1px;background:var(--border);margin:8px 16px 12px}
+.sidebar-meta{margin-top:auto;padding:20px 16px 0;border-top:1px solid var(--border);font-size:12px;font-weight:400;color:var(--text-faint);line-height:1.8}
+.glossary-link{display:block;padding:8px 16px;font-size:13px;font-weight:500;color:var(--text-faint);text-decoration:none;transition:color .15s}
 .glossary-link:hover{color:var(--text-dim)}
 
 /* ── MAIN ── */
-.main{padding:56px 64px 100px 64px;max-width:880px}
+.main{padding:56px 64px 100px 64px;max-width:960px}
 .hero{margin-bottom:56px;padding-bottom:44px;border-bottom:1px solid var(--border)}
 .hero-eyebrow{font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:14px}
 .hero-title{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:700;line-height:1.05;letter-spacing:-.01em;color:#edeef2;margin-bottom:14px}
@@ -95,10 +95,20 @@ p:last-child{margin-bottom:0}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border-l);border-radius:2px}
 
+.nav-toggle{display:none;background:none;border:1px solid var(--border);border-radius:var(--radius);color:var(--text-dim);cursor:pointer;padding:4px 10px;font-size:18px;line-height:1}
 @media(max-width:860px){
   .layout{grid-template-columns:1fr}
-  .sidebar{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
-  .main{padding:32px 24px 60px}
+  .sidebar{position:sticky;top:0;height:auto;border-right:none;border-bottom:1px solid var(--border);padding:0;z-index:100;background:var(--bg);overflow:visible}
+  .sidebar-inner{display:flex;align-items:center;justify-content:space-between;padding:12px 20px}
+  .sidebar-logo{margin-bottom:0;font-size:18px}
+  .sidebar-sub{display:none}
+  .nav-toggle{display:block}
+  .page-nav,.sidebar-divider,.glossary-link,.sidebar-meta{display:none}
+  .sidebar.open .page-nav{display:block;padding:4px 0 8px;border-top:1px solid var(--border)}
+  .sidebar.open .sidebar-divider{display:block}
+  .sidebar.open .glossary-link{display:block}
+  .sidebar.open .sidebar-meta{display:block;margin-top:0}
+  .main{padding:32px 20px 60px;max-width:none}
 }
 </style>
 </head>
@@ -110,6 +120,7 @@ p:last-child{margin-bottom:0}
   <div class="sidebar-inner">
     <div class="sidebar-logo">Trumen_AgentCraft</div>
     <div class="sidebar-sub">Trumen P1 产品构思</div>
+    <button class="nav-toggle" aria-label="切换导航" aria-expanded="false">☰</button>
   </div>
   <div class="page-nav">
     <a class="page-link active" href="TinyMB-brief-01.html">
@@ -117,22 +128,22 @@ p:last-child{margin-bottom:0}
     </a>
     <div class="sub-nav">
       <a class="sub-link" href="#positioning">定位：AIvilization Plus</a>
-      <a class="sub-link" href="#experience">预期的游戏体验</a>
+      <a class="sub-link" href="#experience">预期体验（骑砍玩法为例）</a>
     </div>
     <a class="page-link" href="TinyMB-brief-02.html">
-      <span class="page-link-num">②</span><span>增强一·游戏性</span>
+      <span class="page-link-num">②</span><span>PLUS· 游戏性</span>
     </a>
     <a class="page-link" href="TinyMB-brief-03.html">
-      <span class="page-link-num">③</span><span>增强二·玩家参与度</span>
+      <span class="page-link-num">③</span><span>PLUS· 玩家参与度</span>
     </a>
     <a class="page-link" href="TinyMB-brief-04.html">
-      <span class="page-link-num">④</span><span>增强三·Agent能力差异</span>
+      <span class="page-link-num">④</span><span>PLUS· Agent能力差异</span>
     </a>
     <a class="page-link" href="TinyMB-brief-05.html">
       <span class="page-link-num">⑤</span><span>与第二阶段的关联</span>
     </a>
     <a class="page-link" href="TinyMB-brief-06.html">
-      <span class="page-link-num">⑥</span><span>附录·玩法框架选型</span>
+      <span class="page-link-num">⑥</span><span>玩法框架选型</span>
     </a>
   </div>
   <div class="sidebar-divider"></div>
@@ -161,11 +172,12 @@ p:last-child{margin-bottom:0}
     </div>
 
     <table class="plus-table">
+      <colgroup><col style="width:110px"><col><col></colgroup>
       <thead>
         <tr>
           <th scope="col"></th>
-          <th scope="col"><span aria-hidden="true">▲</span> AIvilization 的空白</th>
-          <th scope="col"><span aria-hidden="true">✦</span> Trumen_AgentCraft 的增强</th>
+          <th scope="col" style="width:45%"><span aria-hidden="true">▲</span> AIvilization 的空白</th>
+          <th scope="col" style="width:45%"><span aria-hidden="true">✦</span> Trumen_AgentCraft 的增强</th>
         </tr>
       </thead>
       <tbody>
@@ -175,12 +187,12 @@ p:last-child{margin-bottom:0}
           <td>引入多维目标体系与博弈规则，提升游戏性与可玩深度</td>
         </tr>
         <tr>
-          <th scope="row">参与</th>
+          <th scope="row">玩家参与度</th>
           <td>只能低频写 prompt 然后旁观，参与度低</td>
           <td>高频实时对话 ↔ 低频挂机放置兼容。<br>类比使用 Agent 工作时既能高频对话，又能列一个大 Plan 长时间自动工作</td>
         </tr>
         <tr>
-          <th scope="row">AI 差异</th>
+          <th scope="row">Agent能力差异</th>
           <td>统一服务器模型，用户无感</td>
           <td>玩家自选基模，差异可感知、可对比、可验证</td>
         </tr>
@@ -191,7 +203,7 @@ p:last-child{margin-bottom:0}
   <section class="section" id="experience">
     <div class="section-header">
       <span class="section-num">二</span>
-      <h2 class="section-title">预期的游戏体验</h2>
+      <h2 class="section-title">预期体验——以代入极简版的骑马与砍杀玩法为例</h2>
     </div>
 
     <div class="exp-block">
@@ -199,21 +211,30 @@ p:last-child{margin-bottom:0}
         <div class="exp-inherited-label">继承自 AIvilization 的底色</div>
         世界不因玩家下线而暂停，NPC 有自己的节奏，多个 Agent 之间产生超出预设的涌现行为。玩家上线时发现世界已经变了——有人暗中交换了情报，派系力量对比悄然移动。这种「世界活着」的感受是 Trumen_AgentCraft 继承的核心底色。
       </div>
-      <div style="padding:10px 22px 4px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);font-weight:600;">三项增强带来的新体验</div>
-      <table class="exp-table" aria-label="三项增强带来的新体验">
-        <thead class="sr-only"><tr><th scope="col">增强</th><th scope="col">体验变化</th></tr></thead>
+      <div style="padding:10px 22px 4px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);font-weight:600;">代入骑砍框架后，相对 AIvilization 的关键变化</div>
+      <table class="exp-table" aria-label="代入骑砍框架后的关键体验变化">
+        <thead class="sr-only"><tr><th scope="col">增强维度</th><th scope="col">相对 AIvilization 的体验变化</th></tr></thead>
         <tbody>
           <tr>
-            <th scope="row">有规则的活世界</th>
-            <td>引入多层次目标与动态博弈后，世界的复杂性和变化性大幅提升——目标更丰富、意外更多、路径不固定，游戏乐趣以及玩家主动介入和决策的动力自然增强</td>
+            <th scope="row">游戏性</th>
+            <td>
+              <p><strong style="color:#edeef2">从单一目标到多维取舍。</strong>Agent 同时要权衡金钱、声望、派系关系——每个选择都有实际代价和连锁后果。</p>
+              <p style="color:var(--text-dim)">举报商盟囤粮可以涨声望，却得罪商人、影响后续补给；加入某派系能获封地，但同时树敌对立阵营。不再只是"赚钱→升职"的线性路径。</p>
+            </td>
           </tr>
           <tr>
-            <th scope="row">参与深度可调</th>
-            <td>参与方式由玩家自己掌控：有时间就实时对话协作（10-30 秒一轮反馈 + 关键节点拍板），没空就切回挂机方针驱动，不再被锁死在「写完 prompt 只能等」</td>
+            <th scope="row">玩家参与度</th>
+            <td>
+              <p><strong style="color:#edeef2">从旁观者到双模式参与。</strong>高后果决策点 Agent 主动暂停，打包局面、选项、风险发来请示；日常任务按方针自主推进。</p>
+              <p style="color:var(--text-dim)">遭遇政治危机时你逐步拍板推进，节奏舒缓时切回挂机——回来翻日志看世界在你不在线时发生了什么。</p>
+            </td>
           </tr>
           <tr>
-            <th scope="row">AI 脑子可选</th>
-            <td>换个基模，同样的任务可能有明显不同的执行路径和结果——这个差异可观察、可对比，是首轮验证要回答的核心问题</td>
+            <th scope="row">Agent能力差异</th>
+            <td>
+              <p><strong style="color:#edeef2">复杂环境让能力差异浮出水面。</strong>多维目标与动态博弈构成的复杂决策空间，是体现不同基模智力水平差异的基础。</p>
+              <p style="color:var(--text-dim)">在这个环境里，Agent 每次请示都暴露推理过程——局面怎么分析、风险怎么排序、路径怎么取舍。更强基模的 Agent 会给出更精准的判断和更灵活的方案，差异在具体决策场景中可感知、可对比。</p>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -221,7 +242,7 @@ p:last-child{margin-bottom:0}
 
     <div class="summary-bar">
       <span class="summary-bar-icon" aria-hidden="true">◆</span>
-      <span><strong style="color:var(--text)">一句话总结：</strong>AIvilization 的活世界底色 + 多维目标与博弈规则带来的有后果取舍 + 从挂机放置到实时协作的完整参与频谱 + 基模选择带来的可感知 AI 差异。</span>
+      <span><strong style="color:var(--text)">一句话总结：</strong>AIvilization 的活世界底色 + 骑砍式多维目标带来的有代价取舍 + 从挂机放置到实时协作的完整参与频谱 + 基模推理质量在请示包里直接可见可对比。</span>
     </div>
   </section>
 
@@ -231,6 +252,8 @@ p:last-child{margin-bottom:0}
 const links=document.querySelectorAll('.sub-link');
 const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){links.forEach(l=>l.classList.remove('active'));const m=document.querySelector(`.sub-link[href="#${x.target.id}"]`);if(m)m.classList.add('active');}});},{rootMargin:'-15% 0px -75% 0px'});
 document.querySelectorAll('[id]').forEach(s=>obs.observe(s));
+const navToggle=document.querySelector('.nav-toggle'),sidebarEl=document.querySelector('.sidebar');
+if(navToggle)navToggle.addEventListener('click',()=>{sidebarEl.classList.toggle('open');const isOpen=sidebarEl.classList.contains('open');navToggle.setAttribute('aria-expanded',isOpen);navToggle.textContent=isOpen?'✕':'☰';});
 </script>
 </body>
 </html>
