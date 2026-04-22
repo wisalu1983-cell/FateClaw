@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MiroFish Web Deck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="noise"></div>
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+
+  <header class="deck-shell">
+    <div class="deck-brand">
+      <span class="brand-kicker">Trumen / Phase1 / Research</span>
+      <div class="brand-row">
+        <h1>MIROFISH</h1>
+        <span class="brand-tag">WEB DECK</span>
+      </div>
+    </div>
+
+    <div class="deck-tools">
+      <button id="overviewToggle" class="tool-btn" type="button">总览</button>
+      <div class="slide-counter">
+        <span id="currentIndex">01</span>
+        <span class="counter-divider">/</span>
+        <span id="totalIndex">05</span>
+      </div>
+    </div>
+  </header>
+
+  <aside class="deck-nav">
+    <div class="nav-line"></div>
+    <button class="nav-dot active" data-target="slide-01" aria-label="Slide 1"></button>
+    <button class="nav-dot" data-target="slide-02" aria-label="Slide 2"></button>
+    <button class="nav-dot" data-target="slide-03" aria-label="Slide 3"></button>
+    <button class="nav-dot" data-target="slide-04" aria-label="Slide 4"></button>
+    <button class="nav-dot" data-target="slide-05" aria-label="Slide 5"></button>
+  </aside>
+
+  <div id="overviewPanel" class="overview-panel" aria-hidden="true">
+    <div class="overview-header">
+      <span class="overview-label">Deck Map</span>
+      <button id="overviewClose" class="tool-btn subtle" type="button">关闭</button>
+    </div>
+    <div class="overview-grid">
+      <button class="overview-card" data-target="slide-01">
+        <span>01</span>
+        <strong>概述</strong>
+        <p>这是什么，以及它怎么玩</p>
+      </button>
+      <button class="overview-card" data-target="slide-02">
+        <span>02</span>
+        <strong>完整体验流程</strong>
+        <p>玩家做什么，系统反馈什么</p>
+      </button>
+      <button class="overview-card" data-target="slide-03">
+        <span>03</span>
+        <strong>案例 A</strong>
+        <p>热点舆情事件推演</p>
+      </button>
+      <button class="overview-card" data-target="slide-04">
+        <span>04</span>
+        <strong>案例 B</strong>
+        <p>小说结局推演</p>
+      </button>
+      <button class="overview-card" data-target="slide-05">
+        <span>05</span>
+        <strong>最好玩的部分</strong>
+        <p>世界生成、群体偏转、追问角色</p>
+      </button>
+    </div>
+  </div>
+
+  <main id="deck" class="deck">
+    <section id="slide-01" class="slide slide-hero" data-index="1">
+      <div class="slide-grid hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">MiroFish Experience Promo / Web Presentation</span>
+          <h2 class="hero-title">
+            <span class="hero-title-line">把一组材料变成一个</span>
+            <span class="hero-title-line hero-title-line-nowrap">会自己运转的 AI 世界</span>
+          </h2>
+          <div class="hero-lede-stack">
+            <p class="lede">
+              这不是“你问一句，AI 回一句”的产品。它更像一个会自己运转的社会实验：你给它一组现实或虚构材料，它替你把一个世界启动起来。
+            </p>
+            <p class="lede">
+              你只要
+              <strong class="lede-key">上传种子材料、写下想推演的问题</strong>，
+              系统就会自动完成
+              <strong class="lede-key">长出世界、看话题怎么开始发酵、报告与追问</strong>，
+              而你能看到的不是一个答案，而是一群人是怎样一步步把结果制造出来的。
+            </p>
+          </div>
+          <div class="hero-actions">
+            <a class="cta" href="#slide-02">先看流程</a>
+            <a class="ghost" href="#slide-03">看案例演示</a>
+          </div>
+        </div>
+
+        <div class="hero-stage overview-stage">
+          <div class="process-strip hero-process-strip">
+            <article class="process-card">
+              <span class="process-no">01</span>
+              <h3>上传种子材料</h3>
+              <p>玩家只做两件事：给素材，写问题。</p>
+            </article>
+            <article class="process-card">
+              <span class="process-no">02</span>
+              <h3>自动长出世界</h3>
+              <p>系统生成关系、角色、人设与初始局势。</p>
+            </article>
+            <article class="process-card">
+              <span class="process-no">03</span>
+              <h3>看话题怎么开始发酵</h3>
+              <p>你会看到越来越多人开始讨论、争论、跟风、带节奏，一件事怎么慢慢变大。</p>
+            </article>
+            <article class="process-card">
+              <span class="process-no">04</span>
+              <h3>报告与追问</h3>
+              <p>拿到结论后，还能继续问报告 Agent 和具体角色。</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="slide-02" class="slide slide-journey" data-index="2">
+      <div class="slide-grid journey-grid">
+        <div class="section-copy compact">
+          <span class="eyebrow">Actual User Journey</span>
+          <h2>玩家玩起来的完整过程</h2>
+        </div>
+
+        <div class="journey-lane">
+          <article class="journey-step">
+            <div class="step-head">
+              <span class="step-index">Step 1</span>
+              <strong>上传材料，提出问题</strong>
+            </div>
+            <div class="step-copy">
+              <span class="step-label step-label-gold">玩家要做什么</span>
+              <p class="step-need">上传 `pdf / md / txt`，输入一句推演需求。</p>
+            </div>
+            <div class="step-copy">
+              <span class="step-label step-label-cyan">会看到什么</span>
+              <p class="step-feel">上传区、需求输入框、启动按钮，门槛很低，没有复杂配置。</p>
+            </div>
+          </article>
+
+          <article class="journey-step">
+            <div class="step-head">
+              <span class="step-index">Step 2</span>
+              <strong>系统开始自己长世界</strong>
+            </div>
+            <div class="step-copy">
+              <span class="step-label step-label-gold">玩家要做什么</span>
+              <p class="step-need">等待系统自动完成构图与角色生成。</p>
+            </div>
+            <div class="step-copy">
+              <span class="step-label step-label-cyan">会看到什么</span>
+              <p class="step-feel">角色卡不断出现，关系图逐步成形，模拟配置和首批热点被生成。</p>
+            </div>
+          </article>
+
+          <article class="journey-step">
+            <div class="step-head">
+              <span class="step-index">Step 3</span>
+              <strong>看话题怎么开始发酵</strong>
+            </div>
+            <div class="step-copy">
+              <span class="step-label step-label-gold">玩家要做什么</span>
+              <p class="step-need">主要是观看和理解，不是高频操控。</p>
+            </div>
+            <div class="step-copy">
+              <span class="step-label step-label-cyan">会看到什么</span>
+              <p class="step-feel">越来越多人开始讨论、争论、跟风、带节奏，一件事怎么慢慢变大。</p>
+            </div>
+          </article>
+
+          <article class="journey-step">
+            <div class="step-head">
+              <span class="step-index">Step 4</span>
+              <strong>读一份正在生成的报告</strong>
+            </div>
+            <div class="step-copy">
+              <span class="step-label step-label-gold">玩家要做什么</span>
+              <p class="step-need">等待章节推进，并开始形成自己的判断。</p>
+            </div>
+            <div class="step-copy">
+              <span class="step-label step-label-cyan">会看到什么</span>
+              <p class="step-feel">报告不是一次性吐出，而是一节节生成，还能看到工具调用与分析过程。</p>
+            </div>
+          </article>
+
+          <article class="journey-step">
+            <div class="step-head">
+              <span class="step-index">Step 5</span>
+              <strong>追问世界里的角色</strong>
+            </div>
+            <div class="step-copy">
+              <span class="step-label step-label-gold">玩家要做什么</span>
+              <p class="step-need">问报告 Agent，或点名采访具体角色，或给一组角色做 survey。</p>
+            </div>
+            <div class="step-copy">
+              <span class="step-label step-label-cyan">会体验到什么</span>
+              <p class="step-feel">从“我看到发生了什么”切到“我理解为什么会这样发生”。</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="slide-03" class="slide slide-case-detail case-a-bg" data-index="3">
+      <div class="slide-grid case-prototype">
+        <div class="case-proto-head">
+          <div class="section-copy compact case-proto-copy">
+            <span class="eyebrow">Case A / Social Prototype</span>
+            <h2>热点舆情事件推演</h2>
+          </div>
+
+          <div class="case-proto-pills">
+            <span class="interface-pill">输入：事件时间线、声明、讨论摘录</span>
+            <span class="interface-pill">问题：48 小时后会怎么发酵？</span>
+            <span class="interface-pill">重点体验：看一件事怎样慢慢变大</span>
+          </div>
+        </div>
+
+        <div class="case-ui-timeline">
+          <article class="case-ui-step">
+            <div class="case-ui-copy">
+              <span class="case-ui-step-no">Step 1</span>
+              <h3>上传材料，提出问题</h3>
+              <p>玩家先把事件材料丢进来，再写下“这件事接下来会怎么发酵”。</p>
+            </div>
+            <div class="case-ui-mock mock-upload">
+              <div class="mock-window-head">
+                <span>Seed Material Intake</span>
+                <span class="window-pill">Ready</span>
+              </div>
+              <div class="mock-file-list">
+                <div class="mock-file-row">事件时间线.pdf</div>
+                <div class="mock-file-row">校方声明.md</div>
+                <div class="mock-file-row">讨论摘录.txt</div>
+              </div>
+              <div class="mock-prompt-card">
+                <span class="mock-label">问题</span>
+                <p>如果这场争议继续扩散，接下来 48 小时里谁会放大它，谁会试图改写它？</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="case-ui-step">
+            <div class="case-ui-copy">
+              <span class="case-ui-step-no">Step 2</span>
+              <h3>系统开始自己长世界</h3>
+              <p>系统开始长出关系图、角色人设和第一批热点结构，玩家会看到这个世界正在被搭起来。</p>
+            </div>
+            <div class="case-ui-mock mock-build">
+              <div class="mock-window-head">
+                <span>World Build In Progress</span>
+                <span class="window-pill">82%</span>
+              </div>
+              <div class="mock-build-grid">
+                <div class="mock-build-panel">
+                  <span class="mock-label">图谱节点</span>
+                  <div class="mock-chip-cloud">
+                    <span>校方</span>
+                    <span>学生</span>
+                    <span>媒体</span>
+                    <span>校友</span>
+                    <span>意见领袖</span>
+                  </div>
+                </div>
+                <div class="mock-build-panel">
+                  <span class="mock-label">角色人设</span>
+                  <div class="mock-profile-list">
+                    <div>学生记者 / 倾向追问事实</div>
+                    <div>校友大 V / 易放大情绪</div>
+                    <div>围观路人 / 易被节奏带走</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="case-ui-step">
+            <div class="case-ui-copy">
+              <span class="case-ui-step-no">Step 3</span>
+              <h3>看话题怎么开始发酵</h3>
+              <p>这里是玩家最先上头的地方。越来越多人开始讨论、争论、跟风、带节奏，一件事慢慢变大。</p>
+            </div>
+            <div class="case-ui-mock mock-ferment">
+              <div class="mock-window-head">
+                <span>Live Discussion Feed</span>
+                <span class="window-pill">Heat Rising</span>
+              </div>
+              <div class="mock-heatbar">
+                <span>讨论热度</span>
+                <div class="mock-heatbar-track"><i></i></div>
+              </div>
+              <div class="mock-feed-mini">
+                <div class="mock-feed-mini-item">
+                  <strong>媒体转发声明</strong>
+                  <p>焦点先集中到“事实到底是什么”。</p>
+                </div>
+                <div class="mock-feed-mini-item">
+                  <strong>大 V 开始质疑措辞</strong>
+                  <p>讨论从事件本身偏到“谁在隐瞒”。</p>
+                </div>
+                <div class="mock-feed-mini-item">
+                  <strong>围观用户开始站队</strong>
+                  <p>情绪升温，争议节点被快速放大。</p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="case-ui-step">
+            <div class="case-ui-copy">
+              <span class="case-ui-step-no">Step 4</span>
+              <h3>读一份正在生成的报告</h3>
+              <p>玩家不是等一个黑箱答案，而是看报告一节节长出来，知道系统是怎么得出判断的。</p>
+            </div>
+            <div class="case-ui-mock mock-report">
+              <div class="mock-window-head">
+                <span>Report Generation</span>
+                <span class="window-pill">Section 3/5</span>
+              </div>
+              <div class="mock-report-grid">
+                <div class="mock-report-outline">
+                  <div class="done">1. 事件概况</div>
+                  <div class="done">2. 扩散节点</div>
+                  <div class="active">3. 情绪裂痕</div>
+                  <div>4. 关键角色</div>
+                  <div>5. 后续预测</div>
+                </div>
+                <div class="mock-report-body">
+                  <span class="mock-label">当前生成中</span>
+                  <p>围绕“谁在隐瞒”的质疑正在成为情绪放大的主轴，接下来最容易出现的是校友与学生群体的认知分裂。</p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="case-ui-step">
+            <div class="case-ui-copy">
+              <span class="case-ui-step-no">Step 5</span>
+              <h3>追问世界里的角色</h3>
+              <p>跑完后还能继续问报告 Agent，或者直接问某个关键角色：你当时为什么那样转发、那样站队。</p>
+            </div>
+            <div class="case-ui-mock mock-interview">
+              <div class="mock-window-head">
+                <span>Interview Mode</span>
+                <span class="window-pill">1:1</span>
+              </div>
+              <div class="mock-chat-thread">
+                <div class="mock-chat-bubble user">你为什么会在第二轮放大“谁在隐瞒”这个点？</div>
+                <div class="mock-chat-bubble agent">因为这句措辞最容易激起不信任感，也最容易带动围观用户跟进讨论。</div>
+              </div>
+              <div class="mock-chat-input">继续追问这个角色...</div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="slide-04" class="slide slide-case-detail case-b-bg" data-index="4">
+      <div class="slide-grid case-prototype">
+        <div class="case-proto-head">
+          <div class="section-copy compact case-proto-copy">
+            <span class="eyebrow">Case B / Creative Prototype</span>
+            <h2>小说结局推演</h2>
+          </div>
+
+          <div class="case-proto-pills">
+            <span class="interface-pill">输入：正文片段、人物关系、伏笔设定</span>
+            <span class="interface-pill">问题：如果故事继续，谁会先走向命运拐点？</span>
+            <span class="interface-pill">重点体验：看熟悉角色自己把故事演下去</span>
+          </div>
+        </div>
+
+        <div class="case-ui-timeline">
+          <article class="case-ui-step">
+            <div class="case-ui-copy">
+              <span class="case-ui-step-no">Step 1</span>
+              <h3>上传正文，提出续演问题</h3>
+              <p>玩家先把正文片段、人物关系和世界设定丢进来，再问“如果故事继续，人物命运会怎么走”。</p>
+            </div>
+            <div class="case-ui-mock mock-upload">
+              <div class="mock-window-head">
+                <span>Story Seed Intake</span>
+                <span class="window-pill">Ready</span>
+              </div>
+              <div class="mock-file-list">
+                <div class="mock-file-row">前八十回摘要.pdf</div>
+                <div class="mock-file-row">人物关系.md</div>
+                <div class="mock-file-row">关键伏笔.txt</div>
+              </div>
+              <div class="mock-prompt-card">
+                <span class="mock-label">问题</span>
+                <p>如果故事继续发展，谁会先走向命运拐点，谁会先因为旧关系而被反噬？</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="case-ui-step">
+            <div class="case-ui-copy">
+              <span class="case-ui-step-no">Step 2</span>
+              <h3>系统开始自己长出人物局势</h3>
+              <p>系统会把人物关系、情感张力和潜在冲突重新整理出来，玩家会看到故事的底盘正在被重新搭好。</p>
+            </div>
+            <div class="case-ui-mock mock-build">
+              <div class="mock-window-head">
+                <span>Character World Build</span>
+                <span class="window-pill">76%</span>
+              </div>
+              <div class="mock-build-grid">
+                <div class="mock-build-panel">
+                  <span class="mock-label">关键人物</span>
+                  <div class="mock-chip-cloud">
+                    <span>宝玉</span>
+                    <span>黛玉</span>
+                    <span>宝钗</span>
+                    <span>王夫人</span>
+                    <span>袭人</span>
+                  </div>
+                </div>
+                <div class="mock-build-panel">
+                  <span class="mock-label">人物状态</span>
+                  <div class="mock-profile-list">
+                    <div>宝玉 / 逃避现实，情感拉扯未解</div>
+                    <div>黛玉 / 预感命运收紧，敏感加深</div>
+                    <div>宝钗 / 维持秩序，但内心开始倾斜</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="case-ui-step">
+            <div class="case-ui-copy">
+              <span class="case-ui-step-no">Step 3</span>
+              <h3>看故事怎么自己往前推进</h3>
+              <p>这里的爽点不是“AI续写了一段”，而是你会看到人物之间的旧关系如何自己生长出新的冲突和转折。</p>
+            </div>
+            <div class="case-ui-mock mock-ferment">
+              <div class="mock-window-head">
+                <span>Plot Continuation Feed</span>
+                <span class="window-pill">Turning Point</span>
+              </div>
+              <div class="mock-heatbar">
+                <span>剧情推进</span>
+                <div class="mock-heatbar-track"><i></i></div>
+              </div>
+              <div class="mock-feed-mini">
+                <div class="mock-feed-mini-item">
+                  <strong>旧误会重新被触发</strong>
+                  <p>人物之间未解的情感开始重新上浮。</p>
+                </div>
+                <div class="mock-feed-mini-item">
+                  <strong>关键关系出现偏转</strong>
+                  <p>原本压住的矛盾逐渐走向不可回避。</p>
+                </div>
+                <div class="mock-feed-mini-item">
+                  <strong>命运线开始分叉</strong>
+                  <p>故事不再只是延长，而是在长出新的结局可能。</p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="case-ui-step">
+            <div class="case-ui-copy">
+              <span class="case-ui-step-no">Step 4</span>
+              <h3>读一份正在生成的命运报告</h3>
+              <p>玩家看到的不是一个直接给你的“官方结局”，而是系统如何一节节分析人物态势、关系拐点和最终命运。</p>
+            </div>
+            <div class="case-ui-mock mock-report">
+              <div class="mock-window-head">
+                <span>Fate Report Generation</span>
+                <span class="window-pill">Section 3/5</span>
+              </div>
+              <div class="mock-report-grid">
+                <div class="mock-report-outline">
+                  <div class="done">1. 人物态势</div>
+                  <div class="done">2. 关系拐点</div>
+                  <div class="active">3. 命运分叉</div>
+                  <div>4. 关键选择</div>
+                  <div>5. 结局预测</div>
+                </div>
+                <div class="mock-report-body">
+                  <span class="mock-label">当前生成中</span>
+                  <p>最容易先发生的不是“谁突然改变”，而是旧关系在新局势里被重新解释，随后把宝玉与黛玉同时推向更难回头的命运分叉。</p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="case-ui-step">
+            <div class="case-ui-copy">
+              <span class="case-ui-step-no">Step 5</span>
+              <h3>追问某个角色为什么这样选</h3>
+              <p>跑完后，玩家还能直接问某个角色：你为什么在那个节点做了这个决定，而不是另一个决定。</p>
+            </div>
+            <div class="case-ui-mock mock-interview">
+              <div class="mock-window-head">
+                <span>Character Interview</span>
+                <span class="window-pill">1:1</span>
+              </div>
+              <div class="mock-chat-thread">
+                <div class="mock-chat-bubble user">你为什么会在那个节点选择离开，而不是继续等待？</div>
+                <div class="mock-chat-bubble agent">因为我已经意识到，继续留在原来的关系里，只会让我被动接受命运，而不是自己决定结局。</div>
+              </div>
+              <div class="mock-chat-input">继续追问这个角色...</div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="slide-05" class="slide slide-fun" data-index="5">
+      <div class="slide-grid">
+        <div class="section-copy compact">
+          <span class="eyebrow">Most Enjoyable Parts</span>
+          <h2>真正让人上头的，不是答案，而是这三个瞬间</h2>
+        </div>
+
+        <div class="fun-triad">
+          <article class="fun-card">
+            <span class="fun-no">01</span>
+            <h3>世界自动长出来</h3>
+            <p>你只给种子材料，系统却自己长出角色、关系、局势和首批话题。第一波惊喜来自“它真的开始像个世界了”。</p>
+          </article>
+          <article class="fun-card">
+            <span class="fun-no">02</span>
+            <h3>群体行为开始偏转</h3>
+            <p>真正上头的时刻是时间线开始自己滚动。有人点燃、有人站队、有人误读、有人放大，局势不再像问答，而像直播中的群体事件。</p>
+          </article>
+          <article class="fun-card">
+            <span class="fun-no">03</span>
+            <h3>你可以抓住具体的人追问</h3>
+            <p>跑完之后不是结束。你可以继续问报告 Agent，也可以直接采访某个角色，问他为什么那时做出那个动作。</p>
+          </article>
+        </div>
+
+        <div class="pulse-quote">
+          <p>前 30 秒，用户觉得自己在上传材料。<br>1 分钟后，用户开始意识到自己启动的是一个会自己演化的世界。</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
